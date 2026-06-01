@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bahasa Arab untuk Pemula — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.detail{display:grid;grid-template-columns:1fr 360px;gap:2.5rem;align-items:start}
+.buybox{position:sticky;top:88px;border:1px solid rgb(var(--border));border-radius:var(--r-lg);background:rgb(var(--surface));overflow:hidden}
+.buybox .top{aspect-ratio:16/9;position:relative;overflow:hidden}
+.buybox .top img{width:100%;height:100%;object-fit:cover}
+.buybox .pad{padding:1.3rem}
+.learn{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;font-size:.92rem;color:rgb(var(--text-muted))}
+.learn li{display:flex;gap:.5rem;list-style:none}.learn li .ico{color:rgb(var(--brand))}
+details.acc{border:1px solid rgb(var(--border));border-radius:var(--r-md);margin-bottom:.7rem;overflow:hidden}
+details.acc>summary{padding:.9rem 1rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc ul{list-style:none;padding:0 1rem .8rem}
+details.acc li{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;font-size:.9rem;color:rgb(var(--text-muted));border-top:1px solid rgb(var(--border))}
+details.acc li .ico{color:rgb(var(--brand))}
+.cart-item{display:flex;gap:.8rem;padding:.9rem 0;border-bottom:1px solid rgb(var(--border))}
+.cart-item img{width:64px;height:44px;object-fit:cover;border-radius:var(--r-sm);flex:none}
+.sumrow{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:.4rem}
+@media(max-width:920px){.detail{grid-template-columns:1fr}.buybox{position:static}.learn{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="nav solid">
+  <div class="container nav-in">
+    <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+    <nav class="nav-links"><a href="katalog.html">Katalog</a><a href="katalog.html">Dauroh</a><a href="katalog.html">Live Kelas</a><a href="studio.html">Jadi Pengajar</a></nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button>
+      <button class="icon-btn cart-btn" data-open="#cart" aria-label="Keranjang"><svg class="ico"><use href="#i-cart"/></svg><span class="cart-badge">2</span></button>
+      <a href="dashboard.html" class="btn btn-ghost btn-sm hide-sm">Dashboard</a>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb container"><a href="katalog.html">Katalog</a> / <span>Bahasa Arab</span> / <span style="color:rgb(var(--text))">Dasar Nahwu</span></div>
+
+<main class="sec container">
+  <div class="detail">
+    <div>
+      <div style="display:flex;gap:.5rem;margin-bottom:.8rem"><span class="tag">Bahasa Arab</span><span class="tag tag-muted">Rekaman · Pemula</span></div>
+      <h1 style="font-size:clamp(1.7rem,3.5vw,2.4rem)">Bahasa Arab untuk Pemula — Dasar Nahwu &amp; Shorof</h1>
+      <p class="muted" style="margin-top:.8rem;max-width:640px">Pelajari fondasi bahasa Arab dari nol: membaca huruf, kaidah nahwu dasar, hingga menyusun kalimat sederhana. Cocok untuk yang ingin memahami Al-Qur'an.</p>
+      <div class="cmeta" style="margin-top:1rem;font-size:.85rem"><span><svg class="ico ico-sm"><use href="#i-star"/></svg><b style="color:rgb(var(--text))">4.9</b> (212 ulasan)</span><span><svg class="ico ico-sm"><use href="#i-users"/></svg>1.240 santri</span><span><svg class="ico ico-sm"><use href="#i-clock"/></svg>8 jam</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>32 materi</span></div>
+      <div style="display:flex;align-items:center;gap:.7rem;margin-top:1.1rem"><span class="avatar"><svg class="ico"><use href="#i-user"/></svg></span><div><p style="font-weight:600">Ust. Abdullah, Lc.</p><p class="muted" style="font-size:.82rem">Lulusan LIPIA · 8 tahun mengajar</p></div></div>
+
+      <div class="card card-pad" style="margin-top:1.8rem;position:relative;overflow:hidden;background:#000;aspect-ratio:16/9;display:grid;place-items:center;padding:0">
+        <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=900&amp;q=55" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55">
+        <button class="icon-btn" style="position:relative;width:64px;height:64px;border-radius:999px;background:rgb(var(--brand));color:rgb(var(--brand-fg));border:none"><svg class="ico ico-lg"><use href="#i-play"/></svg></button>
+      </div>
+
+      <h2 style="margin-top:2.2rem;font-size:1.4rem">Yang akan kamu pelajari</h2>
+      <ul class="learn" style="margin-top:1rem">
+        <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Membaca &amp; menulis huruf hijaiyah</li>
+        <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Kaidah dasar nahwu (isim, fi'il, harf)</li>
+        <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Pengenalan shorof &amp; perubahan kata</li>
+        <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Menyusun kalimat sederhana</li>
+        <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Kosakata harian (mufradat)</li>
+        <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Latihan &amp; kuis tiap bab</li>
+      </ul>
+
+      <h2 style="margin-top:2.2rem;font-size:1.4rem">Silabus Kelas</h2>
+      <div style="margin-top:1rem">
+        <details class="acc" open><summary><span>Bab 1 — Pengenalan Huruf</span><span class="muted" style="font-size:.8rem;font-weight:400">5 materi</span></summary>
+          <ul>
+            <li><svg class="ico ico-sm"><use href="#i-play"/></svg>Video: Mengenal huruf hijaiyah<span class="muted" style="margin-left:auto;font-size:.78rem">12:30</span></li>
+            <li><svg class="ico ico-sm"><use href="#i-doc"/></svg>PDF: Tabel huruf &amp; latihan<span class="tag tag-free" style="margin-left:auto">Preview</span></li>
+            <li><svg class="ico ico-sm"><use href="#i-headphones"/></svg>Audio: Pelafalan makhraj<span class="muted" style="margin-left:auto;font-size:.78rem">08:10</span></li>
+            <li><svg class="ico ico-sm"><use href="#i-layers"/></svg>Slide HTML: Ringkasan bab</li>
+            <li><svg class="ico ico-sm"><use href="#i-edit"/></svg>Kuis Bab 1<span class="muted" style="margin-left:auto;font-size:.78rem">10 soal</span></li>
+          </ul>
+        </details>
+        <details class="acc"><summary><span>Bab 2 — Isim, Fi'il, Harf</span><span class="muted" style="font-size:.8rem;font-weight:400">7 materi</span></summary><ul><li><svg class="ico ico-sm"><use href="#i-lock"/></svg>Terkunci — daftar untuk akses</li></ul></details>
+        <details class="acc"><summary><span>Bab 3 — Menyusun Kalimat</span><span class="muted" style="font-size:.8rem;font-weight:400">6 materi</span></summary><ul><li><svg class="ico ico-sm"><use href="#i-lock"/></svg>Terkunci — daftar untuk akses</li></ul></details>
+      </div>
+
+      <h2 style="margin-top:2.2rem;font-size:1.4rem">Tentang Pengajar</h2>
+      <div class="card card-pad" style="margin-top:1rem;display:flex;gap:1.1rem;flex-wrap:wrap">
+        <span class="avatar" style="width:72px;height:72px"><svg class="ico ico-lg"><use href="#i-user"/></svg></span>
+        <div style="flex:1;min-width:220px">
+          <p style="font-weight:600;font-size:1.05rem">Ust. Abdullah, Lc.</p>
+          <p class="muted" style="font-size:.84rem">Lulusan LIPIA · Pengajar bahasa Arab 8 tahun</p>
+          <div class="cmeta" style="margin-top:.6rem"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.9 rating</span><span><svg class="ico ico-sm"><use href="#i-users"/></svg>3.100 santri</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>3 kelas</span></div>
+          <p class="muted" style="font-size:.9rem;margin-top:.7rem">Fokus mengajar nahwu &amp; shorof dengan metode bertahap agar mudah dipahami pemula yang ingin memahami Al-Qur'an.</p>
+          <button class="btn btn-ghost btn-sm" style="margin-top:.8rem">Lihat profil pengajar</button>
+        </div>
+      </div>
+
+      <h2 style="margin-top:2.2rem;font-size:1.4rem">Ulasan Santri</h2>
+      <div class="card card-pad" style="margin-top:1rem;display:grid;grid-template-columns:auto 1fr;gap:1.6rem;align-items:center">
+        <div style="text-align:center"><p style="font-family:var(--font-display);font-size:3rem;font-weight:600;color:rgb(var(--brand));line-height:1">4.9</p><p style="color:rgb(var(--brand))">★★★★★</p><p class="muted" style="font-size:.8rem">212 ulasan</p></div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;min-width:160px">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem"><span class="muted">5★</span><div class="bar" style="flex:1"><i style="width:88%"></i></div><span class="muted">88%</span></div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem"><span class="muted">4★</span><div class="bar" style="flex:1"><i style="width:9%"></i></div><span class="muted">9%</span></div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem"><span class="muted">3★</span><div class="bar" style="flex:1"><i style="width:2%"></i></div><span class="muted">2%</span></div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem"><span class="muted">2★</span><div class="bar" style="flex:1"><i style="width:1%"></i></div><span class="muted">1%</span></div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.8rem">
+        <div class="card card-pad"><div style="display:flex;align-items:center;gap:.6rem"><span class="avatar sm"><svg class="ico ico-sm"><use href="#i-user"/></svg></span><div><p style="font-weight:600;font-size:.9rem">Ahmad R. <span class="muted" style="font-weight:400">· 2 minggu lalu</span></p><p style="color:rgb(var(--brand));font-size:.8rem">★★★★★</p></div></div><p class="muted" style="font-size:.9rem;margin-top:.6rem">Penjelasan ustadz sangat runtut, dari nol benar-benar dibimbing. Barakallahu fiik.</p></div>
+        <div class="card card-pad"><div style="display:flex;align-items:center;gap:.6rem"><span class="avatar sm"><svg class="ico ico-sm"><use href="#i-user"/></svg></span><div><p style="font-weight:600;font-size:.9rem">Siti K. <span class="muted" style="font-weight:400">· 1 bulan lalu</span></p><p style="color:rgb(var(--brand));font-size:.8rem">★★★★★</p></div></div><p class="muted" style="font-size:.9rem;margin-top:.6rem">Materi PDF &amp; audionya sangat membantu latihan di rumah. Kuisnya bikin makin paham.</p></div>
+      </div>
+    </div>
+
+    <aside>
+      <div class="buybox">
+        <div class="top"><img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=700&amp;q=55" alt=""></div>
+        <div class="pad">
+          <div style="display:flex;align-items:baseline;gap:.5rem"><span class="price" style="font-size:1.8rem">Rp 149.000</span><s class="muted" style="font-size:.9rem">Rp 249.000</s></div>
+          <p class="tag tag-warn" style="margin-top:.6rem">Promo berakhir 3 hari lagi</p>
+          <button class="btn btn-primary btn-block btn-lg" data-open="#checkout" style="margin-top:1rem">Beli &amp; Mulai Belajar</button>
+          <button class="btn btn-ghost btn-block" data-open="#cart" style="margin-top:.6rem"><svg class="ico ico-sm"><use href="#i-cart"/></svg>Tambah ke Keranjang</button>
+          <ul class="learn" style="grid-template-columns:1fr;margin-top:1.2rem;gap:.5rem">
+            <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Akses selamanya</li>
+            <li><svg class="ico ico-sm"><use href="#i-check"/></svg>32 materi (video, audio, PDF)</li>
+            <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Kuis &amp; sertifikat</li>
+            <li><svg class="ico ico-sm"><use href="#i-check"/></svg>Akses via HP &amp; laptop</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="drawer" id="cart">
+  <div class="drawer-head"><h3 style="font-family:var(--font-display)">Keranjang (2)</h3><button class="icon-btn" data-close aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button></div>
+  <div class="drawer-body">
+    <div class="cart-item"><img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=200&amp;q=50" alt=""><div style="flex:1"><p style="font-weight:600;font-size:.9rem">Bahasa Arab untuk Pemula</p><p class="muted" style="font-size:.8rem">Ust. Abdullah, Lc.</p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:.3rem"><span class="price" style="font-size:1rem">Rp 149.000</span><button class="icon-btn" style="width:30px;height:30px" aria-label="Hapus"><svg class="ico ico-sm"><use href="#i-trash"/></svg></button></div></div></div>
+    <div class="cart-item"><img src="https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?auto=format&amp;fit=crop&amp;w=200&amp;q=50" alt=""><div style="flex:1"><p style="font-weight:600;font-size:.9rem">Tahsin Al-Qur'an Tilawati</p><p class="muted" style="font-size:.8rem">Ustadzah Fatimah</p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:.3rem"><span class="price" style="font-size:1rem">Rp 250.000</span><button class="icon-btn" style="width:30px;height:30px" aria-label="Hapus"><svg class="ico ico-sm"><use href="#i-trash"/></svg></button></div></div></div>
+  </div>
+  <div class="drawer-foot">
+    <div class="sumrow"><span class="muted">Subtotal</span><b>Rp 399.000</b></div>
+    <button class="btn btn-primary btn-block" data-open="#checkout">Lanjut ke Pembayaran</button>
+  </div>
+</div>
+
+<div class="overlay" id="checkout">
+  <div class="modal">
+    <div class="modal-head"><h3>Pembayaran</h3><button class="icon-btn" data-close aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button></div>
+    <div class="modal-body">
+      <div class="card card-pad" style="margin-bottom:1.2rem">
+        <div class="sumrow"><span class="muted">2 kelas</span><span>Rp 399.000</span></div>
+        <div class="sumrow"><span class="muted">Biaya layanan</span><span>Rp 2.500</span></div>
+        <div class="sumrow" style="border-top:1px solid rgb(var(--border));padding-top:.5rem;margin-top:.3rem;font-weight:700"><span>Total</span><span class="price" style="font-size:1.1rem">Rp 401.500</span></div>
+      </div>
+      <p class="label">Metode pembayaran</p>
+      <p class="help" style="margin-top:-.2rem;margin-bottom:.6rem">Gateway aktif diatur admin (Midtrans / Tripay / Xendit / Manual)</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <label class="opt"><input type="radio" name="pay" checked><span class="tag tag-info" style="width:40px;justify-content:center">VA</span><div><p style="font-weight:600;font-size:.9rem">Virtual Account / QRIS</p><p class="muted" style="font-size:.78rem">via Midtrans</p></div></label>
+        <label class="opt"><input type="radio" name="pay"><span class="tag" style="width:40px;justify-content:center;background:rgb(139 92 246/.16);color:#8b5cf6">eW</span><div><p style="font-weight:600;font-size:.9rem">E-Wallet (OVO, Dana)</p><p class="muted" style="font-size:.78rem">via Xendit</p></div></label>
+        <label class="opt"><input type="radio" name="pay"><span class="tag tag-warn" style="width:40px;justify-content:center">RT</span><div><p style="font-weight:600;font-size:.9rem">Retail / Bank lain</p><p class="muted" style="font-size:.78rem">via Tripay</p></div></label>
+        <label class="opt"><input type="radio" name="pay"><span class="tag tag-success" style="width:40px;justify-content:center"><svg class="ico ico-sm"><use href="#i-wallet"/></svg></span><div><p style="font-weight:600;font-size:.9rem">Transfer Manual</p><p class="muted" style="font-size:.78rem">Upload bukti, verifikasi admin</p></div></label>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:1.2rem">Bayar Sekarang</button>
+      <p class="center muted" style="font-size:.78rem;margin-top:.7rem"><svg class="ico ico-sm" style="display:inline;vertical-align:-3px"><use href="#i-shield"/></svg> Pembayaran aman &amp; terenkripsi</p>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

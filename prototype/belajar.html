@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ruang Belajar — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.lbar{height:60px;display:flex;align-items:center;gap:1rem;padding:0 1.2rem;border-bottom:1px solid rgb(var(--border));background:rgb(var(--surface));position:sticky;top:0;z-index:var(--z-nav)}
+.lbar .ttl{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lprog{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgb(var(--text-muted))}
+.lprog .bar{width:130px}
+.learn-grid{display:grid;grid-template-columns:1fr 340px;min-height:calc(100vh - 60px)}
+.player{aspect-ratio:16/9;background:#000;position:relative;display:grid;place-items:center;overflow:hidden}
+.player img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4}
+.player .pbtn{position:relative;width:80px;height:80px;border-radius:999px;background:rgb(var(--brand));color:rgb(var(--brand-fg));border:none;display:grid;place-items:center;cursor:pointer}
+.lhead{padding:1.1rem 1.4rem;border-bottom:1px solid rgb(var(--border));display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+.lbody{padding:1.4rem}
+.side{border-left:1px solid rgb(var(--border));background:rgb(var(--surface));height:calc(100vh - 60px);overflow-y:auto;position:sticky;top:60px}
+.side .grp{padding:.7rem 1.1rem;background:rgb(var(--surface-alt));font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:rgb(var(--text-muted));font-weight:600}
+.lesson{display:flex;align-items:center;gap:.7rem;padding:.75rem 1.1rem;font-size:.88rem;cursor:pointer;border-left:2px solid transparent}
+.lesson:hover{background:rgb(var(--surface-alt))}
+.lesson.active{background:rgb(var(--brand-subtle)/.14);border-color:rgb(var(--brand))}
+.lesson.active span.t{color:rgb(var(--brand));font-weight:600}
+.lesson .st{flex:none;color:rgb(var(--text-muted))}
+.lesson .done{color:rgb(var(--success))}
+.lesson .t{flex:1}
+.lesson .meta{font-size:.74rem;color:rgb(var(--text-muted))}
+.docview{border:1px solid rgb(var(--border));border-radius:var(--r-lg);overflow:hidden}
+.docview .vt{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:rgb(var(--surface-alt));border-bottom:1px solid rgb(var(--border));font-size:.85rem}
+.docview .vp{height:280px;background:rgb(var(--surface-alt));display:grid;place-items:center;color:rgb(var(--text-muted));font-size:.85rem}
+.qopt{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border:1px solid rgb(var(--border));border-radius:var(--r-md);cursor:pointer;margin-bottom:.6rem}
+.qopt:has(input:checked){border-color:rgb(var(--brand));background:rgb(var(--brand-subtle)/.1)}
+@media(max-width:900px){.learn-grid{grid-template-columns:1fr}.side{position:static;height:auto;border-left:none;border-top:1px solid rgb(var(--border))}}
+</style>
+</head>
+<body>
+
+<div class="lbar">
+  <a href="dashboard.html" class="icon-btn" aria-label="Kembali"><svg class="ico"><use href="#i-arrow-l"/></svg></a>
+  <span class="ttl">Bahasa Arab untuk Pemula</span>
+  <div class="lprog" style="margin-left:auto"><div class="bar"><i style="width:38%"></i></div><span>38% selesai</span></div>
+  <button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button>
+</div>
+
+<div class="learn-grid">
+  <main>
+    <div class="player">
+      <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=1000&amp;q=55" alt="">
+      <button class="pbtn"><svg class="ico ico-lg"><use href="#i-play"/></svg></button>
+    </div>
+    <div class="lhead">
+      <div><h1 style="font-size:1.2rem">Bab 1 · Materi 1 — Mengenal Huruf Hijaiyah</h1><p class="muted" style="font-size:.82rem;margin-top:.2rem">Durasi 12:30 · Ust. Abdullah, Lc.</p></div>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn btn-ghost btn-sm"><svg class="ico ico-sm"><use href="#i-arrow-l"/></svg>Sebelumnya</button>
+        <button class="btn btn-primary btn-sm">Tandai Selesai <svg class="ico ico-sm"><use href="#i-check"/></svg></button>
+        <button class="btn btn-ghost btn-sm">Berikutnya <svg class="ico ico-sm"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+
+    <div class="lbody" data-tabgroup>
+      <div class="tabs" style="margin-bottom:1.3rem">
+        <button data-tab="materi" aria-pressed="true">Materi Pendukung</button>
+        <button data-tab="kuis">Kuis</button>
+        <button data-tab="catatan">Catatan</button>
+        <button data-tab="diskusi">Diskusi</button>
+      </div>
+
+      <div data-panel="materi">
+        <div class="docview">
+          <div class="vt"><span style="display:flex;align-items:center;gap:.5rem"><svg class="ico ico-sm"><use href="#i-doc"/></svg>Tabel Huruf &amp; Latihan Tulis.pdf</span><span class="muted" style="display:flex;gap:.8rem;align-items:center"><span>100%</span><button class="btn btn-ghost btn-sm">Unduh</button></span></div>
+          <div class="vp">[ Tampilan PDF inline — pdf.js ]</div>
+        </div>
+        <div class="grid-2" style="margin-top:1rem">
+          <div class="card card-pad" style="display:flex;align-items:center;gap:.8rem"><svg class="ico ico-lg" style="color:rgb(var(--brand))"><use href="#i-headphones"/></svg><div style="flex:1"><p style="font-weight:600;font-size:.9rem">Audio Makhraj.mp3</p><p class="muted" style="font-size:.78rem">08:10</p></div><button class="btn btn-soft btn-sm">Putar</button></div>
+          <div class="card card-pad" style="display:flex;align-items:center;gap:.8rem"><svg class="ico ico-lg" style="color:rgb(var(--brand))"><use href="#i-layers"/></svg><div style="flex:1"><p style="font-weight:600;font-size:.9rem">Slide Ringkasan (HTML)</p><p class="muted" style="font-size:.78rem">Reveal.js · 14 slide</p></div><button class="btn btn-soft btn-sm">Buka</button></div>
+        </div>
+      </div>
+
+      <div data-panel="kuis" hidden>
+        <div class="card card-pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 style="font-family:var(--font-display)">Kuis Bab 1</h3><span class="muted" style="font-size:.82rem">Soal 3 dari 10 · 04:21</span></div>
+          <div class="bar" style="margin-bottom:1.3rem"><i style="width:30%"></i></div>
+          <p style="font-weight:600;margin-bottom:1rem">Huruf <span style="font-size:1.5rem">ث</span> dilafalkan dengan ujung lidah menyentuh…</p>
+          <label class="qopt"><input type="radio" name="q">Bibir atas dan bawah</label>
+          <label class="qopt"><input type="radio" name="q">Ujung lidah &amp; ujung gigi seri atas</label>
+          <label class="qopt"><input type="radio" name="q">Pangkal tenggorokan</label>
+          <label class="qopt"><input type="radio" name="q">Tengah lidah &amp; langit-langit</label>
+          <div style="display:flex;justify-content:space-between;margin-top:1rem"><button class="btn btn-ghost btn-sm">Sebelumnya</button><button class="btn btn-primary btn-sm">Soal Berikutnya</button></div>
+        </div>
+      </div>
+
+      <div data-panel="catatan" hidden>
+        <textarea class="textarea" placeholder="Tulis catatan pribadimu untuk materi ini…" style="min-height:160px"></textarea>
+        <button class="btn btn-primary btn-sm" style="margin-top:.6rem">Simpan Catatan</button>
+      </div>
+
+      <div data-panel="diskusi" hidden>
+        <div class="card card-pad" style="margin-bottom:.8rem">
+          <div style="display:flex;gap:.7rem"><span class="avatar sm"><svg class="ico ico-sm"><use href="#i-user"/></svg></span><div><p style="font-weight:600;font-size:.88rem">Ahmad R. <span class="muted" style="font-weight:400">· 2 hari lalu</span></p><p class="muted" style="font-size:.9rem;margin-top:.2rem">Ustadz, apakah ث dan س pelafalannya beda jauh?</p></div></div>
+          <div style="display:flex;gap:.7rem;margin-top:.8rem;margin-left:2.5rem"><span class="avatar sm"><svg class="ico ico-sm"><use href="#i-user"/></svg></span><div><p style="font-weight:600;font-size:.88rem">Ust. Abdullah <span class="tag" style="margin-left:.3rem">Pengajar</span></p><p class="muted" style="font-size:.9rem;margin-top:.2rem">Beda, akhi. ث keluar dari ujung lidah &amp; gigi; س dari ujung lidah dekat gigi bawah.</p></div></div>
+        </div>
+        <div style="display:flex;gap:.5rem"><input class="input" placeholder="Tanyakan sesuatu…"><button class="btn btn-primary btn-sm">Kirim</button></div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="side">
+    <div style="padding:.9rem 1.1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgb(var(--border))"><b>Konten Kelas</b><span class="muted" style="font-size:.78rem">12 / 32</span></div>
+    <div class="grp">Bab 1 — Pengenalan Huruf</div>
+    <div class="lesson active"><svg class="ico ico-sm st"><use href="#i-play"/></svg><span class="t">Mengenal Huruf Hijaiyah</span><span class="meta">12:30</span></div>
+    <div class="lesson"><svg class="ico ico-sm st done"><use href="#i-check"/></svg><span class="t">Tabel Huruf (PDF)</span><svg class="ico ico-sm meta"><use href="#i-doc"/></svg></div>
+    <div class="lesson"><svg class="ico ico-sm st done"><use href="#i-check"/></svg><span class="t">Pelafalan Makhraj</span><svg class="ico ico-sm meta"><use href="#i-headphones"/></svg></div>
+    <div class="lesson"><span class="st" style="width:16px;text-align:center">○</span><span class="t">Slide Ringkasan Bab</span><svg class="ico ico-sm meta"><use href="#i-layers"/></svg></div>
+    <div class="lesson"><span class="st" style="width:16px;text-align:center">○</span><span class="t">Kuis Bab 1</span><svg class="ico ico-sm meta"><use href="#i-edit"/></svg></div>
+    <div class="grp">Bab 2 — Isim, Fi'il, Harf</div>
+    <div class="lesson"><span class="st" style="width:16px;text-align:center">○</span><span class="t">Apa itu Isim?</span><span class="meta">10:05</span></div>
+    <div class="lesson"><span class="st" style="width:16px;text-align:center">○</span><span class="t">Mengenal Fi'il</span><span class="meta">11:20</span></div>
+    <div style="margin:1.1rem;padding:1rem;border-radius:var(--r-md);background:rgb(var(--live)/.1);border:1px solid rgb(var(--live)/.25)">
+      <p class="tag tag-live" style="background:none;padding:0"><span class="dot"></span>SESI LIVE BERIKUTNYA</p>
+      <p style="font-weight:600;margin-top:.4rem">Tanya Jawab Bab 1–2</p>
+      <p class="muted" style="font-size:.8rem">Sabtu, 7 Jun 2026 · 20:00 WIB</p>
+      <a href="live.html" class="btn btn-soft btn-sm btn-block" style="margin-top:.6rem">Ingatkan Saya</a>
+    </div>
+  </aside>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio Pengajar — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.wallet{background:linear-gradient(135deg,rgb(var(--brand)/.18),rgb(var(--surface)));border:1px solid rgb(var(--brand)/.3);border-radius:var(--r-lg);padding:1.4rem}
+.lessrow{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;border:1px solid rgb(var(--border));border-radius:var(--r-md);margin-bottom:.5rem;background:rgb(var(--surface))}
+.lessrow .drag{color:rgb(var(--text-muted));cursor:grab}
+.qcard{border:1px solid rgb(var(--border));border-radius:var(--r-md);padding:1rem;margin-bottom:.8rem}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sb-brand"><svg class="mark" style="width:30px;height:30px;color:rgb(var(--brand))" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/></svg>SantriKalong<span class="tag" style="margin-left:auto">STUDIO</span></div>
+    <nav>
+      <div class="sb-group">Pengajar</div>
+      <button class="sb-link active" data-view="dash" data-title="Dashboard"><svg class="ico ico-sm"><use href="#i-grid"/></svg>Dashboard</button>
+      <button class="sb-link" data-view="kelas" data-title="Kelas Saya"><svg class="ico ico-sm"><use href="#i-book"/></svg>Kelas Saya</button>
+      <button class="sb-link" data-view="kuis" data-title="Builder Kuis"><svg class="ico ico-sm"><use href="#i-edit"/></svg>Builder Kuis</button>
+      <button class="sb-link" data-view="live" data-title="Jadwal Live"><svg class="ico ico-sm"><use href="#i-broadcast"/></svg>Jadwal Live</button>
+      <div class="sb-group">Keuangan</div>
+      <button class="sb-link" data-view="earn" data-title="Penghasilan & Saldo"><svg class="ico ico-sm"><use href="#i-wallet"/></svg>Penghasilan</button>
+    </nav>
+    <div style="padding:.8rem;border-top:1px solid rgb(var(--border));display:flex;align-items:center;gap:.6rem"><span class="avatar sm"><svg class="ico ico-sm"><use href="#i-user"/></svg></span><div style="font-size:.78rem"><p style="font-weight:600">Ust. Abdullah, Lc.</p><p class="muted">Pengajar terverifikasi</p></div></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="icon-btn sb-toggle" id="sk-sb-toggle" aria-label="Menu"><svg class="ico"><use href="#i-menu"/></svg></button>
+      <h1 id="sk-page-title">Dashboard</h1>
+      <div style="margin-left:auto;display:flex;gap:.5rem"><button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button><a href="index.html" class="btn btn-ghost btn-sm">Lihat Situs</a></div>
+    </div>
+    <div class="content">
+
+      <!-- DASH -->
+      <section data-pane="dash">
+        <div class="grid-4">
+          <div class="stat"><p class="lbl">Total santri</p><p class="val tnum">1.240</p><p class="delta up">▲ 84 bln ini</p></div>
+          <div class="stat"><p class="lbl">Pendapatan bln ini</p><p class="val tnum">Rp 8,7jt</p></div>
+          <div class="stat"><p class="lbl">Rating rata-rata</p><p class="val tnum">4.9</p></div>
+          <div class="stat"><p class="lbl">Kelas publish</p><p class="val tnum">3</p></div>
+        </div>
+        <div class="card card-pad" style="margin-top:1rem"><p style="font-weight:600;margin-bottom:.8rem">Aktivitas terbaru</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.7rem;font-size:.88rem"><li>👤 12 santri baru di "Bahasa Arab Pemula"</li><li>⭐ Ulasan baru 5.0 dari Ahmad R.</li><li>💬 3 pertanyaan diskusi belum dijawab</li><li>💰 Earning Rp 8,69jt tersedia untuk diklaim</li></ul></div>
+      </section>
+
+      <!-- KELAS / EDITOR -->
+      <section data-pane="kelas" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h2 style="font-size:1.2rem">Kelas Saya</h2><button class="btn btn-primary btn-sm"><svg class="ico ico-sm"><use href="#i-plus"/></svg>Buat Kelas</button></div>
+        <div class="card card-pad" style="margin-bottom:1.2rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap"><img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=160&amp;q=50" style="width:80px;height:50px;object-fit:cover;border-radius:var(--r-sm)" alt=""><div style="flex:1;min-width:160px"><p style="font-weight:600">Bahasa Arab untuk Pemula</p><p class="muted" style="font-size:.8rem">32 materi · 1.240 santri</p></div><span class="tag tag-success">Published</span><button class="btn btn-ghost btn-sm"><svg class="ico ico-sm"><use href="#i-edit"/></svg>Edit</button></div>
+
+        <div class="card card-pad">
+          <p style="font-weight:600;margin-bottom:.3rem">Editor Kurikulum — Bab 1</p><p class="help" style="margin-bottom:.9rem">Seret untuk mengurutkan. Klik materi untuk edit.</p>
+          <div class="lessrow"><svg class="ico ico-sm drag"><use href="#i-menu"/></svg><svg class="ico ico-sm" style="color:rgb(var(--brand))"><use href="#i-play"/></svg><span style="flex:1">Mengenal Huruf Hijaiyah</span><span class="tag tag-muted">Video</span><button class="icon-btn" style="width:32px;height:32px"><svg class="ico ico-sm"><use href="#i-edit"/></svg></button></div>
+          <div class="lessrow"><svg class="ico ico-sm drag"><use href="#i-menu"/></svg><svg class="ico ico-sm" style="color:rgb(var(--brand))"><use href="#i-doc"/></svg><span style="flex:1">Tabel Huruf &amp; Latihan</span><span class="tag tag-muted">PDF</span><button class="icon-btn" style="width:32px;height:32px"><svg class="ico ico-sm"><use href="#i-edit"/></svg></button></div>
+          <div class="lessrow"><svg class="ico ico-sm drag"><use href="#i-menu"/></svg><svg class="ico ico-sm" style="color:rgb(var(--brand))"><use href="#i-edit"/></svg><span style="flex:1">Kuis Bab 1</span><span class="tag tag-muted">Kuis</span><button class="icon-btn" style="width:32px;height:32px"><svg class="ico ico-sm"><use href="#i-edit"/></svg></button></div>
+          <div style="display:flex;gap:.5rem;margin-top:.6rem"><button class="btn btn-soft btn-sm"><svg class="ico ico-sm"><use href="#i-upload"/></svg>Upload Materi</button><button class="btn btn-ghost btn-sm"><svg class="ico ico-sm"><use href="#i-plus"/></svg>Tambah Bab</button></div>
+        </div>
+      </section>
+
+      <!-- KUIS BUILDER -->
+      <section data-pane="kuis" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h2 style="font-size:1.2rem">Builder Kuis — Kuis Bab 1</h2><button class="btn btn-primary btn-sm">Simpan Kuis</button></div>
+        <div class="grid-2" style="grid-template-columns:2fr 1fr">
+          <div>
+            <div class="qcard"><div style="display:flex;justify-content:space-between"><b style="font-size:.9rem">Soal 1 · Pilihan Ganda</b><button class="icon-btn" style="width:30px;height:30px"><svg class="ico ico-sm"><use href="#i-trash"/></svg></button></div><input class="input" value="Huruf ث dilafalkan dengan ujung lidah menyentuh…" style="margin:.6rem 0"><label class="opt"><input type="radio" name="c1">Bibir atas dan bawah</label><label class="opt" style="margin-top:.4rem"><input type="radio" name="c1" checked>Ujung lidah &amp; gigi seri atas <span class="tag tag-success" style="margin-left:auto">Benar</span></label></div>
+            <button class="btn btn-soft btn-sm"><svg class="ico ico-sm"><use href="#i-plus"/></svg>Tambah Soal</button>
+          </div>
+          <div class="card card-pad"><p style="font-weight:600;margin-bottom:.8rem">Pengaturan</p>
+            <div class="field"><label class="label">Tipe soal</label><select class="select"><option>Pilihan ganda</option><option>Benar / Salah</option><option>Isian singkat</option><option>Esai (nilai manual)</option></select></div>
+            <div class="field"><label class="label">Batas waktu (menit)</label><input class="input" value="15"></div>
+            <div class="field"><label class="label">Nilai lulus (KKM)</label><input class="input" value="70"></div>
+            <label class="check"><input type="checkbox" checked> Acak urutan soal</label>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE -->
+      <section data-pane="live" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h2 style="font-size:1.2rem">Jadwal Live</h2><button class="btn btn-primary btn-sm"><svg class="ico ico-sm"><use href="#i-plus"/></svg>Jadwalkan Live</button></div>
+        <div class="card card-pad" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap"><div style="width:50px;height:50px;border-radius:var(--r-md);background:rgb(var(--live)/.14);color:rgb(var(--live));display:grid;place-items:center"><svg class="ico"><use href="#i-broadcast"/></svg></div><div style="flex:1;min-width:160px"><p style="font-weight:600">Tanya Jawab Bab 1–2</p><p class="muted" style="font-size:.82rem">Sabtu, 7 Jun 2026 · 20:00 WIB · 86 terdaftar</p></div><a href="live.html" class="btn btn-primary btn-sm">Mulai Siaran</a><button class="btn btn-ghost btn-sm">Edit</button></div>
+      </section>
+
+      <!-- PENGHASILAN -->
+      <section data-pane="earn" hidden>
+        <div class="grid-2" style="grid-template-columns:1.2fr 1fr">
+          <div class="wallet"><p class="eyebrow">Saldo tersedia</p><p style="font-family:var(--font-display);font-size:2.2rem;font-weight:600;margin:.3rem 0">Rp 8.698.620</p><p class="muted" style="font-size:.84rem">Tertahan (refund window): Rp 1.240.000</p><button class="btn btn-primary" data-open="#claim" style="margin-top:1rem">Klaim Payout</button></div>
+          <div class="card card-pad"><p style="font-weight:600;margin-bottom:.6rem">Rekening payout</p><p style="font-size:.9rem">BSI · 700••••567</p><p class="muted" style="font-size:.82rem">a.n. Abdullah</p><p class="tag tag-success" style="margin-top:.6rem">Terverifikasi</p><p class="help" style="margin-top:.6rem">Ganti rekening menahan payout 3 hari (keamanan).</p></div>
+        </div>
+        <div class="table-wrap" style="margin-top:1.2rem"><table class="tbl"><thead><tr><th>Periode</th><th class="tr-num">Bruto</th><th class="tr-num">Pajak</th><th class="tr-num">Net</th><th>Status</th><th>Bukti</th></tr></thead><tbody>
+          <tr><td>Jun 2026</td><td class="tr-num">Rp 12.516.000</td><td class="tr-num">−62.580</td><td class="tr-num"><b>Rp 8.698.620</b></td><td><span class="tag tag-success">Tersedia</span></td><td>—</td></tr>
+          <tr><td>Mei 2026</td><td class="tr-num">Rp 9.300.000</td><td class="tr-num">−46.500</td><td class="tr-num"><b>Rp 6.461.500</b></td><td><span class="tag tag-info">Dibayar</span></td><td><button class="btn btn-ghost btn-sm"><svg class="ico ico-sm"><use href="#i-receipt"/></svg>PDF</button></td></tr>
+        </tbody></table></div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- CLAIM MODAL -->
+<div class="overlay" id="claim">
+  <div class="modal">
+    <div class="modal-head"><h3>Klaim Payout</h3><button class="icon-btn" data-close aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button></div>
+    <div class="modal-body">
+      <div class="card card-pad" style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:.4rem"><span class="muted">Saldo tersedia</span><b>Rp 8.698.620</b></div><div style="display:flex;justify-content:space-between;font-size:.92rem"><span class="muted">Min. payout</span><span>Rp 50.000</span></div></div>
+      <div class="field"><label class="label">Jumlah klaim</label><input class="input" value="Rp 8.698.620"></div>
+      <div class="field"><label class="label">Transfer ke</label><input class="input" value="BSI · 700••••567 a.n. Abdullah" disabled></div>
+      <p class="help">Permintaan diproses admin. Saldo ditahan sementara hingga diverifikasi (anti double-claim). Bukti pengajuan PDF otomatis dibuat.</p>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:1rem">Ajukan Klaim</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

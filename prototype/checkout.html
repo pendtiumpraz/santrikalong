@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.cgrid{display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start}
+.citem{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid rgb(var(--border))}
+.citem img{width:96px;height:60px;object-fit:cover;border-radius:var(--r-sm);flex:none}
+.summary{position:sticky;top:88px;border:1px solid rgb(var(--border));border-radius:var(--r-lg);background:rgb(var(--surface));padding:1.4rem}
+.sumrow{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:.5rem}
+.manual{border:1px dashed rgb(var(--border));border-radius:var(--r-md);padding:1.1rem;margin-top:.8rem;text-align:center;color:rgb(var(--text-muted))}
+@media(max-width:880px){.cgrid{grid-template-columns:1fr}.summary{position:static}}
+</style>
+</head>
+<body>
+
+<header class="nav solid">
+  <div class="container nav-in">
+    <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+    <nav class="nav-links"><a href="katalog.html">Katalog</a><a href="live.html">Live</a></nav>
+    <div class="nav-right"><button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button><a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a></div>
+  </div>
+</header>
+
+<div class="breadcrumb container"><a href="katalog.html">Katalog</a> / <span>Keranjang &amp; Pembayaran</span></div>
+<div class="container" style="padding-top:.8rem"><h1 style="font-size:clamp(1.7rem,4vw,2.3rem)">Keranjang &amp; Pembayaran</h1></div>
+
+<main class="sec container">
+  <div class="cgrid">
+    <div>
+      <div class="card card-pad">
+        <h2 style="font-size:1.15rem;margin-bottom:.4rem">Kelas di keranjang (2)</h2>
+        <div class="citem"><img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=240&amp;q=50" alt=""><div style="flex:1"><p style="font-weight:600">Bahasa Arab untuk Pemula — Dasar Nahwu</p><p class="muted" style="font-size:.84rem">Ust. Abdullah, Lc. · Akses selamanya</p></div><div style="text-align:right"><span class="price" style="font-size:1.05rem">Rp 149.000</span><br><button class="btn btn-ghost btn-sm" style="margin-top:.4rem"><svg class="ico ico-sm"><use href="#i-trash"/></svg>Hapus</button></div></div>
+        <div class="citem" style="border-bottom:none"><img src="https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?auto=format&amp;fit=crop&amp;w=240&amp;q=50" alt=""><div style="flex:1"><p style="font-weight:600">Tahsin Al-Qur'an Metode Tilawati</p><p class="muted" style="font-size:.84rem">Ustadzah Fatimah · Live</p></div><div style="text-align:right"><span class="price" style="font-size:1.05rem">Rp 250.000</span><br><button class="btn btn-ghost btn-sm" style="margin-top:.4rem"><svg class="ico ico-sm"><use href="#i-trash"/></svg>Hapus</button></div></div>
+      </div>
+
+      <div class="card card-pad" style="margin-top:1.2rem">
+        <h2 style="font-size:1.15rem;margin-bottom:.8rem">Metode pembayaran</h2>
+        <p class="help" style="margin-top:-.4rem;margin-bottom:.8rem">Hanya gateway yang diaktifkan admin yang tampil.</p>
+        <div style="display:flex;flex-direction:column;gap:.5rem" id="paylist">
+          <label class="opt"><input type="radio" name="pay" checked onchange="document.getElementById('manualbox').hidden=true"><span class="tag tag-info" style="width:42px;justify-content:center">VA</span><div><p style="font-weight:600;font-size:.9rem">Virtual Account / QRIS</p><p class="muted" style="font-size:.78rem">via Midtrans</p></div></label>
+          <label class="opt"><input type="radio" name="pay" onchange="document.getElementById('manualbox').hidden=true"><span class="tag" style="width:42px;justify-content:center;background:rgb(139 92 246/.16);color:#8b5cf6">eW</span><div><p style="font-weight:600;font-size:.9rem">E-Wallet (OVO, Dana, ShopeePay)</p><p class="muted" style="font-size:.78rem">via Xendit</p></div></label>
+          <label class="opt"><input type="radio" name="pay" onchange="document.getElementById('manualbox').hidden=true"><span class="tag tag-warn" style="width:42px;justify-content:center">RT</span><div><p style="font-weight:600;font-size:.9rem">Retail (Alfamart/Indomaret) / Bank</p><p class="muted" style="font-size:.78rem">via Tripay</p></div></label>
+          <label class="opt"><input type="radio" name="pay" onchange="document.getElementById('manualbox').hidden=false"><span class="tag tag-success" style="width:42px;justify-content:center"><svg class="ico ico-sm"><use href="#i-wallet"/></svg></span><div><p style="font-weight:600;font-size:.9rem">Transfer Manual</p><p class="muted" style="font-size:.78rem">BSI 7001234567 a.n. Yayasan SantriKalong</p></div></label>
+        </div>
+        <div class="manual" id="manualbox" hidden><svg class="ico ico-lg" style="margin:0 auto .5rem"><use href="#i-upload"/></svg><p style="font-size:.88rem">Seret bukti transfer ke sini, atau <b style="color:rgb(var(--brand))">pilih file</b></p><p style="font-size:.76rem;margin-top:.2rem">JPG/PNG/PDF · maks 5 MB. Diverifikasi admin maks 1×24 jam.</p></div>
+      </div>
+    </div>
+
+    <aside class="summary">
+      <h2 style="font-size:1.15rem;margin-bottom:1rem">Ringkasan</h2>
+      <div class="sumrow"><span class="muted">Subtotal (2 kelas)</span><span>Rp 399.000</span></div>
+      <div class="sumrow"><span class="muted">Biaya layanan</span><span>Rp 2.500</span></div>
+      <div style="display:flex;gap:.5rem;margin:.8rem 0"><input class="input" placeholder="Kode kupon"><button class="btn btn-ghost btn-sm">Pakai</button></div>
+      <div class="sumrow" style="border-top:1px solid rgb(var(--border));padding-top:.7rem;font-weight:700;font-size:1.05rem"><span>Total</span><span class="price">Rp 401.500</span></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:1rem">Bayar Sekarang</button>
+      <p class="center muted" style="font-size:.78rem;margin-top:.7rem"><svg class="ico ico-sm" style="display:inline;vertical-align:-3px"><use href="#i-shield"/></svg> Pembayaran aman &amp; terenkripsi. Invoice dikirim ke email.</p>
+    </aside>
+  </div>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

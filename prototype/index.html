@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SantriKalong — Cahaya di Keheningan Malam</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.hero{padding:11rem 0 5.5rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background-position:center;background-size:cover;opacity:var(--hero-img-opacity);-webkit-mask-image:linear-gradient(to bottom,#000 35%,transparent 92%);mask-image:linear-gradient(to bottom,#000 35%,transparent 92%)}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgb(var(--bg)/.28),rgb(var(--bg)/.8))}
+.halo{position:absolute;top:-12%;left:50%;transform:translateX(-50%);width:min(900px,120vw);height:700px;z-index:2;background:radial-gradient(closest-side,rgb(var(--glow-color)/.18),transparent 70%);pointer-events:none;opacity:calc(var(--glow-strength)*3 + .3)}
+.arch{position:absolute;top:5rem;left:50%;transform:translateX(-50%);width:min(640px,90vw);z-index:2;color:rgb(var(--brand));opacity:.1;pointer-events:none}
+.hero-in{position:relative;z-index:3;max-width:760px;margin:0 auto;text-align:center}
+.hero h1{font-size:clamp(2.4rem,6vw,4.1rem);margin-top:1.1rem}
+.hero h1 .lt{color:rgb(var(--brand));font-style:italic;font-weight:400}
+.hero .lead{font-size:1.15rem;color:rgb(var(--text-muted));margin:1.3rem auto 0;max-width:560px}
+.hero-cta{display:flex;gap:.8rem;justify-content:center;margin-top:2.1rem;flex-wrap:wrap}
+.hero-stats{display:flex;gap:2.4rem;justify-content:center;margin-top:3.2rem;flex-wrap:wrap}
+.hero-stats b{font-family:var(--font-display);font-size:1.8rem;font-weight:500;display:block}
+.hero-stats span{font-size:.84rem;color:rgb(var(--text-muted))}
+.lantern-wrap{position:relative;width:92px;height:92px;margin:0 auto;display:grid;place-items:center}
+.lantern-wrap::before{content:"";position:absolute;width:165px;height:165px;border-radius:50%;background:radial-gradient(closest-side,rgb(var(--glow-color)/var(--lantern-glow)),transparent 72%);filter:blur(9px)}
+.lantern{position:relative;z-index:1;width:58px;height:58px;color:rgb(var(--brand));animation:flick 4.5s ease-in-out infinite;filter:drop-shadow(0 0 7px rgb(var(--glow-color)/var(--lantern-glow))) drop-shadow(0 0 20px rgb(var(--glow-color)/calc(var(--lantern-glow)*.7)))}
+@keyframes flick{0%,100%{opacity:1}48%{opacity:.93}52%{opacity:.98}}
+.cat{padding:1.5rem 1.3rem;border:1px solid rgb(var(--border));border-radius:var(--r-lg);background:rgb(var(--surface));transition:all .25s var(--ease);display:block}
+.cat:hover{border-color:rgb(var(--brand)/.5);transform:translateY(-3px)}
+.cat .ci{width:30px;height:30px;color:rgb(var(--brand));margin-bottom:.9rem;stroke-width:1.5}
+.cat h3{font-family:var(--font-body);font-weight:600;font-size:1rem}
+.cat p{font-size:.84rem;color:rgb(var(--text-muted));margin-top:.15rem}
+.band{border:1px solid rgb(var(--border));border-radius:var(--r-xl);padding:2.6rem;display:flex;align-items:center;gap:2rem;background:radial-gradient(120% 140% at 100% 0%,rgb(var(--brand-subtle)/.12),transparent 60%),rgb(var(--surface))}
+.band .btn{margin-left:auto}
+@media(max-width:760px){.band{flex-direction:column;align-items:flex-start;padding:1.8rem}.band .btn{margin-left:0}.hero-cta .btn{width:100%}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-in">
+    <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+    <nav class="nav-links">
+      <a href="katalog.html">Katalog</a><a href="katalog.html">Dauroh</a><a href="katalog.html">Live Kelas</a><a href="studio.html">Jadi Pengajar</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button>
+      <a href="checkout.html" class="icon-btn cart-btn" aria-label="Keranjang"><svg class="ico"><use href="#i-cart"/></svg><span class="cart-badge">2</span></a>
+      <a href="auth.html" class="btn btn-ghost btn-sm hide-sm">Masuk</a>
+      <a href="auth.html" class="btn btn-primary btn-sm">Daftar</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1758696229365-997adf6e4a1c?auto=format&amp;fit=crop&amp;w=1400&amp;q=55')"></div>
+  <div class="halo"></div>
+  <svg class="arch" viewBox="0 0 640 320" fill="none"><path d="M40 320V160a280 280 0 0 1 560 0v160" stroke="currentColor" stroke-width="1.2"/><path d="M120 320V170a200 200 0 0 1 400 0v150" stroke="currentColor" stroke-width="1"/></svg>
+  <div class="container hero-in">
+    <div class="lantern-wrap"><svg class="lantern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-lantern"/></svg></div>
+    <p class="eyebrow" style="margin-top:1.3rem">Ilmu adalah cahaya</p>
+    <h1>Menuntut ilmu di <span class="lt">keheningan malam</span></h1>
+    <p class="lead">Kelas tahsin, bahasa Arab, dan dauroh online — langsung maupun rekaman. Dibimbing ustadz tepercaya, di ruang yang tenang untuk fokus.</p>
+    <div class="hero-cta">
+      <a href="katalog.html" class="btn btn-primary btn-lg">Jelajahi Kelas <svg class="ico"><use href="#i-arrow"/></svg></a>
+      <a href="katalog.html" class="btn btn-ghost btn-lg">Lihat Jadwal Live</a>
+    </div>
+    <div class="hero-stats"><div><b>120+</b><span>Kelas</span></div><div><b>35</b><span>Ustadz</span></div><div><b>8.500+</b><span>Santri</span></div></div>
+  </div>
+</section>
+
+<section class="sec container">
+  <div class="sec-head"><h2>Jalan ilmu</h2></div>
+  <div class="grid-4">
+    <a href="katalog.html" class="cat"><svg class="ci ico"><use href="#i-book"/></svg><h3>Bahasa Arab</h3><p>24 kelas</p></a>
+    <a href="katalog.html" class="cat"><svg class="ci ico"><use href="#i-quran"/></svg><h3>Tahsin &amp; Tahfizh</h3><p>18 kelas</p></a>
+    <a href="katalog.html" class="cat"><svg class="ci ico"><use href="#i-broadcast"/></svg><h3>Dauroh Online</h3><p>9 event</p></a>
+    <a href="katalog.html" class="cat"><svg class="ci ico"><use href="#i-layers"/></svg><h3>Fiqih &amp; Aqidah</h3><p>31 kelas</p></a>
+  </div>
+</section>
+
+<section class="sec container">
+  <div class="sec-head"><h2>Kelas pilihan</h2><a href="katalog.html">Lihat semua <svg class="ico ico-sm"><use href="#i-arrow"/></svg></a></div>
+  <div class="grid-c">
+    <article class="ccard">
+      <div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Bahasa Arab</span><span class="tag tag-muted spacer">Rekaman</span></div></div>
+      <div class="ccard-b"><h3>Bahasa Arab untuk Pemula — Dasar Nahwu</h3><p class="by">Ust. Abdullah, Lc.</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.9</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>32 materi</span><span>Pemula</span></div><div class="cfoot"><span class="price">Rp 149.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div>
+    </article>
+    <article class="ccard">
+      <div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Tahsin</span><span class="tag tag-live spacer"><span class="dot"></span>LIVE</span></div></div>
+      <div class="ccard-b"><h3>Tahsin Al-Qur'an Metode Tilawati</h3><p class="by">Ustadzah Fatimah</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>5.0</span><span><svg class="ico ico-sm"><use href="#i-clock"/></svg>Tiap Sabtu</span></div><div class="cfoot"><span class="price">Rp 250.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div>
+    </article>
+    <article class="ccard">
+      <div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1639918065925-eb39272edda2?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Fiqih</span><span class="tag tag-free spacer">GRATIS</span></div></div>
+      <div class="ccard-b"><h3>Fiqih Thaharah untuk Sehari-hari</h3><p class="by">Ust. Yusuf</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.8</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>12 materi</span></div><div class="cfoot"><span class="price free">Gratis</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="sec container">
+  <div class="band">
+    <div><p class="eyebrow">Untuk para pengajar</p><h2 style="margin-top:.4rem">Punya ilmu untuk dibagikan?</h2><p class="muted" style="margin-top:.5rem;max-width:520px">Daftar jadi pengajar, susun kelas, dan dapatkan bagi hasil dari setiap santri yang mendaftar.</p></div>
+    <a href="studio.html" class="btn btn-primary">Daftar Jadi Pengajar <svg class="ico"><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="container ft-grid">
+    <div class="ft-brand"><a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a><p>Ruang menuntut ilmu agama &amp; bahasa Arab — tenang, untuk semua kalangan.</p></div>
+    <div><h4>Belajar</h4><ul><li><a href="katalog.html">Katalog</a></li><li><a href="katalog.html">Dauroh</a></li><li><a href="katalog.html">Live Kelas</a></li></ul></div>
+    <div><h4>Platform</h4><ul><li><a href="studio.html">Jadi Pengajar</a></li><li><a href="#">Tentang</a></li><li><a href="#">Kontak</a></li></ul></div>
+    <div><h4>Bantuan</h4><ul><li><a href="#">Pusat Bantuan</a></li><li><a href="#">Privasi</a></li><li><a href="#">Ketentuan</a></li></ul></div>
+  </div>
+  <div class="container"><p class="copy">© 2026 SantriKalong.com — Baarakallahu fiikum.</p></div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

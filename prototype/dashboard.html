@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.resume{border:1px solid rgb(var(--border));border-radius:var(--r-xl);overflow:hidden;display:grid;grid-template-columns:300px 1fr;background:rgb(var(--surface))}
+.resume .rimg{position:relative;min-height:170px}
+.resume .rimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.resume .rb{padding:1.6rem}
+.mycard{border:1px solid rgb(var(--border));border-radius:var(--r-lg);overflow:hidden;background:rgb(var(--surface));transition:all .2s}
+.mycard:hover{border-color:rgb(var(--brand)/.4)}
+.mycard .th{aspect-ratio:16/9;overflow:hidden}
+.mycard .th img{width:100%;height:100%;object-fit:cover}
+.mycard .b{padding:1rem}
+@media(max-width:680px){.resume{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="nav solid">
+  <div class="container nav-in">
+    <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+    <nav class="nav-links"><a href="dashboard.html" class="active">Belajar</a><a href="katalog.html">Katalog</a><a href="live.html">Live</a><a href="sertifikat.html">Sertifikat</a></nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button>
+      <a href="#" class="icon-btn" aria-label="Notifikasi"><svg class="ico"><use href="#i-bell"/></svg></a>
+      <a href="profil.html" class="avatar sm" aria-label="Profil"><svg class="ico ico-sm"><use href="#i-user"/></svg></a>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding-top:6rem;padding-bottom:3rem">
+  <p class="eyebrow">Assalamu'alaikum</p>
+  <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-top:.3rem">Selamat datang kembali, Ahmad</h1>
+
+  <div class="resume" style="margin-top:1.6rem">
+    <div class="rimg"><img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=500&amp;q=55" alt=""></div>
+    <div class="rb">
+      <p class="eyebrow">Lanjutkan belajar</p>
+      <h2 style="font-size:1.4rem;margin-top:.3rem">Bahasa Arab untuk Pemula — Dasar Nahwu</h2>
+      <p class="muted" style="font-size:.88rem;margin-top:.3rem">Berikutnya: Bab 1 · Materi 4 — Slide Ringkasan Bab</p>
+      <div class="bar" style="margin-top:1rem;max-width:360px"><i style="width:38%"></i></div>
+      <p class="muted" style="font-size:.8rem;margin-top:.4rem">12 dari 32 materi · 38%</p>
+      <a href="belajar.html" class="btn btn-primary" style="margin-top:1rem">Lanjutkan <svg class="ico ico-sm"><use href="#i-play"/></svg></a>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-top:1.5rem">
+    <div class="stat"><p class="lbl">Kelas aktif</p><p class="val tnum">4</p></div>
+    <div class="stat"><p class="lbl">Selesai</p><p class="val tnum">2</p></div>
+    <div class="stat"><p class="lbl">Sertifikat</p><p class="val tnum">2</p></div>
+    <div class="stat"><p class="lbl">Jam belajar</p><p class="val tnum">26</p></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:2.4rem"><h2>Kelas saya</h2><a href="katalog.html">Cari kelas lain <svg class="ico ico-sm"><use href="#i-arrow"/></svg></a></div>
+  <div class="grid-c">
+    <article class="mycard"><div class="th"><img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=600&amp;q=55" alt=""></div><div class="b"><h3 style="font-family:var(--font-display);font-size:1.05rem">Bahasa Arab untuk Pemula</h3><div class="bar" style="margin:.7rem 0 .4rem"><i style="width:38%"></i></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="muted" style="font-size:.8rem">38%</span><a href="belajar.html" class="btn btn-soft btn-sm">Lanjut</a></div></div></article>
+    <article class="mycard"><div class="th"><img src="https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?auto=format&amp;fit=crop&amp;w=600&amp;q=55" alt=""></div><div class="b"><h3 style="font-family:var(--font-display);font-size:1.05rem">Tahsin Al-Qur'an Tilawati</h3><div class="bar" style="margin:.7rem 0 .4rem"><i style="width:70%"></i></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="muted" style="font-size:.8rem">70%</span><a href="belajar.html" class="btn btn-soft btn-sm">Lanjut</a></div></div></article>
+    <article class="mycard"><div class="th"><img src="https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&amp;fit=crop&amp;w=600&amp;q=55" alt=""></div><div class="b"><h3 style="font-family:var(--font-display);font-size:1.05rem">Fiqih Thaharah</h3><div class="bar" style="margin:.7rem 0 .4rem"><i style="width:100%"></i></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="tag tag-success">Selesai</span><a href="sertifikat.html" class="btn btn-soft btn-sm">Sertifikat</a></div></div></article>
+  </div>
+
+  <div class="sec-head" style="margin-top:2.4rem"><h2>Live mendatang</h2></div>
+  <div class="card card-pad" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+    <div style="width:52px;height:52px;border-radius:var(--r-md);background:rgb(var(--live)/.14);color:rgb(var(--live));display:grid;place-items:center"><svg class="ico"><use href="#i-broadcast"/></svg></div>
+    <div style="flex:1;min-width:180px"><p style="font-weight:600">Tanya Jawab Bab 1–2 — Bahasa Arab</p><p class="muted" style="font-size:.84rem">Sabtu, 7 Jun 2026 · 20:00 WIB · Ust. Abdullah</p></div>
+    <a href="live.html" class="btn btn-soft btn-sm">Ingatkan Saya</a>
+  </div>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profil & Pengaturan — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.set-grid{display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
+.set-nav{position:sticky;top:88px;display:flex;flex-direction:column;gap:.2rem}
+.theme-pick{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.tp{border:1px solid rgb(var(--border));border-radius:var(--r-md);padding:.8rem;cursor:pointer;text-align:left;background:transparent;color:rgb(var(--text))}
+.tp[aria-pressed="true"]{border-color:rgb(var(--brand));box-shadow:0 0 0 1px rgb(var(--brand))}
+.tp .sw{display:flex;gap:4px;margin-bottom:.5rem}.tp .sw i{width:22px;height:22px;border-radius:5px}
+@media(max-width:760px){.set-grid{grid-template-columns:1fr}.set-nav{position:static;flex-direction:row;overflow-x:auto}}
+</style>
+</head>
+<body>
+<header class="nav solid">
+  <div class="container nav-in">
+    <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+    <nav class="nav-links"><a href="dashboard.html">Belajar</a><a href="katalog.html">Katalog</a><a href="sertifikat.html">Sertifikat</a></nav>
+    <div class="nav-right"><button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button></div>
+  </div>
+</header>
+
+<main class="container" style="padding-top:6rem;padding-bottom:3rem">
+  <h1 style="font-size:clamp(1.6rem,3.5vw,2.2rem);margin-bottom:1.4rem">Profil &amp; Pengaturan</h1>
+  <div class="set-grid" data-tabgroup>
+    <nav class="set-nav">
+      <button class="sb-link active" data-tab="profil" aria-pressed="true"><svg class="ico ico-sm"><use href="#i-user"/></svg>Profil</button>
+      <button class="sb-link" data-tab="tampilan"><svg class="ico ico-sm"><use href="#i-palette"/></svg>Tampilan</button>
+      <button class="sb-link" data-tab="notif"><svg class="ico ico-sm"><use href="#i-bell"/></svg>Notifikasi &amp; Consent</button>
+      <button class="sb-link" data-tab="aman"><svg class="ico ico-sm"><use href="#i-lock"/></svg>Keamanan</button>
+    </nav>
+
+    <div>
+      <!-- PROFIL -->
+      <section data-panel="profil">
+        <div class="card card-pad">
+          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem"><span class="avatar" style="width:64px;height:64px"><svg class="ico ico-lg"><use href="#i-user"/></svg></span><button class="btn btn-ghost btn-sm"><svg class="ico ico-sm"><use href="#i-upload"/></svg>Ganti foto</button></div>
+          <div class="grid-2" style="gap:1rem"><div class="field"><label class="label">Nama</label><input class="input" value="Ahmad Ramadhan"></div><div class="field"><label class="label">Email</label><input class="input" value="ahmad@mail.com"></div><div class="field"><label class="label">No. WhatsApp</label><input class="input" value="0812 3456 7890"></div><div class="field"><label class="label">Kota</label><input class="input" value="Bandung"></div></div>
+          <div class="field"><label class="label">Bio</label><textarea class="textarea">Penuntut ilmu, belajar selepas kerja.</textarea></div>
+          <button class="btn btn-primary btn-sm">Simpan Perubahan</button>
+        </div>
+      </section>
+
+      <!-- TAMPILAN -->
+      <section data-panel="tampilan" hidden>
+        <div class="card card-pad">
+          <h2 style="font-size:1.15rem">Tema (mood)</h2><p class="help" style="margin-bottom:.9rem">Pilihan disimpan & berlaku di semua perangkat.</p>
+          <div class="theme-pick">
+            <button class="tp" data-set-theme="pelita-malam"><span class="sw"><i style="background:#0E1A17"></i><i style="background:#CE9A33"></i><i style="background:#2F7A64"></i></span><b>Pelita Malam</b><br><span class="muted" style="font-size:.78rem">Khusyuk · hangat</span></button>
+            <button class="tp" data-set-theme="kertas-subuh"><span class="sw"><i style="background:#FBFCFD;border:1px solid #ccc"></i><i style="background:#2F6F8F"></i><i style="background:#7FB6CE"></i></span><b>Kertas Subuh</b><br><span class="muted" style="font-size:.78rem">Bersih · jernih</span></button>
+          </div>
+          <h2 style="font-size:1.15rem;margin-top:1.4rem">Mode</h2>
+          <div class="seg" style="margin-top:.5rem"><button data-set-mode="light"><svg class="ico ico-sm"><use href="#i-sun"/></svg>Terang</button><button data-set-mode="dark"><svg class="ico ico-sm"><use href="#i-moon"/></svg>Gelap</button></div>
+          <h2 style="font-size:1.15rem;margin-top:1.4rem">Ukuran teks (aksesibilitas)</h2>
+          <div class="seg" style="margin-top:.5rem"><button data-set-text="normal">Normal</button><button data-set-text="large"><svg class="ico ico-sm"><use href="#i-text"/></svg>Besar</button></div>
+        </div>
+      </section>
+
+      <!-- NOTIF & CONSENT -->
+      <section data-panel="notif" hidden>
+        <div class="card card-pad">
+          <h2 style="font-size:1.15rem;margin-bottom:.4rem">Persetujuan (Consent)</h2>
+          <p class="help" style="margin-bottom:1rem">Bisa diubah kapan saja. Perubahan tercatat untuk kepatuhan.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;border-bottom:1px solid rgb(var(--border))"><div><p style="font-weight:600;font-size:.92rem">Syarat &amp; Ketentuan + Privasi</p><p class="muted" style="font-size:.8rem">Wajib · disetujui v2.1 · 12 Mei 2026</p></div><span class="tag tag-success">Disetujui</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;border-bottom:1px solid rgb(var(--border))"><div><p style="font-weight:600;font-size:.92rem">Promosi via Email</p><p class="muted" style="font-size:.8rem">Info kelas baru &amp; penawaran</p></div><label class="switch-toggle"><input type="checkbox" checked><span class="sl"></span></label></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem 0"><div><p style="font-weight:600;font-size:.92rem">Promosi via WhatsApp</p><p class="muted" style="font-size:.8rem">Pengingat &amp; penawaran via WA</p></div><label class="switch-toggle"><input type="checkbox"><span class="sl"></span></label></div>
+          <h2 style="font-size:1.15rem;margin:1.4rem 0 .6rem">Notifikasi</h2>
+          <label class="check" style="padding:.4rem 0"><input type="checkbox" checked> Kelas live akan dimulai</label>
+          <label class="check" style="padding:.4rem 0"><input type="checkbox" checked> Hasil kuis &amp; progres</label>
+          <label class="check" style="padding:.4rem 0"><input type="checkbox"> Diskusi & balasan ustadz</label>
+        </div>
+      </section>
+
+      <!-- KEAMANAN -->
+      <section data-panel="aman" hidden>
+        <div class="card card-pad">
+          <h2 style="font-size:1.15rem;margin-bottom:.8rem">Keamanan</h2>
+          <div class="field"><label class="label">Kata sandi baru</label><input class="input" type="password" placeholder="••••••••"></div>
+          <div class="field"><label class="label">Konfirmasi sandi</label><input class="input" type="password" placeholder="••••••••"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;border-top:1px solid rgb(var(--border));margin-top:.4rem"><div><p style="font-weight:600;font-size:.92rem">Verifikasi 2 langkah (2FA)</p><p class="muted" style="font-size:.8rem">Tambah keamanan login</p></div><label class="switch-toggle"><input type="checkbox"><span class="sl"></span></label></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:.6rem">Simpan</button>
+          <button class="btn btn-danger btn-sm" style="margin-top:.6rem;margin-left:.4rem">Hapus akun</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Katalog Kelas — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.kat{display:grid;grid-template-columns:240px 1fr;gap:2rem;align-items:start}
+.filter{position:sticky;top:88px;border:1px solid rgb(var(--border));border-radius:var(--r-lg);background:rgb(var(--surface));padding:1.2rem}
+.filter h4{font-family:var(--font-body);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:rgb(var(--text-muted));margin:1.1rem 0 .6rem}
+.filter h4:first-child{margin-top:0}
+.filter label{display:flex;align-items:center;gap:.55rem;font-size:.9rem;padding:.25rem 0;cursor:pointer}
+.filter input{accent-color:rgb(var(--brand))}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.chip{padding:.5rem .9rem;border-radius:var(--r-md);border:1px solid rgb(var(--border));background:rgb(var(--surface));font-size:.85rem;font-weight:600;cursor:pointer;color:rgb(var(--text-muted))}
+.chip[aria-pressed="true"]{background:rgb(var(--brand));color:rgb(var(--brand-fg));border-color:transparent}
+.searchbar{position:relative;flex:1;min-width:200px}
+.searchbar .ico{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:rgb(var(--text-muted))}
+.searchbar .input{padding-left:2.4rem}
+.filter-toggle{display:none}
+@media(max-width:860px){.kat{grid-template-columns:1fr}.filter{display:none}.filter.show{display:block;position:static}.filter-toggle{display:inline-flex}}
+</style>
+</head>
+<body>
+
+<header class="nav solid">
+  <div class="container nav-in">
+    <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+    <nav class="nav-links"><a href="katalog.html" class="active">Katalog</a><a href="katalog.html">Dauroh</a><a href="katalog.html">Live Kelas</a><a href="studio.html">Jadi Pengajar</a></nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button>
+      <a href="checkout.html" class="icon-btn cart-btn" aria-label="Keranjang"><svg class="ico"><use href="#i-cart"/></svg><span class="cart-badge">2</span></a>
+      <a href="dashboard.html" class="btn btn-ghost btn-sm hide-sm">Dashboard</a>
+      <a href="auth.html" class="btn btn-primary btn-sm">Masuk</a>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb container"><a href="index.html">Beranda</a> / <span>Katalog</span></div>
+<div class="container" style="padding-top:.8rem"><h1 style="font-size:clamp(1.8rem,4vw,2.5rem)">Katalog Kelas</h1><p class="muted" style="margin-top:.3rem">120+ kelas dari 35 ustadz tepercaya.</p></div>
+
+<main class="sec container">
+  <div class="kat">
+    <aside class="filter" id="filter">
+      <h4>Kategori</h4>
+      <label><input type="checkbox" checked> Bahasa Arab</label>
+      <label><input type="checkbox"> Tahsin &amp; Tahfizh</label>
+      <label><input type="checkbox"> Fiqih &amp; Aqidah</label>
+      <label><input type="checkbox"> Dauroh</label>
+      <h4>Level</h4>
+      <label><input type="radio" name="lv" checked> Semua</label>
+      <label><input type="radio" name="lv"> Pemula</label>
+      <label><input type="radio" name="lv"> Menengah</label>
+      <label><input type="radio" name="lv"> Lanjutan</label>
+      <h4>Harga</h4>
+      <label><input type="radio" name="hg" checked> Semua</label>
+      <label><input type="radio" name="hg"> Gratis</label>
+      <label><input type="radio" name="hg"> Berbayar</label>
+      <button class="btn btn-ghost btn-sm btn-block" style="margin-top:1.2rem">Reset filter</button>
+    </aside>
+
+    <div>
+      <div style="display:flex;gap:.7rem;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap">
+        <div class="searchbar"><svg class="ico ico-sm"><use href="#i-search"/></svg><input class="input" placeholder="Cari kelas, ustadz, topik…"></div>
+        <button class="btn btn-ghost btn-sm filter-toggle" onclick="document.getElementById('filter').classList.toggle('show')"><svg class="ico ico-sm"><use href="#i-layers"/></svg>Filter</button>
+        <select class="select" style="width:auto"><option>Terbaru</option><option>Terpopuler</option><option>Rating tertinggi</option><option>Harga termurah</option></select>
+      </div>
+      <div class="chips">
+        <button class="chip" aria-pressed="true">Semua</button>
+        <button class="chip">Live</button>
+        <button class="chip">Rekaman</button>
+        <button class="chip">Gratis</button>
+        <button class="chip">Dauroh</button>
+      </div>
+      <p class="muted" style="font-size:.85rem;margin-bottom:1rem">Menampilkan 6 dari 123 hasil</p>
+
+      <div class="grid-c">
+        <article class="ccard"><div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Bahasa Arab</span><span class="tag tag-muted spacer">Rekaman</span></div></div><div class="ccard-b"><h3>Bahasa Arab untuk Pemula — Dasar Nahwu</h3><p class="by">Ust. Abdullah, Lc.</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.9</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>32 materi</span><span>Pemula</span></div><div class="cfoot"><span class="price">Rp 149.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div></article>
+        <article class="ccard"><div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Tahsin</span><span class="tag tag-live spacer"><span class="dot"></span>LIVE</span></div></div><div class="ccard-b"><h3>Tahsin Al-Qur'an Metode Tilawati</h3><p class="by">Ustadzah Fatimah</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>5.0</span><span><svg class="ico ico-sm"><use href="#i-clock"/></svg>Tiap Sabtu</span></div><div class="cfoot"><span class="price">Rp 250.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div></article>
+        <article class="ccard"><div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1639918065925-eb39272edda2?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag tag-info">Dauroh</span><span class="tag tag-muted spacer">Event</span></div></div><div class="ccard-b"><h3>Dauroh Online: Sirah Nabawiyah</h3><p class="by">Ust. Hamzah, M.A.</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-clock"/></svg>15–17 Jun</span><span>Kuota 200</span></div><div class="cfoot"><span class="price"><s>Rp 200rb</s> Rp 99.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Daftar</a></div></div></article>
+        <article class="ccard"><div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag tag-danger">Fiqih</span><span class="tag tag-free spacer">GRATIS</span></div></div><div class="ccard-b"><h3>Fiqih Thaharah untuk Sehari-hari</h3><p class="by">Ust. Yusuf</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.8</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>12 materi</span></div><div class="cfoot"><span class="price free">Gratis</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div></article>
+        <article class="ccard"><div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1589462135796-2b46e4bdd7fe?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Bahasa Arab</span><span class="tag tag-muted spacer">Rekaman</span></div></div><div class="ccard-b"><h3>Muhadatsah: Percakapan Arab Praktis</h3><p class="by">Ust. Abdullah, Lc.</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.7</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>28 materi</span><span>Menengah</span></div><div class="cfoot"><span class="price">Rp 175.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div></article>
+        <article class="ccard"><div class="thumb"><img class="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1587617425953-9075d28b8c46?auto=format&amp;fit=crop&amp;w=600&amp;q=55"><div class="pin"><span class="tag">Tahfizh</span><span class="tag tag-muted spacer">Rekaman</span></div></div><div class="ccard-b"><h3>Program Tahfizh Juz 30 Terbimbing</h3><p class="by">Ustadzah Fatimah</p><div class="cmeta"><span><svg class="ico ico-sm"><use href="#i-star"/></svg>4.9</span><span><svg class="ico ico-sm"><use href="#i-book"/></svg>30 materi</span></div><div class="cfoot"><span class="price">Rp 199.000</span><a href="kelas.html" class="btn btn-soft btn-sm">Lihat</a></div></div></article>
+      </div>
+      <div class="center" style="margin-top:2rem"><button class="btn btn-ghost">Muat lebih banyak</button></div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Masuk / Daftar — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.auth{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.aside{position:relative;overflow:hidden;background:rgb(var(--bg));display:grid;place-items:center;padding:2rem}
+.aside .bgimg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:var(--hero-img-opacity)}
+.aside::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 30%,rgb(var(--glow-color)/.18),transparent 60%),linear-gradient(to bottom,rgb(var(--bg)/.4),rgb(var(--bg)/.85))}
+.aside .inner{position:relative;z-index:1;text-align:center;max-width:360px}
+.lan{width:64px;height:64px;color:rgb(var(--brand));margin:0 auto 1rem;filter:drop-shadow(0 0 18px rgb(var(--glow-color)/var(--lantern-glow)))}
+.aform{display:grid;place-items:center;padding:2rem;position:relative;z-index:1}
+.fbox{width:100%;max-width:400px}
+.consent{border:1px solid rgb(var(--border));border-radius:var(--r-md);background:rgb(var(--surface));margin-bottom:1rem;overflow:hidden}
+.consent-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1rem}
+.consent-title{font-weight:600;font-size:.92rem}
+.consent-more{width:100%;border:none;border-top:1px solid rgb(var(--border));background:transparent;color:rgb(var(--brand));font-family:inherit;font-weight:600;font-size:.84rem;padding:.7rem 1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.consent-more .ico{transition:transform .2s var(--ease)}
+.consent-more[aria-expanded="true"] .ico{transform:rotate(180deg)}
+.consent-list{border-top:1px solid rgb(var(--border))}
+.consent-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:.85rem 1rem;border-top:1px solid rgb(var(--divider))}
+.consent-row:first-child{border-top:none}
+.creq{font-size:.64rem;font-weight:700;color:rgb(var(--danger));background:rgb(var(--danger)/.12);padding:.1rem .4rem;border-radius:4px;margin-left:.3rem}
+@media(max-width:860px){.auth{grid-template-columns:1fr}.aside{display:none}}
+</style>
+</head>
+<body>
+<div class="auth">
+  <div class="aside">
+    <div class="bgimg" style="background-image:url('https://images.unsplash.com/photo-1758696229365-997adf6e4a1c?auto=format&amp;fit=crop&amp;w=900&amp;q=55')"></div>
+    <div class="inner">
+      <svg class="lan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-lantern"/></svg>
+      <h2 style="font-size:1.8rem;color:rgb(var(--text))">Cahaya di keheningan malam</h2>
+      <p class="muted" style="margin-top:.7rem">Bergabung dengan 8.500+ santri yang menuntut ilmu dari rumah, kapan saja.</p>
+    </div>
+  </div>
+
+  <div class="aform" data-tabgroup>
+    <div class="fbox">
+      <a href="index.html" class="brand" style="margin-bottom:1.6rem"><svg class="mark" viewBox="0 0 40 40" fill="none"><path d="M28 6a13 13 0 1 0 6 14 10 10 0 1 1-6-14Z" fill="currentColor"/><circle cx="30" cy="11" r="1.6" fill="currentColor"/></svg>SantriKalong</a>
+      <div class="tabs" style="margin-bottom:1.4rem"><button data-tab="login" aria-pressed="true">Masuk</button><button data-tab="register">Daftar</button></div>
+
+      <div data-panel="login">
+        <div class="field"><label class="label">Email atau No. HP</label><input class="input" placeholder="nama@email.com"></div>
+        <div class="field"><label class="label">Kata sandi</label><input class="input" type="password" placeholder="••••••••"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><label class="check"><input type="checkbox">Ingat saya</label><a href="#" style="font-size:.85rem;color:rgb(var(--brand))">Lupa sandi?</a></div>
+        <a href="dashboard.html" class="btn btn-primary btn-block btn-lg">Masuk</a>
+        <button class="btn btn-ghost btn-block" style="margin-top:.6rem"><svg class="ico ico-sm"><use href="#i-user"/></svg>Masuk dengan Google</button>
+      </div>
+
+      <div data-panel="register" hidden>
+        <div class="field"><label class="label">Nama lengkap</label><input class="input" placeholder="Nama kamu"></div>
+        <div class="field"><label class="label">Email</label><input class="input" placeholder="nama@email.com"></div>
+        <div class="field"><label class="label">No. WhatsApp</label><input class="input" placeholder="08xxxxxxxxxx"></div>
+        <div class="field"><label class="label">Kata sandi</label><input class="input" type="password" placeholder="Min. 8 karakter"></div>
+
+        <div class="consent">
+          <div class="consent-top">
+            <div><p class="consent-title">Setujui semua</p><p class="muted" style="font-size:.78rem">Syarat &amp; Ketentuan, Privasi, dan info promosi</p></div>
+            <label class="switch-toggle"><input type="checkbox" id="cAll"><span class="sl"></span></label>
+          </div>
+          <button type="button" class="consent-more" id="cToggle">Lihat detail &amp; atur sendiri <svg class="ico ico-sm"><use href="#i-chevron-d"/></svg></button>
+          <div class="consent-list" id="cList" hidden>
+            <div class="consent-row"><div><b>Syarat &amp; Ketentuan + Privasi</b> <span class="creq">wajib</span><p class="muted" style="font-size:.76rem;margin-top:.15rem">Diperlukan untuk membuat akun.</p></div><label class="switch-toggle"><input type="checkbox" class="cItem"><span class="sl"></span></label></div>
+            <div class="consent-row"><div><b>Info promosi via Email</b><p class="muted" style="font-size:.76rem;margin-top:.15rem">Kelas baru &amp; penawaran.</p></div><label class="switch-toggle"><input type="checkbox" class="cItem"><span class="sl"></span></label></div>
+            <div class="consent-row"><div><b>Info promosi via WhatsApp</b><p class="muted" style="font-size:.76rem;margin-top:.15rem">Pengingat &amp; penawaran.</p></div><label class="switch-toggle"><input type="checkbox" class="cItem"><span class="sl"></span></label></div>
+          </div>
+        </div>
+        <a href="onboarding-otp.html" class="btn btn-primary btn-block btn-lg">Daftar &amp; Verifikasi</a>
+        <p class="help center" style="margin-top:.7rem">Kode OTP akan dikirim ke email/WA untuk verifikasi.</p>
+        <p class="center muted" style="font-size:.85rem;margin-top:1rem">Mau jadi pengajar? <a href="studio.html" style="color:rgb(var(--brand))">Daftar sebagai ustadz</a> (perlu menyetujui Akad Pengajar).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  var all=document.getElementById('cAll'),toggle=document.getElementById('cToggle'),list=document.getElementById('cList');
+  if(!all)return;
+  var items=[].slice.call(document.querySelectorAll('.cItem'));
+  toggle.addEventListener('click',function(){var h=list.hidden;list.hidden=!h;toggle.setAttribute('aria-expanded',String(h));});
+  all.addEventListener('change',function(){items.forEach(function(i){i.checked=all.checked;});});
+  items.forEach(function(i){i.addEventListener('change',function(){all.checked=items.every(function(x){return x.checked;});});});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ruang Live — SantriKalong</title>
+<script>(function(){try{var e=document.documentElement,t=localStorage.getItem('sk_theme'),m=localStorage.getItem('sk_mode'),s=localStorage.getItem('sk_text');e.dataset.theme=t||'pelita-malam';e.dataset.mode=m||'dark';if(s==='large')e.dataset.textsize='large';}catch(_){var x=document.documentElement;x.dataset.theme='pelita-malam';x.dataset.mode='dark';}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.lvbar{height:60px;display:flex;align-items:center;gap:1rem;padding:0 1.2rem;border-bottom:1px solid rgb(var(--border));background:rgb(var(--surface));position:sticky;top:0;z-index:var(--z-nav)}
+.lvgrid{display:grid;grid-template-columns:1fr 340px;height:calc(100vh - 60px)}
+.stage{background:#000;position:relative;display:flex;flex-direction:column}
+.screen{flex:1;position:relative;display:grid;place-items:center;overflow:hidden}
+.screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.badge-tl{position:absolute;top:1rem;left:1rem;display:flex;gap:.5rem;align-items:center;z-index:2}
+.controls{padding:.8rem 1.1rem;background:rgb(0 0 0/.6);display:flex;align-items:center;gap:.8rem;color:#fff}
+.controls .icon-btn{background:rgb(255 255 255/.1);border-color:transparent;color:#fff}
+.chat{border-left:1px solid rgb(var(--border));background:rgb(var(--surface));display:flex;flex-direction:column;height:calc(100vh - 60px)}
+.msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem}
+.msg{font-size:.88rem}.msg b{color:rgb(var(--brand))}.msg.host b{color:rgb(var(--accent-2))}
+/* PRA-LIVE */
+.pre{min-height:calc(100vh - 60px);position:relative;display:grid;place-items:center;text-align:center;padding:2rem;overflow:hidden}
+.pre .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:var(--hero-img-opacity)}
+.pre::after{content:"";position:absolute;inset:0;background:radial-gradient(110% 80% at 50% 30%,rgb(var(--glow-color)/.18),transparent 60%),linear-gradient(to bottom,rgb(var(--bg)/.5),rgb(var(--bg)/.9))}
+.pre .inner{position:relative;z-index:1;max-width:580px}
+.cdwrap{display:flex;gap:.7rem;justify-content:center;margin:1.6rem 0}
+.cdbox{background:rgb(var(--surface)/.55);border:1px solid rgb(var(--border));border-radius:var(--r-lg);padding:1rem 1.1rem;min-width:84px}
+.cdbox b{font-family:var(--font-display);font-size:clamp(2rem,7vw,3.1rem);display:block;line-height:1;color:rgb(var(--brand));font-variant-numeric:tabular-nums}
+.cdbox span{font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:rgb(var(--text-muted))}
+/* VOD chapters */
+.vodside{border-left:1px solid rgb(var(--border));background:rgb(var(--surface));height:calc(100vh - 60px);overflow-y:auto}
+.chap{display:flex;gap:.7rem;align-items:center;padding:.75rem 1.1rem;font-size:.88rem;cursor:pointer;border-left:2px solid transparent}
+.chap:hover{background:rgb(var(--surface-alt))}
+.chap.active{background:rgb(var(--brand-subtle)/.14);border-color:rgb(var(--brand))}
+.vodframe{flex:1;width:100%;border:0;min-height:0;background:#000}
+.chap .tm{font-family:var(--font-display);color:rgb(var(--brand));font-size:.8rem;min-width:42px}
+@media(max-width:900px){.lvgrid{grid-template-columns:1fr;height:auto}.chat,.vodside{height:auto;border-left:none;border-top:1px solid rgb(var(--border))}.screen{min-height:46vh}.pre{min-height:auto;padding:3rem 1.2rem}}
+</style>
+</head>
+<body data-tabgroup>
+<div class="lvbar">
+  <a href="dashboard.html" class="icon-btn" aria-label="Kembali"><svg class="ico"><use href="#i-arrow-l"/></svg></a>
+  <span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Tanya Jawab Bab 1–2 — Bahasa Arab</span>
+  <div class="seg" style="margin-left:auto">
+    <button data-tab="pre">Pra-Live</button>
+    <button data-tab="live" aria-pressed="true">Live</button>
+    <button data-tab="vod">Rekaman</button>
+  </div>
+  <button class="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg class="ico" id="sk-mode-ic"><use href="#i-sun"/></svg></button>
+</div>
+
+<!-- ============ STATE: PRA-LIVE (COUNTDOWN) ============ -->
+<section data-panel="pre" hidden>
+  <div class="pre">
+    <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1758458045183-7e7c453a0580?auto=format&amp;fit=crop&amp;w=1100&amp;q=55')"></div>
+    <div class="inner">
+      <span class="tag tag-warn" style="margin:0 auto"><svg class="ico ico-sm"><use href="#i-clock"/></svg>AKAN DIMULAI</span>
+      <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin-top:1rem">Tanya Jawab Bab 1–2</h1>
+      <p class="muted" style="margin-top:.4rem">Sabtu, 7 Juni 2026 · 20:00 WIB · bersama Ust. Abdullah, Lc.</p>
+      <div class="cdwrap">
+        <div class="cdbox"><b id="cd-h">02</b><span>Jam</span></div>
+        <div class="cdbox"><b id="cd-m">14</b><span>Menit</span></div>
+        <div class="cdbox"><b id="cd-s">36</b><span>Detik</span></div>
+      </div>
+      <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary btn-lg"><svg class="ico ico-sm"><use href="#i-bell"/></svg>Ingatkan Saya</button>
+        <button class="btn btn-ghost btn-lg"><svg class="ico ico-sm"><use href="#i-clock"/></svg>Tambah ke Kalender</button>
+      </div>
+      <p class="muted" style="font-size:.84rem;margin-top:1.4rem"><svg class="ico ico-sm" style="display:inline;vertical-align:-3px"><use href="#i-users"/></svg> 86 santri sudah mendaftar</p>
+      <div class="card card-pad" style="margin-top:1.6rem;text-align:left;max-width:420px;margin-left:auto;margin-right:auto">
+        <p style="font-weight:600;font-size:.9rem;margin-bottom:.5rem">Yang perlu disiapkan</p>
+        <ul class="muted" style="font-size:.86rem;list-style:none;display:flex;flex-direction:column;gap:.4rem">
+          <li>• Sudah menonton materi Bab 1–2</li>
+          <li>• Siapkan pertanyaan di tab Q&amp;A</li>
+          <li>• Koneksi stabil &amp; tempat yang tenang</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATE: LIVE ============ -->
+<section data-panel="live">
+  <div class="lvgrid">
+    <div class="stage">
+      <div class="screen">
+        <img src="https://images.unsplash.com/photo-1758458045183-7e7c453a0580?auto=format&amp;fit=crop&amp;w=1000&amp;q=55" alt="">
+        <div class="badge-tl"><span class="tag tag-live"><span class="dot"></span>LIVE</span><span class="tag" style="background:rgb(0 0 0/.5);color:#fff">03:14:22</span></div>
+        <button class="icon-btn" style="position:relative;width:72px;height:72px;border-radius:999px;background:rgb(var(--brand));color:rgb(var(--brand-fg));border:none"><svg class="ico ico-lg"><use href="#i-play"/></svg></button>
+      </div>
+      <div class="controls">
+        <button class="icon-btn" aria-label="Play"><svg class="ico"><use href="#i-play"/></svg></button>
+        <div class="bar" style="flex:1;background:rgb(255 255 255/.2)"><i style="width:60%;background:rgb(var(--brand))"></i></div>
+        <button class="btn btn-sm" style="background:rgb(255 255 255/.12);color:#fff">HD</button>
+        <button class="icon-btn" aria-label="Fullscreen"><svg class="ico"><use href="#i-grid"/></svg></button>
+      </div>
+    </div>
+    <aside class="chat" data-tabgroup>
+      <div class="tabs" style="padding:0 1rem"><button data-tab="chat" aria-pressed="true">Chat</button><button data-tab="qna">Tanya (Q&amp;A)</button></div>
+      <div class="msgs" data-panel="chat">
+        <p class="msg"><b>Ahmad R.</b> Assalamu'alaikum ustadz</p>
+        <p class="msg host"><b>Ust. Abdullah</b> <span class="tag tag-success" style="font-size:.62rem">Pengajar</span> Wa'alaikumussalam, kita mulai ya.</p>
+        <p class="msg"><b>Siti K.</b> Hadir dari Bandung</p>
+        <p class="msg"><b>Budi S.</b> Bismillah</p>
+        <p class="msg"><b>Fatimah</b> Suaranya jelas alhamdulillah</p>
+      </div>
+      <div class="msgs" data-panel="qna" hidden>
+        <div class="card card-pad" style="padding:.8rem"><p class="msg" style="margin-bottom:.4rem"><b>Ahmad R.</b> Apa beda ث dan س?</p><button class="btn btn-ghost btn-sm">▲ 12 dukung</button></div>
+        <div class="card card-pad" style="padding:.8rem"><p class="msg" style="margin-bottom:.4rem"><b>Siti K.</b> Rekamannya bisa diakses nanti?</p><button class="btn btn-ghost btn-sm">▲ 8 dukung</button></div>
+      </div>
+      <div style="padding:.8rem 1rem;border-top:1px solid rgb(var(--border));display:flex;gap:.5rem"><input class="input" placeholder="Tulis pesan…"><button class="btn btn-primary btn-sm">Kirim</button></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ STATE: REKAMAN (VOD) ============ -->
+<section data-panel="vod" hidden>
+  <div class="lvgrid">
+    <div class="stage">
+      <!-- Rekaman di-embed dari Fathom. Ganti URL di src & href dengan share link rekaman. -->
+      <iframe class="vodframe" src="https://fathom.video/share/REPLACE_WITH_RECORDING_ID" title="Rekaman: Tanya Jawab Bab 1–2" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="controls" style="justify-content:space-between">
+        <span style="font-size:.78rem;display:flex;align-items:center;gap:.45rem"><svg class="ico ico-sm"><use href="#i-broadcast"/></svg>Direkam via Fathom</span>
+        <a href="https://fathom.video/share/REPLACE_WITH_RECORDING_ID" target="_blank" rel="noopener" class="btn btn-sm" style="background:rgb(255 255 255/.12);color:#fff">Buka di Fathom <svg class="ico ico-sm"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <aside class="vodside">
+      <div style="padding:.9rem 1.1rem;border-bottom:1px solid rgb(var(--border));display:flex;justify-content:space-between;align-items:center">
+        <b>Bagian Rekaman</b>
+        <button class="btn btn-ghost btn-sm"><svg class="ico ico-sm"><use href="#i-receipt"/></svg>Transkrip</button>
+      </div>
+      <div class="chap active"><span class="tm">00:00</span><span style="flex:1">Pembukaan &amp; doa</span></div>
+      <div class="chap"><span class="tm">06:30</span><span style="flex:1">Review huruf hijaiyah</span></div>
+      <div class="chap"><span class="tm">24:10</span><span style="flex:1">Tanya jawab: makhraj ث &amp; س</span></div>
+      <div class="chap"><span class="tm">48:55</span><span style="flex:1">Latihan menyusun kalimat</span></div>
+      <div class="chap"><span class="tm">1:12:00</span><span style="flex:1">Penutup &amp; PR pekan depan</span></div>
+      <div style="padding:1.1rem;border-top:1px solid rgb(var(--border))">
+        <p class="muted" style="font-size:.82rem;margin-bottom:.6rem">Rekaman sesi Sabtu, 7 Jun 2026 — di-embed dari <b style="color:rgb(var(--text))">Fathom</b>, hanya untuk peserta terdaftar. Klik penanda waktu untuk lompat di pemutar Fathom.</p>
+        <button class="btn btn-soft btn-sm btn-block"><svg class="ico ico-sm"><use href="#i-check"/></svg>Tandai sudah ditonton</button>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  var h=document.getElementById('cd-h'),m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
+  if(!h)return; var t={h:2,m:14,s:36}, p=function(n){return(n<10?'0':'')+n;};
+  setInterval(function(){
+    if(t.s>0)t.s--; else if(t.m>0){t.s=59;t.m--;} else if(t.h>0){t.s=59;t.m=59;t.h--;}
+    h.textContent=p(t.h);m.textContent=p(t.m);s.textContent=p(t.s);
+  },1000);
+})();
+</script>
+</body>
+</html>

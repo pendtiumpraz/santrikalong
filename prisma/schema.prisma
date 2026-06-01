@@ -1,0 +1,400 @@
+// SantriKalong — skema awal (subset ERD docs/backend/01-erd.md).
+// Database: Neon Postgres. Generator pakai driverAdapters (serverless).
+// Kembangkan bertahap sesuai urutan modul (docs/implementation/01-urutan-pengembangan.md).
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------- Identity & RBAC ----------
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+model User {
+  id              String     @id @default(cuid())
+  name            String
+  email           String     @unique
+  phone           String?
+  passwordHash    String?
+  avatarUrl       String?
+  status          UserStatus @default(ACTIVE)
+  permVersion     Int        @default(0)
+  emailVerifiedAt DateTime?
+  preferredTheme  String?
+  preferredMode   String?
+  createdAt       DateTime   @default(now())
+  deletedAt       DateTime?
+
+  roles       UserRole[]
+  ustadz      UstadzProfile?
+  enrollments Enrollment[]
+  orders      Order[]
+  consents    ConsentRecord[]
+  wallet      Wallet?
+  sessions    Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  isSystem    Boolean          @default(false)
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id    String           @id @default(cuid())
+  key   String           @unique
+  roles RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model UserRole {
+  userId String
+  roleId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+enum UstadzStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+model UstadzProfile {
+  id              String       @id @default(cuid())
+  userId          String       @unique
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status          UstadzStatus @default(PENDING)
+  bio             String?
+  specialization  String?
+  documents       Json?
+  revenueSharePct Int          @default(70)
+  reviewedById    String?
+  reviewedAt      DateTime?
+  rejectionReason String?
+  courses         Course[]
+  createdAt       DateTime     @default(now())
+}
+
+// ---------- Consent ----------
+model ConsentDefinition {
+  id          String   @id @default(cuid())
+  type        String
+  version     String
+  title       String
+  bodyText    String?
+  required    Boolean  @default(false)
+  locale      String   @default("id")
+  effectiveAt DateTime @default(now())
+
+  @@unique([type, version])
+}
+
+model ConsentRecord {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        String
+  version     String
+  granted     Boolean
+  grantedAt   DateTime?
+  withdrawnAt DateTime?
+  ip          String?
+  userAgent   String?
+  source      String?
+  createdAt   DateTime  @default(now())
+
+  @@index([userId, type])
+}
+
+// ---------- Catalog ----------
+enum CourseType {
+  ON_DEMAND
+  LIVE
+}
+
+enum CourseLevel {
+  PEMULA
+  MENENGAH
+  LANJUTAN
+}
+
+enum CourseStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LessonType {
+  VIDEO
+  AUDIO
+  PDF
+  PPT
+  HTML_PPT
+  TEXT
+}
+
+model Category {
+  id      String   @id @default(cuid())
+  name    String
+  slug    String   @unique
+  courses Course[]
+}
+
+model Course {
+  id           String        @id @default(cuid())
+  title        String
+  slug         String        @unique
+  description  String?
+  thumbnailKey String?
+  categoryId   String?
+  category     Category?     @relation(fields: [categoryId], references: [id])
+  ustadzId     String
+  ustadz       UstadzProfile @relation(fields: [ustadzId], references: [id])
+  type         CourseType    @default(ON_DEMAND)
+  level        CourseLevel   @default(PEMULA)
+  priceIdr     Int           @default(0)
+  isFree       Boolean       @default(false)
+  status       CourseStatus  @default(DRAFT)
+  modules      Module[]
+  enrollments  Enrollment[]
+  createdAt    DateTime      @default(now())
+  deletedAt    DateTime?
+
+  @@index([categoryId])
+  @@index([ustadzId])
+}
+
+model Module {
+  id       String   @id @default(cuid())
+  courseId String
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title    String
+  order    Int      @default(0)
+  lessons  Lesson[]
+}
+
+model Lesson {
+  id          String           @id @default(cuid())
+  moduleId    String
+  module      Module           @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title       String
+  order       Int              @default(0)
+  contentType LessonType       @default(VIDEO)
+  isPreview   Boolean          @default(false)
+  storageKey  String?
+  durationSec Int?
+  progress    LessonProgress[]
+}
+
+// ---------- Enrollment & progress ----------
+enum EnrollmentSource {
+  PURCHASE
+  MANUAL
+  FREE
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+model Enrollment {
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId   String
+  course     Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  source     EnrollmentSource @default(PURCHASE)
+  status     EnrollmentStatus @default(ACTIVE)
+  enrolledAt DateTime         @default(now())
+  expiresAt  DateTime?
+  progress   LessonProgress[]
+
+  @@unique([userId, courseId])
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model LessonProgress {
+  id           String         @id @default(cuid())
+  enrollmentId String
+  enrollment   Enrollment     @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId     String
+  lesson       Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status       ProgressStatus @default(NOT_STARTED)
+  progressPct  Int            @default(0)
+  completedAt  DateTime?
+
+  @@unique([enrollmentId, lessonId])
+}
+
+// ---------- Payment ----------
+enum GatewayProvider {
+  MIDTRANS
+  TRIPAY
+  XENDIT
+  MANUAL
+}
+
+enum GatewayMode {
+  SANDBOX
+  PRODUCTION
+}
+
+enum OrderStatus {
+  PENDING
+  WAITING_CONFIRMATION
+  PAID
+  EXPIRED
+  FAILED
+  REFUNDED
+}
+
+model PaymentGateway {
+  id          String          @id @default(cuid())
+  provider    GatewayProvider @unique
+  isActive    Boolean         @default(false)
+  mode        GatewayMode     @default(SANDBOX)
+  displayName String
+  credentials Json?
+  sortOrder   Int             @default(0)
+}
+
+model Order {
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id])
+  itemType   String
+  itemId     String
+  amountIdr  Int
+  status     OrderStatus      @default(PENDING)
+  gateway    GatewayProvider?
+  reference  String?
+  paymentUrl String?
+  paidAt     DateTime?
+  expiresAt  DateTime?
+  createdAt  DateTime         @default(now())
+  logs       PaymentLog[]
+
+  @@index([userId])
+}
+
+model PaymentLog {
+  id        String          @id @default(cuid())
+  orderId   String
+  order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider  GatewayProvider
+  eventId   String
+  payload   Json?
+  createdAt DateTime        @default(now())
+
+  @@unique([provider, eventId])
+}
+
+// ---------- Payroll (ledger anti-fraud, lihat docs/09) ----------
+model Wallet {
+  id           String        @id @default(cuid())
+  ustadzUserId String        @unique
+  user         User          @relation(fields: [ustadzUserId], references: [id], onDelete: Cascade)
+  currency     String        @default("IDR")
+  entries      WalletEntry[]
+}
+
+enum WalletEntryType {
+  EARNING_CREDIT
+  PAYOUT_DEBIT
+  PAYOUT_HOLD
+  HOLD_RELEASE
+  REVERSAL
+  ADJUSTMENT
+}
+
+model WalletEntry {
+  id        String          @id @default(cuid())
+  walletId  String
+  wallet    Wallet          @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  type      WalletEntryType
+  amountIdr Int
+  refType   String?
+  refId     String?
+  createdAt DateTime        @default(now())
+
+  @@index([walletId])
+}
+
+enum PayoutStatus {
+  REQUESTED
+  PROCESSING
+  PAID
+  REJECTED
+}
+
+model PayoutRequest {
+  id              String       @id @default(cuid())
+  ustadzUserId    String
+  amountIdr       Int
+  taxWithheldIdr  Int          @default(0)
+  netIdr          Int
+  idempotencyKey  String       @unique
+  status          PayoutStatus @default(REQUESTED)
+  bankSnapshot    Json?
+  disbursementRef String?
+  requestedAt     DateTime     @default(now())
+  processedAt     DateTime?
+  rejectionReason String?
+
+  @@index([ustadzUserId])
+}
+
+// ---------- Audit ----------
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  targetType String?
+  targetId   String?
+  meta       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+}

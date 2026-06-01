@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Superadmin — SantriKalong</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = { theme: { extend: {
+      fontFamily: { sans: ['"Plus Jakarta Sans"','sans-serif'] },
+      colors: { brand: { 50:'#ecfdf5',100:'#d1fae5',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b' } }
+    } } }
+    function nav(id, el){
+      document.querySelectorAll('[data-view]').forEach(e=>e.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.remove('bg-brand-600','text-white');b.classList.add('text-slate-600');});
+      el.classList.add('bg-brand-600','text-white'); el.classList.remove('text-slate-600');
+      document.getElementById('pageTitle').textContent = el.dataset.title;
+    }
+  </script>
+</head>
+<body class="font-sans bg-slate-100 text-slate-800">
+<div class="flex min-h-screen">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="hidden lg:flex flex-col w-64 bg-slate-900 text-slate-300 sticky top-0 h-screen">
+    <div class="px-5 h-16 flex items-center gap-2 font-extrabold text-white border-b border-slate-800">
+      <span class="grid place-items-center w-8 h-8 rounded-lg bg-brand-600">س</span> SantriKalong
+      <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold">ADMIN</span>
+    </div>
+    <nav class="flex-1 p-3 space-y-1 text-sm overflow-y-auto">
+      <p class="px-3 pt-3 pb-1 text-[10px] uppercase tracking-wider text-slate-500">Umum</p>
+      <button data-nav data-title="Dashboard" onclick="nav('v-dash',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-600 text-white font-medium">📊 Dashboard</button>
+      <button data-nav data-title="Kelas & Konten" onclick="nav('v-konten',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white">📚 Kelas & Konten</button>
+
+      <p class="px-3 pt-4 pb-1 text-[10px] uppercase tracking-wider text-slate-500">Pengguna</p>
+      <button data-nav data-title="Persetujuan Ustadz" onclick="nav('v-approval',this)" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white"><span class="flex items-center gap-3">✅ Approval Ustadz</span><span class="text-[10px] px-1.5 py-0.5 rounded-full bg-red-500 text-white font-bold">3</span></button>
+      <button data-nav data-title="RBAC — Role & Hak Akses" onclick="nav('v-rbac',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white">🛡️ RBAC & Roles</button>
+
+      <p class="px-3 pt-4 pb-1 text-[10px] uppercase tracking-wider text-slate-500">Keuangan</p>
+      <button data-nav data-title="Metode Pembayaran" onclick="nav('v-payment',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white">💳 Gateway Pembayaran</button>
+      <button data-nav data-title="Penggajian Ustadz" onclick="nav('v-payroll',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white">💰 Penggajian Ustadz</button>
+      <button data-nav data-title="Pengaturan Pajak" onclick="nav('v-tax',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white">🧾 Pengaturan Pajak</button>
+      <button data-nav data-title="Transaksi" onclick="nav('v-trx',this)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-800 hover:text-white">🧮 Transaksi</button>
+    </nav>
+    <div class="p-3 border-t border-slate-800 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-amber-300"></div><div class="text-xs"><p class="text-white font-semibold">Superadmin</p><p class="text-slate-500">admin@santrikalong.com</p></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="flex-1 min-w-0">
+    <header class="sticky top-0 z-40 bg-white border-b border-slate-200 h-16 flex items-center px-5 justify-between">
+      <h1 id="pageTitle" class="font-bold text-lg text-slate-900">Dashboard</h1>
+      <div class="flex items-center gap-3"><button class="relative text-slate-500">🔔<span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span></button><a href="index.html" class="text-sm text-slate-500 hover:text-brand-700">Lihat Situs ↗</a></div>
+    </header>
+
+    <main class="p-5">
+
+      <!-- ===== DASHBOARD ===== -->
+      <section id="v-dash" data-view>
+        <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Pendapatan Bulan Ini</p><p class="text-2xl font-extrabold text-slate-900 mt-1">Rp 48,2 jt</p><p class="text-xs text-emerald-600 mt-1">▲ 12% vs bulan lalu</p></div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Santri Aktif</p><p class="text-2xl font-extrabold text-slate-900 mt-1">8.512</p><p class="text-xs text-emerald-600 mt-1">▲ 240 baru</p></div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Ustadz Aktif</p><p class="text-2xl font-extrabold text-slate-900 mt-1">35</p><p class="text-xs text-amber-600 mt-1">3 menunggu approval</p></div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Saldo Payout Ustadz</p><p class="text-2xl font-extrabold text-slate-900 mt-1">Rp 21,7 jt</p><p class="text-xs text-slate-400 mt-1">belum diklaim</p></div>
+        </div>
+        <div class="grid lg:grid-cols-3 gap-4 mt-4">
+          <div class="lg:col-span-2 rounded-2xl bg-white border border-slate-200 p-5">
+            <p class="font-bold text-slate-900 mb-4">Grafik Penjualan</p>
+            <div class="h-48 flex items-end gap-2">
+              <div class="flex-1 bg-brand-200 rounded-t" style="height:40%"></div><div class="flex-1 bg-brand-300 rounded-t" style="height:65%"></div><div class="flex-1 bg-brand-400 rounded-t" style="height:50%"></div><div class="flex-1 bg-brand-500 rounded-t" style="height:80%"></div><div class="flex-1 bg-brand-600 rounded-t" style="height:70%"></div><div class="flex-1 bg-brand-700 rounded-t" style="height:95%"></div>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <p class="font-bold text-slate-900 mb-3">Aktivitas Terbaru</p>
+            <ul class="space-y-3 text-sm text-slate-600">
+              <li>✅ Ust. Yusuf disetujui</li>
+              <li>💳 Pembayaran Rp149rb (Midtrans)</li>
+              <li>💰 Klaim payout Rp1,2jt diproses</li>
+              <li>📚 Kelas "Tahsin" dipublikasi</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== APPROVAL USTADZ ===== -->
+      <section id="v-approval" data-view class="hidden">
+        <div class="rounded-2xl bg-white border border-slate-200 overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <p class="font-bold text-slate-900">Pendaftaran Ustadz Menunggu Persetujuan</p>
+            <div class="flex gap-2 text-xs"><button class="px-3 py-1.5 rounded-lg bg-brand-600 text-white">Pending (3)</button><button class="px-3 py-1.5 rounded-lg border border-slate-200">Disetujui</button><button class="px-3 py-1.5 rounded-lg border border-slate-200">Ditolak</button></div>
+          </div>
+          <div class="divide-y divide-slate-100">
+            <div class="p-5 flex flex-wrap items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-sky-200"></div>
+              <div class="flex-1 min-w-[200px]"><p class="font-semibold text-slate-900">Ust. Hamzah Abdul Karim, M.A.</p><p class="text-xs text-slate-500">Spesialisasi: Sirah & Hadits • Lulusan Univ. Madinah</p>
+                <div class="flex gap-2 mt-2 text-xs"><span class="px-2 py-0.5 rounded bg-slate-100">📄 CV.pdf</span><span class="px-2 py-0.5 rounded bg-slate-100">📜 Ijazah.pdf</span><span class="px-2 py-0.5 rounded bg-slate-100">🪪 Sanad.pdf</span></div>
+              </div>
+              <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700 font-semibold">Pending</span>
+              <div class="flex gap-2"><button class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold">Setujui</button><button class="px-4 py-2 rounded-lg border border-red-200 text-red-600 text-sm font-semibold">Tolak</button><button class="px-3 py-2 rounded-lg border border-slate-200 text-sm">Detail</button></div>
+            </div>
+            <div class="p-5 flex flex-wrap items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-rose-200"></div>
+              <div class="flex-1 min-w-[200px]"><p class="font-semibold text-slate-900">Ustadzah Aisyah Nuraini</p><p class="text-xs text-slate-500">Spesialisasi: Tahsin Anak • Sertifikat Tilawati</p>
+                <div class="flex gap-2 mt-2 text-xs"><span class="px-2 py-0.5 rounded bg-slate-100">📄 CV.pdf</span><span class="px-2 py-0.5 rounded bg-slate-100">📜 Sertifikat.pdf</span></div>
+              </div>
+              <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700 font-semibold">Pending</span>
+              <div class="flex gap-2"><button class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold">Setujui</button><button class="px-4 py-2 rounded-lg border border-red-200 text-red-600 text-sm font-semibold">Tolak</button><button class="px-3 py-2 rounded-lg border border-slate-200 text-sm">Detail</button></div>
+            </div>
+            <div class="p-5 flex flex-wrap items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-violet-200"></div>
+              <div class="flex-1 min-w-[200px]"><p class="font-semibold text-slate-900">Ust. Bilal Ramadhan, Lc.</p><p class="text-xs text-slate-500">Spesialisasi: Bahasa Arab • Lulusan LIPIA</p>
+                <div class="flex gap-2 mt-2 text-xs"><span class="px-2 py-0.5 rounded bg-slate-100">📄 CV.pdf</span><span class="px-2 py-0.5 rounded bg-slate-100">📜 Ijazah.pdf</span></div>
+              </div>
+              <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700 font-semibold">Pending</span>
+              <div class="flex gap-2"><button class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold">Setujui</button><button class="px-4 py-2 rounded-lg border border-red-200 text-red-600 text-sm font-semibold">Tolak</button><button class="px-3 py-2 rounded-lg border border-slate-200 text-sm">Detail</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== RBAC ===== -->
+      <section id="v-rbac" data-view class="hidden">
+        <div class="grid lg:grid-cols-3 gap-4">
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <div class="flex items-center justify-between mb-4"><p class="font-bold text-slate-900">Roles</p><button class="text-xs px-3 py-1.5 rounded-lg bg-brand-600 text-white">+ Role Baru</button></div>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-center justify-between p-3 rounded-lg bg-brand-50 border border-brand-200"><span class="font-semibold text-brand-800">Superadmin</span><span class="text-xs text-slate-400">1 user</span></li>
+              <li class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span>Admin</span><span class="text-xs text-slate-400">2 user</span></li>
+              <li class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span>Ustadz</span><span class="text-xs text-slate-400">35 user</span></li>
+              <li class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span>Santri</span><span class="text-xs text-slate-400">8.512 user</span></li>
+            </ul>
+          </div>
+          <div class="lg:col-span-2 rounded-2xl bg-white border border-slate-200 p-5">
+            <p class="font-bold text-slate-900 mb-1">Hak Akses — Role: <span class="text-brand-700">Admin</span></p>
+            <p class="text-xs text-slate-400 mb-4">Centang permission yang dimiliki role ini.</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">user.approve</code> — Menyetujui ustadz</span><input type="checkbox" class="accent-brand-600" checked></label>
+              <label class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">rbac.manage</code> — Kelola role & hak akses</span><input type="checkbox" class="accent-brand-600"></label>
+              <label class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">payment.gateway.toggle</code> — Atur gateway</span><input type="checkbox" class="accent-brand-600"></label>
+              <label class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">payout.approve</code> — Setujui klaim ustadz</span><input type="checkbox" class="accent-brand-600" checked></label>
+              <label class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">class.publish</code> — Publikasi kelas</span><input type="checkbox" class="accent-brand-600" checked></label>
+              <label class="flex items-center justify-between p-3 rounded-lg border border-slate-200"><span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded">tax.manage</code> — Atur pajak</span><input type="checkbox" class="accent-brand-600"></label>
+            </div>
+            <button class="mt-4 px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold">Simpan Perubahan</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== GATEWAY PEMBAYARAN ===== -->
+      <section id="v-payment" data-view class="hidden">
+        <p class="text-sm text-slate-500 mb-4">Aktifkan/nonaktifkan gateway dan isi kredensialnya. Hanya gateway aktif yang muncul di checkout santri.</p>
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- Midtrans -->
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-sky-100 text-sky-700 grid place-items-center font-bold">MT</span><div><p class="font-bold text-slate-900">Midtrans</p><p class="text-xs text-slate-400">VA, QRIS, Kartu, E-wallet</p></div></div>
+              <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" class="sr-only peer" checked><div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div></label>
+            </div>
+            <div class="mt-4 space-y-2 text-sm">
+              <div class="flex gap-2"><span class="text-xs px-2 py-1 rounded bg-emerald-50 text-emerald-700 font-semibold">● Aktif</span><span class="text-xs px-2 py-1 rounded bg-slate-100">Mode: Production</span></div>
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="Server Key" value="••••••••••••" type="password">
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="Client Key">
+            </div>
+          </div>
+          <!-- Tripay -->
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-orange-100 text-orange-700 grid place-items-center font-bold">TP</span><div><p class="font-bold text-slate-900">Tripay</p><p class="text-xs text-slate-400">Retail, VA, QRIS</p></div></div>
+              <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" class="sr-only peer" checked><div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div></label>
+            </div>
+            <div class="mt-4 space-y-2 text-sm">
+              <div class="flex gap-2"><span class="text-xs px-2 py-1 rounded bg-emerald-50 text-emerald-700 font-semibold">● Aktif</span><span class="text-xs px-2 py-1 rounded bg-amber-50 text-amber-700">Mode: Sandbox</span></div>
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="API Key">
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="Private Key / Merchant Code">
+            </div>
+          </div>
+          <!-- Xendit -->
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-violet-100 text-violet-700 grid place-items-center font-bold">XD</span><div><p class="font-bold text-slate-900">Xendit</p><p class="text-xs text-slate-400">E-wallet, VA, Kartu, Payout</p></div></div>
+              <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" class="sr-only peer"><div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div></label>
+            </div>
+            <div class="mt-4 space-y-2 text-sm">
+              <div class="flex gap-2"><span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-500 font-semibold">○ Nonaktif</span></div>
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2 bg-slate-50" placeholder="Secret API Key" disabled>
+            </div>
+          </div>
+          <!-- Manual -->
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <div class="flex items-center justify-between"><div class="flex items-center gap-3"><span class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 grid place-items-center text-xl">🏦</span><div><p class="font-bold text-slate-900">Transfer Manual</p><p class="text-xs text-slate-400">Upload bukti, verifikasi admin</p></div></div>
+              <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" class="sr-only peer" checked><div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div></label>
+            </div>
+            <div class="mt-4 space-y-2 text-sm">
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="Nama Bank" value="BSI">
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="No. Rekening" value="7001234567">
+              <input class="w-full rounded-lg border border-slate-200 px-3 py-2" placeholder="Atas Nama" value="Yayasan SantriKalong">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PENGGAJIAN USTADZ ===== -->
+      <section id="v-payroll" data-view class="hidden space-y-4">
+        <div class="grid sm:grid-cols-4 gap-4">
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Total Pendapatan Ustadz (bln ini)</p><p class="text-xl font-extrabold text-slate-900 mt-1">Rp 33,7 jt</p></div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Pajak Dipotong</p><p class="text-xl font-extrabold text-slate-900 mt-1">Rp 168.500</p><p class="text-xs text-slate-400">PPh Final 0,5%</p></div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Saldo Belum Diklaim</p><p class="text-xl font-extrabold text-slate-900 mt-1">Rp 21,7 jt</p></div>
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="text-sm text-slate-500">Klaim Menunggu</p><p class="text-xl font-extrabold text-amber-600 mt-1">4 permintaan</p></div>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <p class="font-bold text-slate-900">Rekap Pendapatan Ustadz — Juni 2026</p>
+            <div class="flex gap-2"><button class="text-xs px-3 py-1.5 rounded-lg border border-slate-200">Export CSV</button><button class="text-xs px-3 py-1.5 rounded-lg bg-brand-600 text-white">Proses Payout Massal</button></div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+                <tr><th class="text-left px-5 py-3 font-medium">Ustadz</th><th class="text-right px-3 py-3 font-medium">Terjual</th><th class="text-right px-3 py-3 font-medium">Bruto</th><th class="text-right px-3 py-3 font-medium">Bagi Hasil 70%</th><th class="text-right px-3 py-3 font-medium">Pajak</th><th class="text-right px-3 py-3 font-medium">Net / Saldo</th><th class="text-right px-5 py-3 font-medium">Status</th></tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="px-5 py-3"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-amber-300"></div><div><p class="font-semibold text-slate-800">Ust. Abdullah, Lc.</p><p class="text-xs text-slate-400">NPWP ✓ • UMKM 0,5%</p></div></div></td>
+                  <td class="px-3 py-3 text-right">84</td>
+                  <td class="px-3 py-3 text-right">Rp 12.516.000</td>
+                  <td class="px-3 py-3 text-right">Rp 8.761.200</td>
+                  <td class="px-3 py-3 text-right text-rose-600">−Rp 62.580</td>
+                  <td class="px-3 py-3 text-right font-bold text-slate-900">Rp 8.698.620</td>
+                  <td class="px-5 py-3 text-right"><span class="text-xs px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold">Tersedia</span></td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-rose-300"></div><div><p class="font-semibold text-slate-800">Ustadzah Fatimah</p><p class="text-xs text-slate-400">NPWP ✓ • UMKM 0,5%</p></div></div></td>
+                  <td class="px-3 py-3 text-right">61</td>
+                  <td class="px-3 py-3 text-right">Rp 9.150.000</td>
+                  <td class="px-3 py-3 text-right">Rp 6.405.000</td>
+                  <td class="px-3 py-3 text-right text-rose-600">−Rp 45.750</td>
+                  <td class="px-3 py-3 text-right font-bold text-slate-900">Rp 6.359.250</td>
+                  <td class="px-5 py-3 text-right"><span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700 font-semibold">Klaim diajukan</span></td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-3"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-sky-300"></div><div><p class="font-semibold text-slate-800">Ust. Hamzah, M.A.</p><p class="text-xs text-rose-500">NPWP ✗ • +20% tarif</p></div></div></td>
+                  <td class="px-3 py-3 text-right">39</td>
+                  <td class="px-3 py-3 text-right">Rp 3.861.000</td>
+                  <td class="px-3 py-3 text-right">Rp 2.702.700</td>
+                  <td class="px-3 py-3 text-right text-rose-600">−Rp 16.216</td>
+                  <td class="px-3 py-3 text-right font-bold text-slate-900">Rp 2.686.484</td>
+                  <td class="px-5 py-3 text-right"><span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-500 font-semibold">Saldo (carry)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-5 py-3 bg-slate-50 text-xs text-slate-500">💡 Pajak dihitung otomatis sesuai <b>Pengaturan Pajak</b>. Saldo yang tidak diklaim tetap terakumulasi (carry-over), tidak hangus.</div>
+        </div>
+
+        <!-- klaim menunggu -->
+        <div class="rounded-2xl bg-white border border-slate-200 p-5">
+          <p class="font-bold text-slate-900 mb-3">Permintaan Klaim (Payout) Menunggu</p>
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-3 p-3 rounded-xl border border-slate-200">
+              <div class="w-9 h-9 rounded-full bg-rose-300"></div>
+              <div class="flex-1 min-w-[180px]"><p class="font-semibold text-sm">Ustadzah Fatimah</p><p class="text-xs text-slate-400">BSI · 700••••567 a.n. Fatimah</p></div>
+              <p class="font-bold text-slate-900">Rp 6.359.250</p>
+              <div class="flex gap-2"><button class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold">Setujui & Transfer</button><button class="px-3 py-2 rounded-lg border border-red-200 text-red-600 text-sm">Tolak</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PENGATURAN PAJAK ===== -->
+      <section id="v-tax" data-view class="hidden">
+        <div class="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800 mb-4">
+          ⚠️ <b>Disclaimer:</b> Pengaturan ini bukan nasihat pajak. Sesuaikan dengan regulasi berlaku & konsultan pajak. Per Juni 2026: <b>PP 20/2026</b> menjadikan PPh Final UMKM 0,5% berlaku tanpa batas waktu untuk Orang Pribadi (omzet ≤ Rp4,8 M/th; ≤ Rp500 jt/th bebas pajak).
+        </div>
+        <div class="grid lg:grid-cols-2 gap-4">
+          <div class="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
+            <p class="font-bold text-slate-900">Skema Pajak Penghasilan Ustadz</p>
+            <div>
+              <label class="text-sm font-medium text-slate-700">Mode Pajak</label>
+              <select class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm">
+                <option>UMKM Final 0,5% (PP 20/2026)</option>
+                <option>PPh 21 Bukan Pegawai (Tarif Ps.17 × 50% × bruto)</option>
+                <option>Custom Flat (%)</option>
+                <option>Tanpa Potongan (ustadz lapor mandiri)</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="text-sm text-slate-700">Tarif Final (%)</label><input class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value="0.5"></div>
+              <div><label class="text-sm text-slate-700">Surcharge non-NPWP (%)</label><input class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value="20"></div>
+              <div><label class="text-sm text-slate-700">Bebas pajak ≤ (Rp/th)</label><input class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value="500.000.000"></div>
+              <div><label class="text-sm text-slate-700">Batas omzet UMKM (Rp/th)</label><input class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value="4.800.000.000"></div>
+            </div>
+            <button class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold">Simpan Pengaturan</button>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-slate-200 p-5">
+            <p class="font-bold text-slate-900 mb-3">Tabel Tarif Pasal 17 (Progresif)</p>
+            <p class="text-xs text-slate-400 mb-3">Dipakai bila mode = PPh 21 Bukan Pegawai.</p>
+            <table class="w-full text-sm">
+              <thead class="text-xs text-slate-500"><tr><th class="text-left py-2">Lapisan Penghasilan</th><th class="text-right py-2">Tarif</th></tr></thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr><td class="py-2">s/d Rp 60 jt</td><td class="text-right">5%</td></tr>
+                <tr><td class="py-2">Rp 60 – 250 jt</td><td class="text-right">15%</td></tr>
+                <tr><td class="py-2">Rp 250 – 500 jt</td><td class="text-right">25%</td></tr>
+                <tr><td class="py-2">Rp 500 jt – 5 M</td><td class="text-right">30%</td></tr>
+                <tr><td class="py-2">di atas Rp 5 M</td><td class="text-right">35%</td></tr>
+              </tbody>
+            </table>
+            <p class="mt-3 text-xs text-slate-400">Bracket bisa diedit bila aturan berubah.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TRANSAKSI (ringkas) ===== -->
+      <section id="v-trx" data-view class="hidden">
+        <div class="rounded-2xl bg-white border border-slate-200 overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100"><p class="font-bold text-slate-900">Transaksi Terbaru</p></div>
+          <div class="overflow-x-auto"><table class="w-full text-sm">
+            <thead class="bg-slate-50 text-slate-500 text-xs uppercase"><tr><th class="text-left px-5 py-3 font-medium">Invoice</th><th class="text-left px-3 py-3 font-medium">Santri</th><th class="text-left px-3 py-3 font-medium">Kelas</th><th class="text-left px-3 py-3 font-medium">Gateway</th><th class="text-right px-3 py-3 font-medium">Jumlah</th><th class="text-right px-5 py-3 font-medium">Status</th></tr></thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-5 py-3 font-mono text-xs">INV-20260601-001</td><td class="px-3 py-3">Ahmad R.</td><td class="px-3 py-3">Bahasa Arab Pemula</td><td class="px-3 py-3">Midtrans</td><td class="px-3 py-3 text-right">Rp 151.500</td><td class="px-5 py-3 text-right"><span class="text-xs px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold">Lunas</span></td></tr>
+              <tr><td class="px-5 py-3 font-mono text-xs">INV-20260601-002</td><td class="px-3 py-3">Siti K.</td><td class="px-3 py-3">Tahsin Tilawati</td><td class="px-3 py-3">Tripay</td><td class="px-3 py-3 text-right">Rp 250.000</td><td class="px-5 py-3 text-right"><span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700 font-semibold">Pending</span></td></tr>
+              <tr><td class="px-5 py-3 font-mono text-xs">INV-20260531-118</td><td class="px-3 py-3">Budi S.</td><td class="px-3 py-3">Dauroh Sirah</td><td class="px-3 py-3">Manual</td><td class="px-3 py-3 text-right">Rp 99.000</td><td class="px-5 py-3 text-right"><span class="text-xs px-2 py-1 rounded-full bg-sky-50 text-sky-700 font-semibold">Verifikasi</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <section id="v-konten" data-view class="hidden">
+        <div class="rounded-2xl bg-white border border-slate-200 p-8 text-center text-slate-400">📚 Manajemen Kelas & Konten — daftar kelas, modul, materi, moderasi (mockup ringkas).</div>
+      </section>
+
+    </main>
+  </div>
+</div>
+</body>
+</html>

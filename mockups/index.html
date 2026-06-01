@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SantriKalong — Belajar Ilmu Agama & Bahasa Online</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        colors: { brand: { 50:'#ecfdf5',100:'#d1fae5',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b' } }
+      } }
+    }
+  </script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800">
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="#" class="flex items-center gap-2 font-extrabold text-brand-700 text-lg">
+        <span class="grid place-items-center w-9 h-9 rounded-xl bg-brand-600 text-white">س</span>
+        SantriKalong
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="#katalog" class="hover:text-brand-700">Katalog</a>
+        <a href="#" class="hover:text-brand-700">Dauroh</a>
+        <a href="#" class="hover:text-brand-700">Live Kelas</a>
+        <a href="#" class="hover:text-brand-700">Jadi Pengajar</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="#" class="hidden sm:inline px-4 py-2 text-sm font-semibold text-slate-700 hover:text-brand-700">Masuk</a>
+        <a href="#" class="px-4 py-2 text-sm font-semibold rounded-lg bg-brand-600 text-white hover:bg-brand-700">Daftar Gratis</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-800 via-brand-700 to-emerald-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-xs font-semibold mb-5">🌙 Belajar dari rumah, kapan saja</span>
+        <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Menuntut ilmu agama & bahasa Arab, lebih mudah.</h1>
+        <p class="mt-5 text-emerald-50/90 text-lg">Kelas tahsin, bahasa Arab, dauroh online — secara <b>live</b> maupun <b>rekaman</b>. Dibimbing ustadz tepercaya, lengkap dengan materi & kuis.</p>
+        <div class="mt-7 flex flex-col sm:flex-row gap-3">
+          <a href="#katalog" class="px-6 py-3 rounded-xl bg-white text-brand-700 font-bold text-center hover:bg-emerald-50">Jelajahi Kelas</a>
+          <a href="#" class="px-6 py-3 rounded-xl bg-white/10 border border-white/30 font-semibold text-center hover:bg-white/20">Lihat Jadwal Live</a>
+        </div>
+        <div class="mt-8 flex items-center gap-6 text-sm text-emerald-50/80">
+          <div><span class="text-2xl font-extrabold text-white">120+</span><br>Kelas</div>
+          <div><span class="text-2xl font-extrabold text-white">35</span><br>Ustadz</div>
+          <div><span class="text-2xl font-extrabold text-white">8.500+</span><br>Santri</div>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="rounded-2xl bg-white/10 border border-white/20 p-4 backdrop-blur">
+          <div class="aspect-video rounded-xl bg-gradient-to-tr from-emerald-500 to-emerald-300 grid place-items-center text-white/90">
+            <div class="text-center">
+              <div class="w-16 h-16 mx-auto rounded-full bg-white/30 grid place-items-center text-3xl">▶</div>
+              <p class="mt-3 font-semibold">Cuplikan Kelas</p>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-amber-300"></div>
+            <div><p class="font-semibold text-white text-sm">Ust. Abdullah, Lc.</p><p class="text-xs text-emerald-50/70">Bahasa Arab Dasar</p></div>
+            <span class="ml-auto px-2 py-1 rounded-md bg-red-500 text-xs font-bold animate-pulse">● LIVE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KATEGORI ============ -->
+  <section class="max-w-7xl mx-auto px-4 py-12">
+    <h2 class="text-xl font-bold text-slate-900 mb-6">Kategori Pembelajaran</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <a href="#" class="group p-5 rounded-xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-md transition">
+        <div class="w-11 h-11 rounded-lg bg-brand-50 text-brand-600 grid place-items-center text-xl mb-3">ع</div>
+        <p class="font-semibold text-slate-900">Bahasa Arab</p><p class="text-xs text-slate-500">24 kelas</p>
+      </a>
+      <a href="#" class="group p-5 rounded-xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-md transition">
+        <div class="w-11 h-11 rounded-lg bg-amber-50 text-amber-600 grid place-items-center text-xl mb-3">۝</div>
+        <p class="font-semibold text-slate-900">Tahsin & Tahfizh</p><p class="text-xs text-slate-500">18 kelas</p>
+      </a>
+      <a href="#" class="group p-5 rounded-xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-md transition">
+        <div class="w-11 h-11 rounded-lg bg-sky-50 text-sky-600 grid place-items-center text-xl mb-3">📡</div>
+        <p class="font-semibold text-slate-900">Dauroh Online</p><p class="text-xs text-slate-500">9 event</p>
+      </a>
+      <a href="#" class="group p-5 rounded-xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-md transition">
+        <div class="w-11 h-11 rounded-lg bg-rose-50 text-rose-600 grid place-items-center text-xl mb-3">📖</div>
+        <p class="font-semibold text-slate-900">Fiqih & Aqidah</p><p class="text-xs text-slate-500">31 kelas</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ KATALOG ============ -->
+  <section id="katalog" class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <h2 class="text-xl font-bold text-slate-900">Katalog Kelas</h2>
+      <div class="flex flex-wrap gap-2 text-sm">
+        <button class="px-3 py-1.5 rounded-lg bg-brand-600 text-white font-medium">Semua</button>
+        <button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-400">Live</button>
+        <button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-400">Rekaman</button>
+        <button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-brand-400">Gratis</button>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Card template -->
+      <article class="rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative aspect-video bg-gradient-to-tr from-emerald-400 to-emerald-200">
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-md bg-white/90 text-xs font-bold text-brand-700">Bahasa Arab</span>
+          <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-slate-900/70 text-white text-xs">Rekaman</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-slate-900 leading-snug">Bahasa Arab untuk Pemula — Dasar Nahwu</h3>
+          <p class="mt-1 text-sm text-slate-500">Ust. Abdullah, Lc.</p>
+          <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+            <span>⭐ 4.9 (212)</span><span>•</span><span>32 materi</span><span>•</span><span>Pemula</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div><span class="text-lg font-extrabold text-brand-700">Rp 149.000</span></div>
+            <a href="detail-kelas.html" class="px-3 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold group-hover:bg-brand-600 group-hover:text-white transition">Lihat Kelas</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative aspect-video bg-gradient-to-tr from-amber-400 to-amber-200">
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-md bg-white/90 text-xs font-bold text-amber-700">Tahsin</span>
+          <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-red-500 text-white text-xs font-bold">● LIVE</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-slate-900 leading-snug">Tahsin Al-Qur'an Metode Tilawati (Live)</h3>
+          <p class="mt-1 text-sm text-slate-500">Ustadzah Fatimah</p>
+          <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+            <span>⭐ 5.0 (98)</span><span>•</span><span>Setiap Sabtu</span><span>•</span><span>Semua level</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div><span class="text-lg font-extrabold text-brand-700">Rp 250.000</span></div>
+            <a href="detail-kelas.html" class="px-3 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold group-hover:bg-brand-600 group-hover:text-white transition">Lihat Kelas</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative aspect-video bg-gradient-to-tr from-sky-400 to-sky-200">
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-md bg-white/90 text-xs font-bold text-sky-700">Dauroh</span>
+          <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-slate-900/70 text-white text-xs">Event</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-slate-900 leading-snug">Dauroh Online: Mengenal Sirah Nabawiyah</h3>
+          <p class="mt-1 text-sm text-slate-500">Ust. Hamzah, M.A.</p>
+          <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+            <span>📅 15–17 Jun</span><span>•</span><span>Kuota 200</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div><span class="text-sm line-through text-slate-400">Rp 200rb</span> <span class="text-lg font-extrabold text-brand-700">Rp 99.000</span></div>
+            <a href="detail-kelas.html" class="px-3 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold group-hover:bg-brand-600 group-hover:text-white transition">Daftar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative aspect-video bg-gradient-to-tr from-rose-400 to-rose-200">
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-md bg-white/90 text-xs font-bold text-rose-700">Fiqih</span>
+          <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-emerald-600 text-white text-xs font-bold">GRATIS</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-slate-900 leading-snug">Fiqih Thaharah untuk Sehari-hari</h3>
+          <p class="mt-1 text-sm text-slate-500">Ust. Yusuf</p>
+          <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+            <span>⭐ 4.8 (340)</span><span>•</span><span>12 materi</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div><span class="text-lg font-extrabold text-emerald-600">Gratis</span></div>
+            <a href="detail-kelas.html" class="px-3 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold group-hover:bg-brand-600 group-hover:text-white transition">Lihat Kelas</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative aspect-video bg-gradient-to-tr from-violet-400 to-violet-200">
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-md bg-white/90 text-xs font-bold text-violet-700">Bahasa Arab</span>
+          <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-slate-900/70 text-white text-xs">Rekaman</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-slate-900 leading-snug">Muhadatsah: Percakapan Arab Praktis</h3>
+          <p class="mt-1 text-sm text-slate-500">Ust. Abdullah, Lc.</p>
+          <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+            <span>⭐ 4.7 (156)</span><span>•</span><span>28 materi</span><span>•</span><span>Menengah</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div><span class="text-lg font-extrabold text-brand-700">Rp 175.000</span></div>
+            <a href="detail-kelas.html" class="px-3 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold group-hover:bg-brand-600 group-hover:text-white transition">Lihat Kelas</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative aspect-video bg-gradient-to-tr from-teal-400 to-teal-200">
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-md bg-white/90 text-xs font-bold text-teal-700">Tahfizh</span>
+          <span class="absolute top-3 right-3 px-2 py-1 rounded-md bg-slate-900/70 text-white text-xs">Rekaman</span>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-slate-900 leading-snug">Program Tahfizh Juz 30 Terbimbing</h3>
+          <p class="mt-1 text-sm text-slate-500">Ustadzah Fatimah</p>
+          <div class="mt-3 flex items-center gap-3 text-xs text-slate-500">
+            <span>⭐ 4.9 (201)</span><span>•</span><span>30 materi</span>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div><span class="text-lg font-extrabold text-brand-700">Rp 199.000</span></div>
+            <a href="detail-kelas.html" class="px-3 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold group-hover:bg-brand-600 group-hover:text-white transition">Lihat Kelas</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CTA PENGAJAR ============ -->
+  <section class="max-w-7xl mx-auto px-4 py-12">
+    <div class="rounded-2xl bg-gradient-to-r from-brand-700 to-emerald-600 text-white p-8 md:p-12 flex flex-col md:flex-row items-center gap-6">
+      <div class="flex-1">
+        <h2 class="text-2xl font-extrabold">Punya ilmu untuk dibagikan?</h2>
+        <p class="mt-2 text-emerald-50/90">Daftar jadi pengajar, buat kelas, dan dapatkan bagi hasil dari setiap santri yang mendaftar.</p>
+      </div>
+      <a href="#" class="px-6 py-3 rounded-xl bg-white text-brand-700 font-bold">Daftar Jadi Pengajar</a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-slate-900 text-slate-300 mt-8">
+    <div class="max-w-7xl mx-auto px-4 py-12 grid md:grid-cols-4 gap-8 text-sm">
+      <div>
+        <div class="flex items-center gap-2 font-extrabold text-white text-lg mb-3">
+          <span class="grid place-items-center w-8 h-8 rounded-lg bg-brand-600">س</span> SantriKalong
+        </div>
+        <p class="text-slate-400">Platform belajar ilmu agama & bahasa Arab untuk semua kalangan.</p>
+      </div>
+      <div><p class="font-semibold text-white mb-3">Belajar</p><ul class="space-y-2 text-slate-400"><li>Katalog</li><li>Dauroh</li><li>Live Kelas</li></ul></div>
+      <div><p class="font-semibold text-white mb-3">Platform</p><ul class="space-y-2 text-slate-400"><li>Jadi Pengajar</li><li>Tentang Kami</li><li>Kontak</li></ul></div>
+      <div><p class="font-semibold text-white mb-3">Bantuan</p><ul class="space-y-2 text-slate-400"><li>Pusat Bantuan</li><li>Kebijakan Privasi</li><li>Syarat & Ketentuan</li></ul></div>
+    </div>
+    <div class="border-t border-slate-800 py-5 text-center text-xs text-slate-500">© 2026 SantriKalong.com — Semua hak dilindungi.</div>
+  </footer>
+
+</body>
+</html>
