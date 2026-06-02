@@ -76,6 +76,15 @@ export function AppClient() {
     });
     document.getElementById("sk-sb-toggle")?.addEventListener("click", () => document.querySelector(".sidebar")?.classList.toggle("open"));
     document.querySelectorAll<HTMLElement>("[data-toggle]").forEach((b) => b.addEventListener("click", () => document.querySelector(b.getAttribute("data-toggle")!)?.classList.toggle("show")));
+    // [data-reveal="#id"] pada radio: tampilkan target hanya saat radio ini terpilih (mis. bukti transfer manual)
+    document.querySelectorAll<HTMLInputElement>("[data-reveal]").forEach((reveal) => {
+      const target = document.querySelector<HTMLElement>(reveal.getAttribute("data-reveal")!);
+      const name = reveal.getAttribute("name");
+      if (!target || !name) return;
+      document.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`).forEach((r) =>
+        r.addEventListener("change", () => { target.hidden = !reveal.checked; })
+      );
+    });
     document.querySelectorAll<HTMLElement>("[data-open]").forEach((b) => b.addEventListener("click", () => document.querySelector(b.getAttribute("data-open")!)?.classList.add("open")));
     document.querySelectorAll<HTMLElement>("[data-close]").forEach((b) => b.addEventListener("click", () => b.closest(".overlay,.drawer")?.classList.remove("open")));
     document.querySelectorAll<HTMLElement>(".overlay").forEach((o) => o.addEventListener("click", (e) => { if (e.target === o) o.classList.remove("open"); }));
