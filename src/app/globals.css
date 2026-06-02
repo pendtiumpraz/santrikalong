@@ -463,3 +463,70 @@ details.acc li .ico{color:rgb(var(--brand))}
 .qmeta{font-size:clamp(.56rem,1.3vw,.68rem);color:rgb(var(--text-muted));text-align:right;margin-top:.3rem}
 .qmeta b{font-family:var(--font-display);color:rgb(var(--brand));display:block}
 @media(max-width:680px){.cert{aspect-ratio:auto;min-height:520px}.cert .foot{position:static;margin-top:1.6rem;padding:0;flex-wrap:wrap;justify-content:center;gap:1.4rem}.cert .inner{position:static;justify-content:flex-start}}
+
+/* ============================================================
+   Profil & pengaturan (page-specific)
+   ============================================================ */
+.set-grid{display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
+.set-nav{position:sticky;top:88px;display:flex;flex-direction:column;gap:.2rem}
+.theme-pick{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.tp{border:1px solid rgb(var(--border));border-radius:var(--r-md);padding:.8rem;cursor:pointer;text-align:left;background:transparent;color:rgb(var(--text))}
+.tp[aria-pressed="true"]{border-color:rgb(var(--brand));box-shadow:0 0 0 1px rgb(var(--brand))}
+.tp .sw{display:flex;gap:4px;margin-bottom:.5rem}.tp .sw i{width:22px;height:22px;border-radius:5px}
+@media(max-width:760px){.set-grid{grid-template-columns:1fr}.set-nav{position:static;flex-direction:row;overflow-x:auto}}
+
+/* ============================================================
+   Auth (page-specific) + consent
+   ============================================================ */
+.auth{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.aside{position:relative;overflow:hidden;background:rgb(var(--bg));display:grid;place-items:center;padding:2rem}
+.aside .bgimg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:var(--hero-img-opacity)}
+.aside::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 30%,rgb(var(--glow-color)/.18),transparent 60%),linear-gradient(to bottom,rgb(var(--bg)/.4),rgb(var(--bg)/.85))}
+.aside .inner{position:relative;z-index:1;text-align:center;max-width:360px}
+.lan{width:64px;height:64px;color:rgb(var(--brand));margin:0 auto 1rem;filter:drop-shadow(0 0 18px rgb(var(--glow-color)/var(--lantern-glow)))}
+.aform{display:grid;place-items:center;padding:2rem;position:relative;z-index:1}
+.fbox{width:100%;max-width:400px}
+.consent{border:1px solid rgb(var(--border));border-radius:var(--r-md);background:rgb(var(--surface));margin-bottom:1rem;overflow:hidden}
+.consent-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1rem}
+.consent-title{font-weight:600;font-size:.92rem}
+.consent-more{width:100%;border:none;border-top:1px solid rgb(var(--border));background:transparent;color:rgb(var(--brand));font-family:inherit;font-weight:600;font-size:.84rem;padding:.7rem 1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.consent-more .ico{transition:transform .2s var(--ease)}
+.consent-more[aria-expanded="true"] .ico{transform:rotate(180deg)}
+.consent-list{border-top:1px solid rgb(var(--border))}
+.consent-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:.85rem 1rem;border-top:1px solid rgb(var(--divider))}
+.consent-row:first-child{border-top:none}
+.creq{font-size:.64rem;font-weight:700;color:rgb(var(--danger));background:rgb(var(--danger)/.12);padding:.1rem .4rem;border-radius:4px;margin-left:.3rem}
+@media(max-width:860px){.auth{grid-template-columns:1fr}.aside{display:none}}
+
+/* ============================================================
+   Onboarding OTP (page-specific)
+   ============================================================ */
+.otp-wrap{min-height:100vh;display:grid;place-items:center;padding:1.5rem}
+.otp{display:flex;gap:.6rem;justify-content:center;margin:1.4rem 0}
+.otp input{width:50px;height:60px;text-align:center;font-size:1.5rem;font-family:var(--font-display);border:1px solid rgb(var(--border));border-radius:var(--r-md);background:rgb(var(--surface));color:rgb(var(--text))}
+.otp input:focus{outline:none;border-color:rgb(var(--brand));box-shadow:0 0 0 3px rgb(var(--brand)/.18)}
+
+/* ============================================================
+   Halaman sistem 404 (page-specific, namespaced)
+   ============================================================ */
+.sys-wrap{min-height:100vh;display:grid;place-items:center;padding:1.5rem;text-align:center;position:relative;overflow:hidden}
+.sys-halo{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:500px;background:radial-gradient(closest-side,rgb(var(--glow-color)/.16),transparent 70%);opacity:calc(var(--glow-strength)*3 + .25);pointer-events:none}
+.sys-lan{width:80px;height:80px;color:rgb(var(--brand));margin:0 auto 1.2rem;filter:drop-shadow(0 0 20px rgb(var(--glow-color)/var(--lantern-glow)))}
+
+/* ============================================================
+   Studio ustadz (page-specific)
+   ============================================================ */
+.wallet{background:linear-gradient(135deg,rgb(var(--brand)/.18),rgb(var(--surface)));border:1px solid rgb(var(--brand)/.3);border-radius:var(--r-lg);padding:1.4rem}
+.lessrow{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;border:1px solid rgb(var(--border));border-radius:var(--r-md);margin-bottom:.5rem;background:rgb(var(--surface))}
+.lessrow .drag{color:rgb(var(--text-muted));cursor:grab}
+.qcard{border:1px solid rgb(var(--border));border-radius:var(--r-md);padding:1rem;margin-bottom:.8rem}
+
+/* ============================================================
+   Admin (page-specific)
+   ============================================================ */
+.chart{display:flex;align-items:flex-end;gap:.6rem;height:170px}
+.chart i{flex:1;background:rgb(var(--brand)/.7);border-radius:var(--r-sm) var(--r-sm) 0 0}
+.gwcard{border:1px solid rgb(var(--border));border-radius:var(--r-lg);background:rgb(var(--surface));padding:1.2rem}
+.applicant{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid rgb(var(--border))}
+.perm{display:flex;justify-content:space-between;align-items:center;padding:.7rem .9rem;border:1px solid rgb(var(--border));border-radius:var(--r-md);margin-bottom:.5rem;font-size:.9rem}
+.perm code{background:rgb(var(--surface-alt));padding:.1rem .4rem;border-radius:4px;font-size:.8rem}
