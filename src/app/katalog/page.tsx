@@ -28,7 +28,7 @@ export default function Katalog() {
       <header className="nav solid">
         <div className="container nav-in">
           <a href="/" className="brand"><Mark />SantriKalong</a>
-          <nav className="nav-links"><a href="/katalog" className="active">Katalog</a><a href="/katalog">Dauroh</a><a href="/katalog">Live Kelas</a><a href="/studio">Jadi Pengajar</a></nav>
+          <nav className="nav-links"><a href="/katalog" className="active">Katalog</a><a href="/dauroh">Dauroh</a><a href="/live">Live Kelas</a><a href="/studio">Jadi Pengajar</a></nav>
           <div className="nav-right">
             <button className="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg className="ico" id="sk-mode-ic"><use href="#i-sun" /></svg></button>
             <a href="/checkout" className="icon-btn cart-btn" aria-label="Keranjang"><svg className="ico"><use href="#i-cart" /></svg><span className="cart-badge">2</span></a>

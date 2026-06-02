@@ -17,7 +17,7 @@ export default function Home() {
         <div className="container nav-in">
           <a href="/" className="brand"><Mark />SantriKalong</a>
           <nav className="nav-links">
-            <a href="/katalog">Katalog</a><a href="/katalog">Dauroh</a><a href="/katalog">Live Kelas</a><a href="/studio">Jadi Pengajar</a>
+            <a href="/katalog">Katalog</a><a href="/dauroh">Dauroh</a><a href="/live">Live Kelas</a><a href="/studio">Jadi Pengajar</a>
           </nav>
           <div className="nav-right">
             <button className="icon-btn" id="sk-mode-toggle" aria-label="Ganti mode"><svg className="ico" id="sk-mode-ic"><use href="#i-sun" /></svg></button>
@@ -95,7 +95,7 @@ export default function Home() {
             <a href="/" className="brand"><Mark />SantriKalong</a>
             <p>Ruang menuntut ilmu agama &amp; bahasa Arab — tenang, untuk semua kalangan.</p>
           </div>
-          <div><h4>Belajar</h4><ul><li><a href="/katalog">Katalog</a></li><li><a href="/katalog">Dauroh</a></li><li><a href="/katalog">Live Kelas</a></li></ul></div>
+          <div><h4>Belajar</h4><ul><li><a href="/katalog">Katalog</a></li><li><a href="/dauroh">Dauroh</a></li><li><a href="/live">Live Kelas</a></li></ul></div>
           <div><h4>Platform</h4><ul><li><a href="/studio">Jadi Pengajar</a></li><li><a href="#">Tentang</a></li><li><a href="#">Kontak</a></li></ul></div>
           <div><h4>Bantuan</h4><ul><li><a href="#">Pusat Bantuan</a></li><li><a href="#">Privasi</a></li><li><a href="#">Ketentuan</a></li></ul></div>
         </div>
