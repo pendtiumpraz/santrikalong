@@ -1,3 +1,8 @@
+import { prisma } from "@/lib/db";
+import { idr, img } from "@/lib/format";
+
+export const dynamic = "force-dynamic";
+
 function Mark() {
   return (
     <svg className="mark" viewBox="0 0 40 40" fill="none">
@@ -7,22 +12,15 @@ function Mark() {
   );
 }
 
-type Course = {
-  img: string; tag: string; tagClass?: string; badge: string; badgeClass: string;
-  title: string; by: string; rating: string; metaIcon: string; meta: string; level?: string;
-  price: string; priceClass?: string; cta: string;
-};
+const LEVEL: Record<string, string> = { PEMULA: "Pemula", MENENGAH: "Menengah", LANJUTAN: "Lanjutan" };
 
-const COURSES: Course[] = [
-  { img: "photo-1609599006353-e629aaabfeae", tag: "Bahasa Arab", badge: "Rekaman", badgeClass: "tag tag-muted spacer", title: "Bahasa Arab untuk Pemula — Dasar Nahwu", by: "Ust. Abdullah, Lc.", rating: "4.9", metaIcon: "i-book", meta: "32 materi", level: "Pemula", price: "Rp 149.000", cta: "Lihat" },
-  { img: "photo-1616422840391-fa670d4b2ae7", tag: "Tahsin", badge: "● LIVE", badgeClass: "tag tag-live spacer", title: "Tahsin Al-Qur'an Metode Tilawati", by: "Ustadzah Fatimah", rating: "5.0", metaIcon: "i-clock", meta: "Tiap Sabtu", price: "Rp 250.000", cta: "Lihat" },
-  { img: "photo-1639918065925-eb39272edda2", tag: "Dauroh", tagClass: "tag tag-info", badge: "Event", badgeClass: "tag tag-muted spacer", title: "Dauroh Online: Sirah Nabawiyah", by: "Ust. Hamzah, M.A.", rating: "", metaIcon: "i-clock", meta: "15–17 Jun", level: "Kuota 200", price: "Rp 99.000", cta: "Daftar" },
-  { img: "photo-1542816417-0983c9c9ad53", tag: "Fiqih", tagClass: "tag tag-danger", badge: "GRATIS", badgeClass: "tag tag-free spacer", title: "Fiqih Thaharah untuk Sehari-hari", by: "Ust. Yusuf", rating: "4.8", metaIcon: "i-book", meta: "12 materi", price: "Gratis", priceClass: "price free", cta: "Lihat" },
-  { img: "photo-1589462135796-2b46e4bdd7fe", tag: "Bahasa Arab", badge: "Rekaman", badgeClass: "tag tag-muted spacer", title: "Muhadatsah: Percakapan Arab Praktis", by: "Ust. Abdullah, Lc.", rating: "4.7", metaIcon: "i-book", meta: "28 materi", level: "Menengah", price: "Rp 175.000", cta: "Lihat" },
-  { img: "photo-1587617425953-9075d28b8c46", tag: "Tahfizh", badge: "Rekaman", badgeClass: "tag tag-muted spacer", title: "Program Tahfizh Juz 30 Terbimbing", by: "Ustadzah Fatimah", rating: "4.9", metaIcon: "i-book", meta: "30 materi", price: "Rp 199.000", cta: "Lihat" },
-];
+export default async function Katalog() {
+  const courses = await prisma.course.findMany({
+    where: { status: "PUBLISHED", deletedAt: null },
+    include: { category: true, ustadz: { include: { user: true } } },
+    orderBy: { createdAt: "asc" },
+  });
 
-export default function Katalog() {
   return (
     <>
       <header className="nav solid">
@@ -39,7 +37,7 @@ export default function Katalog() {
       </header>
 
       <div className="breadcrumb container"><a href="/">Beranda</a> / <span>Katalog</span></div>
-      <div className="container" style={{ paddingTop: ".8rem" }}><h1 style={{ fontSize: "clamp(1.8rem,4vw,2.5rem)" }}>Katalog Kelas</h1><p className="muted" style={{ marginTop: ".3rem" }}>120+ kelas dari 35 ustadz tepercaya.</p></div>
+      <div className="container" style={{ paddingTop: ".8rem" }}><h1 style={{ fontSize: "clamp(1.8rem,4vw,2.5rem)" }}>Katalog Kelas</h1><p className="muted" style={{ marginTop: ".3rem" }}>{courses.length} kelas dari pengajar tepercaya.</p></div>
 
       <main className="sec container">
         <div className="kat">
@@ -71,28 +69,34 @@ export default function Katalog() {
               <button className="chip" aria-pressed="true">Semua</button>
               <button className="chip">Live</button><button className="chip">Rekaman</button><button className="chip">Gratis</button><button className="chip">Dauroh</button>
             </div>
-            <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>Menampilkan 6 dari 123 hasil</p>
+            <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>Menampilkan {courses.length} kelas</p>
 
             <div className="grid-c">
-              {COURSES.map((c, i) => (
-                <article className="ccard" key={i}>
+              {courses.map((c) => (
+                <article className="ccard" key={c.id}>
                   <div className="thumb">
-                    <img className="thumb-img" loading="lazy" alt="" src={`https://images.unsplash.com/${c.img}?auto=format&fit=crop&w=600&q=55`} />
-                    <div className="pin"><span className={c.tagClass ?? "tag"}>{c.tag}</span><span className={c.badgeClass}>{c.badge === "● LIVE" ? <><span className="dot" />LIVE</> : c.badge}</span></div>
+                    <img className="thumb-img" loading="lazy" alt={c.title} src={img(c.thumbnailKey)} />
+                    <div className="pin">
+                      <span className="tag">{c.category?.name ?? "Kelas"}</span>
+                      {c.type === "LIVE"
+                        ? <span className="tag tag-live spacer"><span className="dot" />LIVE</span>
+                        : c.isFree
+                          ? <span className="tag tag-free spacer">GRATIS</span>
+                          : <span className="tag tag-muted spacer">Rekaman</span>}
+                    </div>
                   </div>
                   <div className="ccard-b">
-                    <h3>{c.title}</h3><p className="by">{c.by}</p>
+                    <h3>{c.title}</h3>
+                    <p className="by">{c.ustadz?.user?.name ?? "Pengajar"}</p>
                     <div className="cmeta">
-                      {c.rating && <span><svg className="ico ico-sm"><use href="#i-star" /></svg>{c.rating}</span>}
-                      <span><svg className="ico ico-sm"><use href={`#${c.metaIcon}`} /></svg>{c.meta}</span>
-                      {c.level && <span>{c.level}</span>}
+                      <span><svg className="ico ico-sm"><use href="#i-layers" /></svg>{LEVEL[c.level] ?? c.level}</span>
+                      <span><svg className="ico ico-sm"><use href={c.type === "LIVE" ? "#i-broadcast" : "#i-play"} /></svg>{c.type === "LIVE" ? "Live" : "Rekaman"}</span>
                     </div>
-                    <div className="cfoot"><span className={c.priceClass ?? "price"}>{c.price}</span><a href="/kelas" className="btn btn-soft btn-sm">{c.cta}</a></div>
+                    <div className="cfoot"><span className={c.isFree ? "price free" : "price"}>{idr(c.priceIdr)}</span><a href={`/kelas/${c.slug}`} className="btn btn-soft btn-sm">Lihat</a></div>
                   </div>
                 </article>
               ))}
             </div>
-            <div className="center" style={{ marginTop: "2rem" }}><button className="btn btn-ghost">Muat lebih banyak</button></div>
           </div>
         </div>
       </main>
