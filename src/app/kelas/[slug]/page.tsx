@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { idr, img } from "@/lib/format";
+import { enrollCourse } from "../actions";
 
 export const dynamic = "force-dynamic";
 
@@ -134,7 +135,7 @@ export default async function KelasDetail({ params }: { params: Promise<{ slug: 
               <label className="opt"><input type="radio" name="pay" defaultChecked /><span className="tag tag-info" style={{ width: 40, justifyContent: "center" }}>VA</span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Virtual Account / QRIS</p><p className="muted" style={{ fontSize: ".78rem" }}>via Midtrans</p></div></label>
               <label className="opt"><input type="radio" name="pay" /><span className="tag tag-success" style={{ width: 40, justifyContent: "center" }}><svg className="ico ico-sm"><use href="#i-wallet" /></svg></span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Transfer Manual</p><p className="muted" style={{ fontSize: ".78rem" }}>Verifikasi admin</p></div></label>
             </div>
-            <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: "1.2rem" }}>Bayar Sekarang</button>
+            <form action={enrollCourse}><input type="hidden" name="courseId" value={c.id} /><button type="submit" className="btn btn-primary btn-block btn-lg" style={{ marginTop: "1.2rem" }}>{c.isFree ? "Daftar Sekarang" : "Bayar Sekarang"}</button></form>
           </div>
         </div>
       </div>

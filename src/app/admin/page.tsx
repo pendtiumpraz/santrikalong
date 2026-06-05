@@ -2,11 +2,18 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { idr } from "@/lib/format";
+import { approveUstadz, rejectUstadz, toggleGateway, approvePayout, rejectPayout } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-function Toggle({ on }: { on?: boolean }) {
-  return <label className="switch-toggle"><input type="checkbox" defaultChecked={on} /><span className="sl" /></label>;
+function GatewayToggle({ id, on }: { id: string; on?: boolean }) {
+  return (
+    <form action={toggleGateway}>
+      <input type="hidden" name="id" value={id} />
+      <input type="hidden" name="to" value={on ? "0" : "1"} />
+      <button type="submit" className={on ? "btn btn-ghost btn-sm" : "btn btn-primary btn-sm"}>{on ? "Nonaktifkan" : "Aktifkan"}</button>
+    </form>
+  );
 }
 
 const jt = (n: number) => "Rp " + (n / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 1 }) + "jt";
@@ -114,7 +121,10 @@ export default async function Admin() {
                     <span className="avatar"><svg className="ico"><use href="#i-user" /></svg></span>
                     <div style={{ flex: 1, minWidth: 200 }}><p style={{ fontWeight: 600 }}>{p.user.name}</p><p className="muted" style={{ fontSize: ".82rem" }}>{p.specialization}</p><div style={{ display: "flex", gap: ".4rem", marginTop: ".5rem" }}>{docs.map((d) => <span className="tag tag-muted" key={d}>{d}</span>)}</div></div>
                     <span className="tag tag-warn">Pending</span>
-                    <div style={{ display: "flex", gap: ".5rem" }}><button className="btn btn-primary btn-sm">Setujui</button><button className="btn btn-danger btn-sm">Tolak</button></div>
+                    <div style={{ display: "flex", gap: ".5rem" }}>
+                      <form action={approveUstadz}><input type="hidden" name="profileId" value={p.id} /><button type="submit" className="btn btn-primary btn-sm">Setujui</button></form>
+                      <form action={rejectUstadz}><input type="hidden" name="profileId" value={p.id} /><button type="submit" className="btn btn-danger btn-sm">Tolak</button></form>
+                    </div>
                   </div>
                 );
               })}
@@ -150,7 +160,7 @@ export default async function Admin() {
                 <div className="gwcard" key={g.id}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", gap: ".7rem", alignItems: "center" }}><span className="tag" style={{ width: 42, height: 42, borderRadius: "var(--r-md)", justifyContent: "center" }}>{g.provider.slice(0, 2)}</span><div><p style={{ fontWeight: 600 }}>{g.displayName}</p><p className="muted" style={{ fontSize: ".78rem" }}>{g.provider}</p></div></div>
-                    <Toggle on={g.isActive} />
+                    <GatewayToggle id={g.id} on={g.isActive} />
                   </div>
                   <div style={{ display: "flex", gap: ".4rem", margin: ".8rem 0" }}><span className={g.isActive ? "tag tag-success" : "tag tag-muted"}>{g.isActive ? "Aktif" : "Nonaktif"}</span><span className={g.mode === "PRODUCTION" ? "tag tag-muted" : "tag tag-warn"}>{g.mode === "PRODUCTION" ? "Production" : "Sandbox"}</span></div>
                   <input className="input" placeholder="Kredensial (tersimpan terenkripsi)" disabled={!g.isActive} />
@@ -179,7 +189,11 @@ export default async function Admin() {
                     <span className="avatar sm"><svg className="ico ico-sm"><use href="#i-user" /></svg></span>
                     <div style={{ flex: 1, minWidth: 160 }}><p style={{ fontWeight: 600, fontSize: ".9rem" }}>{nameById.get(po.ustadzUserId) ?? "Ustadz"}</p><p className="muted" style={{ fontSize: ".78rem" }}>{bank?.bank} · {bank?.no}</p></div>
                     <b>{idr(po.netIdr)}</b>
-                    <div style={{ display: "flex", gap: ".5rem" }}><button className="btn btn-ghost btn-sm"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Bukti</button><button className="btn btn-primary btn-sm">Setujui &amp; Transfer</button></div>
+                    <div style={{ display: "flex", gap: ".5rem" }}>
+                      <button className="btn btn-ghost btn-sm"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Bukti</button>
+                      <form action={approvePayout}><input type="hidden" name="id" value={po.id} /><button type="submit" className="btn btn-primary btn-sm">Setujui &amp; Transfer</button></form>
+                      <form action={rejectPayout}><input type="hidden" name="id" value={po.id} /><button type="submit" className="btn btn-danger btn-sm">Tolak</button></form>
+                    </div>
                   </div>
                 );
               })}

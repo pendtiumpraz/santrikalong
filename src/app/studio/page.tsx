@@ -2,18 +2,27 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { idr } from "@/lib/format";
+import { requestPayout } from "./actions";
 
 export const dynamic = "force-dynamic";
+
+const PAYOUT_MSG: Record<string, { t: string; ok: boolean }> = {
+  ok: { t: "Klaim diajukan. Saldo ditahan sampai admin memverifikasi.", ok: true },
+  min: { t: "Saldo belum mencapai minimum klaim (Rp 50.000).", ok: false },
+  aktif: { t: "Masih ada klaim yang sedang diproses. Tunggu sampai selesai.", ok: false },
+  nowallet: { t: "Belum ada wallet earning untuk akun ini.", ok: false },
+};
 
 const LESSON_TAG: Record<string, string> = { VIDEO: "Video", AUDIO: "Audio", PDF: "PDF", HTML_PPT: "Slide", TEXT: "Kuis" };
 const LESSON_ICON: Record<string, string> = { VIDEO: "i-play", PDF: "i-doc", AUDIO: "i-headphones", HTML_PPT: "i-layers", TEXT: "i-edit" };
 
-export default async function Studio() {
+export default async function Studio({ searchParams }: { searchParams: Promise<{ payout?: string }> }) {
   const session = await auth();
   if (!session?.user) redirect("/auth");
   const roles = ((session.user as { roles?: string[] }).roles) ?? [];
   if (!roles.includes("ustadz") && !roles.includes("superadmin")) redirect("/dashboard");
   const userId = (session.user as { id: string }).id;
+  const payoutMsg = PAYOUT_MSG[(await searchParams).payout ?? ""];
 
   const [profile, wallet, payouts] = await Promise.all([
     prisma.ustadzProfile.findUnique({
@@ -109,6 +118,7 @@ export default async function Studio() {
           </section>
 
           <section data-pane="earn" hidden>
+            {payoutMsg && <div className="card card-pad" style={{ marginBottom: "1rem", borderColor: payoutMsg.ok ? "rgb(var(--success)/.4)" : "rgb(var(--danger)/.4)", background: payoutMsg.ok ? "rgb(var(--success)/.08)" : "rgb(var(--danger)/.08)" }}><p style={{ fontSize: ".88rem" }}>{payoutMsg.t}</p></div>}
             <div className="grid-2" style={{ gridTemplateColumns: "1.2fr 1fr" }}>
               <div className="wallet"><p className="eyebrow">Saldo tersedia</p><p style={{ fontFamily: "var(--font-display)", fontSize: "2.2rem", fontWeight: 600, margin: ".3rem 0" }}>{idr(balance)}</p><p className="muted" style={{ fontSize: ".84rem" }}>{entries.length} transaksi earning</p><button className="btn btn-primary" data-open="#claim" style={{ marginTop: "1rem" }}>Klaim Payout</button></div>
               <div className="card card-pad"><p style={{ fontWeight: 600, marginBottom: ".6rem" }}>Status payout</p>{payouts.length === 0 ? <p className="muted" style={{ fontSize: ".85rem" }}>Belum ada pengajuan payout.</p> : payouts.map((p) => (<p key={p.id} style={{ fontSize: ".85rem", marginBottom: ".3rem" }}>{idr(p.netIdr)} · <span className="tag tag-warn">{p.status}</span></p>))}</div>
@@ -127,9 +137,9 @@ export default async function Studio() {
           <div className="modal-head"><h3>Klaim Payout</h3><button className="icon-btn" data-close aria-label="Tutup"><svg className="ico"><use href="#i-x" /></svg></button></div>
           <div className="modal-body">
             <div className="card card-pad" style={{ marginBottom: "1rem" }}><div style={{ display: "flex", justifyContent: "space-between", fontSize: ".92rem" }}><span className="muted">Saldo tersedia</span><b>{idr(balance)}</b></div></div>
-            <div className="field"><label className="label">Jumlah klaim</label><input className="input" defaultValue={idr(balance)} /></div>
-            <p className="help">Diproses admin. Saldo ditahan hingga diverifikasi (anti double-claim). Bukti PDF otomatis dibuat.</p>
-            <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: "1rem" }}>Ajukan Klaim</button>
+            <div className="field"><label className="label">Jumlah klaim</label><input className="input" defaultValue={idr(balance)} disabled /></div>
+            <p className="help">Seluruh saldo akan diklaim. Diproses admin. Saldo ditahan hingga diverifikasi (anti double-claim). Bukti PDF otomatis dibuat.</p>
+            <form action={requestPayout}><button type="submit" className="btn btn-primary btn-block btn-lg" style={{ marginTop: "1rem" }} disabled={balance < 50000}>Ajukan Klaim</button></form>
           </div>
         </div>
       </div>
