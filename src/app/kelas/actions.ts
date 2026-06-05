@@ -3,9 +3,17 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { fulfillOrder } from "@/lib/fulfillment";
+import { createSnapTransaction, midtransConfig } from "@/lib/midtrans";
 
-// Beli/daftar kelas: buat Order (PAID) + Enrollment + bagi hasil ke wallet ustadz.
-// (Integrasi gateway nyata menyusul; untuk sekarang dianggap sukses.)
+function appUrl() {
+  return (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
+}
+
+// Beli/daftar kelas:
+//  - Gratis  → langsung settle (Order PAID + Enrollment).
+//  - Berbayar → Order PENDING + Snap Midtrans, redirect ke halaman bayar.
+//               Settle final terjadi di webhook / halaman selesai (idempotent).
 export async function enrollCourse(formData: FormData) {
   const session = await auth();
   if (!session?.user) redirect("/auth");
@@ -18,26 +26,39 @@ export async function enrollCourse(formData: FormData) {
   const existing = await prisma.enrollment.findUnique({ where: { userId_courseId: { userId, courseId } } });
   if (existing) redirect("/dashboard");
 
-  await prisma.$transaction(async (tx) => {
-    const order = await tx.order.create({
-      data: {
-        userId, itemType: "COURSE", itemId: courseId, amountIdr: course.priceIdr,
-        status: "PAID", gateway: course.isFree ? null : "MIDTRANS",
-        reference: "INV-" + Date.now(), paidAt: new Date(),
-      },
+  // ---- Gratis: langsung settle ----
+  if (course.isFree || course.priceIdr <= 0) {
+    const order = await prisma.order.create({
+      data: { userId, itemType: "COURSE", itemId: courseId, amountIdr: 0, status: "PENDING", reference: "FREE-" + Date.now() },
     });
-    await tx.enrollment.create({ data: { userId, courseId, source: course.isFree ? "FREE" : "PURCHASE", status: "ACTIVE" } });
+    await fulfillOrder(order.id);
+    revalidatePath("/dashboard");
+    redirect("/dashboard");
+  }
 
-    if (!course.isFree && course.priceIdr > 0) {
-      const profile = await tx.ustadzProfile.findUnique({ where: { id: course.ustadzId } });
-      if (profile) {
-        const share = Math.round((course.priceIdr * profile.revenueSharePct) / 100);
-        const wallet = await tx.wallet.upsert({ where: { ustadzUserId: profile.userId }, update: {}, create: { ustadzUserId: profile.userId } });
-        await tx.walletEntry.create({ data: { walletId: wallet.id, type: "EARNING_CREDIT", amountIdr: share, refType: "ORDER", refId: order.id } });
-      }
-    }
+  // ---- Berbayar: butuh gateway Midtrans aktif + terkonfigurasi ----
+  const gw = await prisma.paymentGateway.findUnique({ where: { provider: "MIDTRANS" } });
+  if (!gw?.isActive || !midtransConfig().configured) redirect("/kelas/" + course.slug + "?bayar=gateway");
+
+  const order = await prisma.order.create({
+    data: { userId, itemType: "COURSE", itemId: courseId, amountIdr: course.priceIdr, status: "PENDING", gateway: "MIDTRANS", reference: courseId.slice(0, 6) },
   });
 
-  revalidatePath("/dashboard");
-  redirect("/dashboard");
+  let redirectUrl: string;
+  try {
+    const snap = await createSnapTransaction({
+      orderId: order.id,
+      grossAmount: course.priceIdr,
+      customer: { name: session.user.name ?? undefined, email: session.user.email ?? undefined },
+      items: [{ id: course.id, price: course.priceIdr, quantity: 1, name: course.title.slice(0, 50) }],
+      finishUrl: appUrl() + "/checkout/selesai?order_id=" + order.id,
+    });
+    redirectUrl = snap.redirectUrl;
+    await prisma.order.update({ where: { id: order.id }, data: { paymentUrl: redirectUrl } });
+  } catch {
+    await prisma.order.update({ where: { id: order.id }, data: { status: "FAILED" } });
+    redirect("/kelas/" + course.slug + "?bayar=error");
+  }
+
+  redirect(redirectUrl);
 }

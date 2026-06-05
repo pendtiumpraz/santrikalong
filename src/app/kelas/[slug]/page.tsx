@@ -17,8 +17,14 @@ function Mark() {
 const LEVEL: Record<string, string> = { PEMULA: "Pemula", MENENGAH: "Menengah", LANJUTAN: "Lanjutan" };
 const LESSON_ICON: Record<string, string> = { VIDEO: "i-play", PDF: "i-doc", AUDIO: "i-headphones", HTML_PPT: "i-layers", TEXT: "i-edit" };
 
-export default async function KelasDetail({ params }: { params: Promise<{ slug: string }> }) {
+const BAYAR_MSG: Record<string, string> = {
+  gateway: "Pembayaran online sedang tidak aktif. Hubungi admin atau coba lagi nanti.",
+  error: "Gagal membuat transaksi pembayaran. Silakan coba lagi.",
+};
+
+export default async function KelasDetail({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ bayar?: string }> }) {
   const { slug } = await params;
+  const bayarMsg = BAYAR_MSG[(await searchParams).bayar ?? ""];
   const c = await prisma.course.findFirst({
     where: { slug, deletedAt: null },
     include: {
@@ -97,6 +103,7 @@ export default async function KelasDetail({ params }: { params: Promise<{ slug: 
               <div className="top"><img src={img(c.thumbnailKey, 700)} alt="" /></div>
               <div className="pad">
                 <div style={{ display: "flex", alignItems: "baseline", gap: ".5rem" }}><span className={c.isFree ? "price free" : "price"} style={{ fontSize: "1.8rem" }}>{idr(c.priceIdr)}</span></div>
+                {bayarMsg && <p style={{ marginTop: ".8rem", padding: ".6rem .8rem", borderRadius: "var(--r-md)", background: "rgb(var(--danger)/.1)", color: "rgb(var(--danger))", fontSize: ".82rem" }}>{bayarMsg}</p>}
                 <button className="btn btn-primary btn-block btn-lg" data-open="#checkout" style={{ marginTop: "1rem" }}>{c.isFree ? "Daftar & Mulai" : "Beli & Mulai Belajar"}</button>
                 <button className="btn btn-ghost btn-block" data-open="#cart" style={{ marginTop: ".6rem" }}><svg className="ico ico-sm"><use href="#i-cart" /></svg>Tambah ke Keranjang</button>
                 <ul className="learn" style={{ gridTemplateColumns: "1fr", marginTop: "1.2rem", gap: ".5rem" }}>
