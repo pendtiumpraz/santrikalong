@@ -1,8 +1,17 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
+
 function Toggle({ on }: { on?: boolean }) {
   return <label className="switch-toggle"><input type="checkbox" defaultChecked={on} /><span className="sl" /></label>;
 }
 
-export default function Admin() {
+export default async function Admin() {
+  const session = await auth();
+  if (!session?.user) redirect("/auth");
+  const roles = ((session.user as { roles?: string[] }).roles) ?? [];
+  if (!roles.includes("admin") && !roles.includes("superadmin")) redirect("/dashboard");
   return (
     <div className="shell">
       <aside className="sidebar">

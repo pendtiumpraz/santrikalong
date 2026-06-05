@@ -1,4 +1,13 @@
-export default function Studio() {
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
+
+export default async function Studio() {
+  const session = await auth();
+  if (!session?.user) redirect("/auth");
+  const roles = ((session.user as { roles?: string[] }).roles) ?? [];
+  if (!roles.includes("ustadz") && !roles.includes("superadmin")) redirect("/dashboard");
   return (
     <div className="shell">
       <aside className="sidebar">
