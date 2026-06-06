@@ -190,7 +190,7 @@ export default async function Admin() {
                     <div style={{ flex: 1, minWidth: 160 }}><p style={{ fontWeight: 600, fontSize: ".9rem" }}>{nameById.get(po.ustadzUserId) ?? "Ustadz"}</p><p className="muted" style={{ fontSize: ".78rem" }}>{bank?.bank} · {bank?.no}</p></div>
                     <b>{idr(po.netIdr)}</b>
                     <div style={{ display: "flex", gap: ".5rem" }}>
-                      <button className="btn btn-ghost btn-sm"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Bukti</button>
+                      <a className="btn btn-ghost btn-sm" href={`/bukti/payout/${po.id}`} target="_blank" rel="noopener"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Bukti</a>
                       <form action={approvePayout}><input type="hidden" name="id" value={po.id} /><button type="submit" className="btn btn-primary btn-sm">Setujui &amp; Transfer</button></form>
                       <form action={rejectPayout}><input type="hidden" name="id" value={po.id} /><button type="submit" className="btn btn-danger btn-sm">Tolak</button></form>
                     </div>
@@ -210,9 +210,9 @@ export default async function Admin() {
           </section>
 
           <section data-pane="trx" hidden>
-            <div className="table-wrap"><table className="tbl"><thead><tr><th>Invoice</th><th>Santri</th><th>Item</th><th>Gateway</th><th className="tr-num">Jumlah</th><th>Status</th></tr></thead><tbody>
-              {orders.length === 0 && <tr><td colSpan={6} className="muted">Belum ada transaksi.</td></tr>}
-              {orders.map((o) => (<tr key={o.id}><td style={{ fontFamily: "var(--font-display)" }}>{o.reference ?? o.id.slice(0, 10)}</td><td>{o.user.name}</td><td>{courseTitle.get(o.itemId) ?? o.itemType}</td><td>{o.gateway ?? "—"}</td><td className="tr-num">{idr(o.amountIdr)}</td><td><span className={`tag ${STATUS_CLS[o.status] ?? "tag-muted"}`}>{STATUS[o.status] ?? o.status}</span></td></tr>))}
+            <div className="table-wrap"><table className="tbl"><thead><tr><th>Invoice</th><th>Santri</th><th>Item</th><th>Gateway</th><th className="tr-num">Jumlah</th><th>Status</th><th>Bukti</th></tr></thead><tbody>
+              {orders.length === 0 && <tr><td colSpan={7} className="muted">Belum ada transaksi.</td></tr>}
+              {orders.map((o) => (<tr key={o.id}><td style={{ fontFamily: "var(--font-display)" }}>{o.reference ?? o.id.slice(0, 10)}</td><td>{o.user.name}</td><td>{courseTitle.get(o.itemId) ?? o.itemType}</td><td>{o.gateway ?? "—"}</td><td className="tr-num">{idr(o.amountIdr)}</td><td><span className={`tag ${STATUS_CLS[o.status] ?? "tag-muted"}`}>{STATUS[o.status] ?? o.status}</span></td><td><a className="btn btn-ghost btn-sm" href={`/bukti/invoice/${o.id}`} target="_blank" rel="noopener"><svg className="ico ico-sm"><use href="#i-receipt" /></svg></a></td></tr>))}
             </tbody></table></div>
           </section>
 

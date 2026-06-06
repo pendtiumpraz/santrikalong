@@ -59,7 +59,10 @@ export default async function CheckoutSelesai({ searchParams }: { searchParams: 
         )}
         <div style={{ display: "flex", gap: ".6rem", justifyContent: "center" }}>
           {outcome === "paid" ? (
-            <a href="/dashboard" className="btn btn-primary">Ke Dashboard</a>
+            <>
+              {order && <a href={`/bukti/invoice/${order.id}`} target="_blank" rel="noopener" className="btn btn-ghost"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Invoice</a>}
+              <a href="/dashboard" className="btn btn-primary">Ke Dashboard</a>
+            </>
           ) : (
             <>
               <a href="/katalog" className="btn btn-ghost">Katalog</a>
