@@ -16,7 +16,7 @@ export default async function CheckoutSelesai({ searchParams }: { searchParams: 
   if (order) {
     if (order.status === "PAID") {
       outcome = "paid";
-    } else if (midtransConfig().configured) {
+    } else if (order.gateway === "MIDTRANS" && midtransConfig().configured) {
       try {
         const s = await getTransactionStatus(orderId);
         const c = classifyStatus(s);

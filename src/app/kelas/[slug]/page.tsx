@@ -18,8 +18,15 @@ const LEVEL: Record<string, string> = { PEMULA: "Pemula", MENENGAH: "Menengah", 
 const LESSON_ICON: Record<string, string> = { VIDEO: "i-play", PDF: "i-doc", AUDIO: "i-headphones", HTML_PPT: "i-layers", TEXT: "i-edit" };
 
 const BAYAR_MSG: Record<string, string> = {
-  gateway: "Pembayaran online sedang tidak aktif. Hubungi admin atau coba lagi nanti.",
+  gateway: "Metode pembayaran itu sedang tidak aktif. Pilih metode lain atau coba lagi nanti.",
   error: "Gagal membuat transaksi pembayaran. Silakan coba lagi.",
+};
+
+const GW_META: Record<string, { value: string; label: string; desc: string; tag: string; cls: string; icon?: string }> = {
+  MIDTRANS: { value: "midtrans", label: "Virtual Account / QRIS / E-wallet", desc: "via Midtrans (otomatis)", tag: "VA", cls: "tag-info" },
+  XENDIT: { value: "xendit", label: "VA / E-wallet / QRIS", desc: "via Xendit (otomatis)", tag: "XD", cls: "tag-info" },
+  TRIPAY: { value: "tripay", label: "QRIS / VA / Retail", desc: "via Tripay (otomatis)", tag: "TP", cls: "tag-info" },
+  MANUAL: { value: "manual", label: "Transfer Manual", desc: "Unggah bukti, verifikasi admin", tag: "", cls: "tag-success", icon: "i-wallet" },
 };
 
 export default async function KelasDetail({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ bayar?: string }> }) {
@@ -36,6 +43,7 @@ export default async function KelasDetail({ params, searchParams }: { params: Pr
   if (!c) notFound();
 
   const totalLessons = c.modules.reduce((n, m) => n + m.lessons.length, 0);
+  const activeGateways = (await prisma.paymentGateway.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } })).filter((g) => GW_META[g.provider]);
 
   return (
     <>
@@ -141,9 +149,18 @@ export default async function KelasDetail({ params, searchParams }: { params: Pr
               {!c.isFree && (
                 <>
                   <p className="label">Metode pembayaran</p>
+                  {activeGateways.length === 0 && <p className="muted" style={{ fontSize: ".84rem" }}>Belum ada metode pembayaran aktif. Hubungi admin.</p>}
                   <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
-                    <label className="opt"><input type="radio" name="method" value="midtrans" defaultChecked /><span className="tag tag-info" style={{ width: 40, justifyContent: "center" }}>VA</span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Virtual Account / QRIS / E-wallet</p><p className="muted" style={{ fontSize: ".78rem" }}>via Midtrans (otomatis)</p></div></label>
-                    <label className="opt"><input type="radio" name="method" value="manual" /><span className="tag tag-success" style={{ width: 40, justifyContent: "center" }}><svg className="ico ico-sm"><use href="#i-wallet" /></svg></span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Transfer Manual</p><p className="muted" style={{ fontSize: ".78rem" }}>Unggah bukti, verifikasi admin</p></div></label>
+                    {activeGateways.map((g, i) => {
+                      const m = GW_META[g.provider];
+                      return (
+                        <label className="opt" key={g.id}>
+                          <input type="radio" name="method" value={m.value} defaultChecked={i === 0} />
+                          <span className={`tag ${m.cls}`} style={{ width: 40, justifyContent: "center" }}>{m.icon ? <svg className="ico ico-sm"><use href={`#${m.icon}`} /></svg> : m.tag}</span>
+                          <div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>{m.label}</p><p className="muted" style={{ fontSize: ".78rem" }}>{m.desc}</p></div>
+                        </label>
+                      );
+                    })}
                   </div>
                 </>
               )}

@@ -5,6 +5,15 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { fulfillOrder } from "@/lib/fulfillment";
 import { createSnapTransaction, midtransConfig } from "@/lib/midtrans";
+import { createTripayTransaction, tripayConfig } from "@/lib/tripay";
+import { createXenditInvoice, xenditConfig } from "@/lib/xendit";
+import type { GatewayProvider } from "@prisma/client";
+
+const ONLINE: Record<string, { provider: GatewayProvider; configured: () => boolean }> = {
+  midtrans: { provider: "MIDTRANS", configured: () => midtransConfig().configured },
+  tripay: { provider: "TRIPAY", configured: () => tripayConfig().configured },
+  xendit: { provider: "XENDIT", configured: () => xenditConfig().configured },
+};
 
 function appUrl() {
   return (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
@@ -47,24 +56,40 @@ export async function enrollCourse(formData: FormData) {
     redirect("/checkout/manual/" + order.id);
   }
 
-  // ---- Berbayar: butuh gateway Midtrans aktif + terkonfigurasi ----
-  const gw = await prisma.paymentGateway.findUnique({ where: { provider: "MIDTRANS" } });
-  if (!gw?.isActive || !midtransConfig().configured) redirect("/kelas/" + course.slug + "?bayar=gateway");
+  // ---- Berbayar via gateway online (midtrans/tripay/xendit) ----
+  const sel = ONLINE[method] ?? ONLINE.midtrans;
+  const gw = await prisma.paymentGateway.findUnique({ where: { provider: sel.provider } });
+  if (!gw?.isActive || !sel.configured()) redirect("/kelas/" + course.slug + "?bayar=gateway");
 
   const order = await prisma.order.create({
-    data: { userId, itemType: "COURSE", itemId: courseId, amountIdr: course.priceIdr, status: "PENDING", gateway: "MIDTRANS", reference: courseId.slice(0, 6) },
+    data: { userId, itemType: "COURSE", itemId: courseId, amountIdr: course.priceIdr, status: "PENDING", gateway: sel.provider, reference: sel.provider.slice(0, 3) + "-" + courseId.slice(0, 6) },
   });
+  const finishUrl = appUrl() + "/checkout/selesai?order_id=" + order.id;
 
   let redirectUrl: string;
   try {
-    const snap = await createSnapTransaction({
-      orderId: order.id,
-      grossAmount: course.priceIdr,
-      customer: { name: session.user.name ?? undefined, email: session.user.email ?? undefined },
-      items: [{ id: course.id, price: course.priceIdr, quantity: 1, name: course.title.slice(0, 50) }],
-      finishUrl: appUrl() + "/checkout/selesai?order_id=" + order.id,
-    });
-    redirectUrl = snap.redirectUrl;
+    if (sel.provider === "MIDTRANS") {
+      const r = await createSnapTransaction({
+        orderId: order.id, grossAmount: course.priceIdr,
+        customer: { name: session.user.name ?? undefined, email: session.user.email ?? undefined },
+        items: [{ id: course.id, price: course.priceIdr, quantity: 1, name: course.title.slice(0, 50) }],
+        finishUrl,
+      });
+      redirectUrl = r.redirectUrl;
+    } else if (sel.provider === "XENDIT") {
+      const r = await createXenditInvoice({
+        orderId: order.id, amount: course.priceIdr, email: session.user.email ?? undefined,
+        description: course.title.slice(0, 80), successUrl: finishUrl, failureUrl: finishUrl,
+      });
+      redirectUrl = r.redirectUrl;
+    } else {
+      const r = await createTripayTransaction({
+        orderId: order.id, amount: course.priceIdr,
+        customerName: session.user.name ?? undefined, customerEmail: session.user.email ?? undefined,
+        itemName: course.title.slice(0, 50), returnUrl: finishUrl,
+      });
+      redirectUrl = r.redirectUrl;
+    }
     await prisma.order.update({ where: { id: order.id }, data: { paymentUrl: redirectUrl } });
   } catch {
     await prisma.order.update({ where: { id: order.id }, data: { status: "FAILED" } });
