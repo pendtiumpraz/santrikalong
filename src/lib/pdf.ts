@@ -1,4 +1,5 @@
-import { PDFDocument, StandardFonts, rgb, PDFFont, PDFPage } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, PDFFont, PDFPage, PDFImage } from "pdf-lib";
+import QRCode from "qrcode";
 
 const INK = rgb(0.14, 0.13, 0.11);
 const SOFT = rgb(0.45, 0.43, 0.4);
@@ -27,7 +28,7 @@ type DocSpec = {
   verifyUrl: string;
 };
 
-function renderDoc(page: PDFPage, font: PDFFont, bold: PDFFont, d: DocSpec) {
+function renderDoc(page: PDFPage, font: PDFFont, bold: PDFFont, d: DocSpec, qr?: PDFImage) {
   const { width, height } = page.getSize();
   const M = 56;
   let y = height - M;
@@ -75,6 +76,12 @@ function renderDoc(page: PDFPage, font: PDFFont, bold: PDFFont, d: DocSpec) {
   page.drawLine({ start: { x: M, y }, end: { x: width - M, y }, thickness: 0.5, color: LINE });
   y -= 22;
   page.drawText(t("Keaslian dokumen"), { x: M, y, size: 10, font: bold, color: INK });
+  // QR verifikasi di kanan blok
+  if (qr) {
+    const qsz = 92;
+    page.drawImage(qr, { x: width - M - qsz, y: y - qsz + 8, width: qsz, height: qsz });
+    page.drawText(t("Scan untuk verifikasi"), { x: width - M - qsz, y: y - qsz, size: 7, font, color: SOFT });
+  }
   y -= 16;
   page.drawText(t("Kode verifikasi: " + d.code), { x: M, y, size: 10, font, color: INK });
   y -= 14;
@@ -99,14 +106,21 @@ async function newDoc() {
   return { pdf, page, font, bold };
 }
 
+async function qrImage(pdf: PDFDocument, url: string): Promise<PDFImage> {
+  const png = await QRCode.toBuffer(url, { type: "png", margin: 1, width: 256, errorCorrectionLevel: "M" });
+  return pdf.embedPng(png);
+}
+
 export async function buildInvoicePdf(d: Omit<DocSpec, "kind" | "partyLabel">): Promise<Uint8Array> {
   const { pdf, page, font, bold } = await newDoc();
-  renderDoc(page, font, bold, { ...d, kind: "INVOICE", partyLabel: "Ditagihkan kepada" });
+  const qr = await qrImage(pdf, d.verifyUrl);
+  renderDoc(page, font, bold, { ...d, kind: "INVOICE", partyLabel: "Ditagihkan kepada" }, qr);
   return pdf.save();
 }
 
 export async function buildPayoutPdf(d: Omit<DocSpec, "kind" | "partyLabel">): Promise<Uint8Array> {
   const { pdf, page, font, bold } = await newDoc();
-  renderDoc(page, font, bold, { ...d, kind: "BUKTI PAYOUT", partyLabel: "Dibayarkan kepada" });
+  const qr = await qrImage(pdf, d.verifyUrl);
+  renderDoc(page, font, bold, { ...d, kind: "BUKTI PAYOUT", partyLabel: "Dibayarkan kepada" }, qr);
   return pdf.save();
 }

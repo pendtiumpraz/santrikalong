@@ -305,11 +305,12 @@ model Order {
   itemType   String
   itemId     String
   amountIdr  Int
-  status     OrderStatus      @default(PENDING)
-  gateway    GatewayProvider?
-  reference  String?
-  paymentUrl String?
-  paidAt     DateTime?
+  status         OrderStatus      @default(PENDING)
+  gateway        GatewayProvider?
+  reference      String?
+  paymentUrl     String?
+  manualProofKey String?
+  paidAt         DateTime?
   expiresAt  DateTime?
   createdAt  DateTime         @default(now())
   logs       PaymentLog[]

@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { fulfillOrder } from "@/lib/fulfillment";
 
 async function requireAdmin() {
   const session = await auth();
@@ -28,6 +29,22 @@ export async function rejectUstadz(formData: FormData) {
   const profileId = String(formData.get("profileId") ?? "");
   await prisma.ustadzProfile.update({ where: { id: profileId }, data: { status: "REJECTED", reviewedById: admin.id, reviewedAt: new Date(), rejectionReason: "Tidak memenuhi syarat" } });
   await prisma.auditLog.create({ data: { actorId: admin.id, action: "user.reject", targetType: "UstadzProfile", targetId: profileId } });
+  revalidatePath("/admin");
+}
+
+export async function approveManualOrder(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  await fulfillOrder(id); // idempotent: set PAID + Enrollment + bagi hasil
+  await prisma.auditLog.create({ data: { actorId: admin.id, action: "order.manual.approve", targetType: "Order", targetId: id } });
+  revalidatePath("/admin");
+}
+
+export async function rejectManualOrder(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  await prisma.order.update({ where: { id }, data: { status: "FAILED" } });
+  await prisma.auditLog.create({ data: { actorId: admin.id, action: "order.manual.reject", targetType: "Order", targetId: id } });
   revalidatePath("/admin");
 }
 

@@ -19,6 +19,7 @@ export async function enrollCourse(formData: FormData) {
   if (!session?.user) redirect("/auth");
   const userId = (session.user as { id: string }).id;
   const courseId = String(formData.get("courseId") ?? "");
+  const method = String(formData.get("method") ?? "midtrans"); // midtrans | manual
 
   const course = await prisma.course.findUnique({ where: { id: courseId } });
   if (!course || course.status !== "PUBLISHED" || course.deletedAt) redirect("/katalog");
@@ -34,6 +35,16 @@ export async function enrollCourse(formData: FormData) {
     await fulfillOrder(order.id);
     revalidatePath("/dashboard");
     redirect("/dashboard");
+  }
+
+  // ---- Transfer Manual: buat order menunggu verifikasi, arahkan ke unggah bukti ----
+  if (method === "manual") {
+    const mg = await prisma.paymentGateway.findUnique({ where: { provider: "MANUAL" } });
+    if (!mg?.isActive) redirect("/kelas/" + course.slug + "?bayar=gateway");
+    const order = await prisma.order.create({
+      data: { userId, itemType: "COURSE", itemId: courseId, amountIdr: course.priceIdr, status: "WAITING_CONFIRMATION", gateway: "MANUAL", reference: "MNL-" + courseId.slice(0, 6) },
+    });
+    redirect("/checkout/manual/" + order.id);
   }
 
   // ---- Berbayar: butuh gateway Midtrans aktif + terkonfigurasi ----

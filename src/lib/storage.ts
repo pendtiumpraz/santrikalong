@@ -31,6 +31,12 @@ export function getObject(key: string): Promise<GetObjectCommandOutput> {
   return storage.send(new GetObjectCommand({ Bucket: storageBucket(), Key: key }));
 }
 
+/** Upload objek dari server ke bucket privat (mis. bukti transfer manual). */
+export async function putObject(key: string, body: Uint8Array | Buffer, contentType: string) {
+  await storage.send(new PutObjectCommand({ Bucket: storageBucket(), Key: key, Body: body, ContentType: contentType }));
+  return key;
+}
+
 /** Signed URL untuk UPLOAD langsung dari klien ke bucket privat (presigned PUT). */
 export function presignUpload(key: string, contentType: string, expiresIn = 600) {
   return getSignedUrl(

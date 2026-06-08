@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { getObject } from "@/lib/storage";
+import { auth } from "@/auth";
 
 // Streaming media dari blob PRIVAT lewat domain kita: santrikalong.com/media/<key>
 // Klien tidak pernah melihat URL/domain blob asli.
@@ -16,6 +17,13 @@ export async function GET(
 ) {
   const { key } = await params;
   const objectKey = key.map((k) => decodeURIComponent(k)).join("/");
+
+  // Bukti transfer manual = data sensitif → hanya admin/superadmin.
+  if (objectKey.startsWith("manual-proof/")) {
+    const session = await auth();
+    const roles = ((session?.user as { roles?: string[] })?.roles) ?? [];
+    if (!roles.includes("admin") && !roles.includes("superadmin")) return new Response("Forbidden", { status: 403 });
+  }
 
   try {
     const obj = await getObject(objectKey);

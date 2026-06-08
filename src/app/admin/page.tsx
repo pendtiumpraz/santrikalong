@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { idr } from "@/lib/format";
-import { approveUstadz, rejectUstadz, toggleGateway, approvePayout, rejectPayout } from "./actions";
+import { approveUstadz, rejectUstadz, toggleGateway, approvePayout, rejectPayout, approveManualOrder, rejectManualOrder } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,7 @@ export default async function Admin() {
   const roles0 = ((session.user as { roles?: string[] }).roles) ?? [];
   if (!roles0.includes("admin") && !roles0.includes("superadmin")) redirect("/dashboard");
 
-  const [userCount, ustadzApproved, pendingList, gateways, rolesList, permsList, orders, consentRecs, audits, ustadzList, payouts, courses, revenueAgg, earnAgg] = await Promise.all([
+  const [userCount, ustadzApproved, pendingList, gateways, rolesList, permsList, orders, consentRecs, audits, ustadzList, payouts, courses, revenueAgg, earnAgg, manualOrders] = await Promise.all([
     prisma.user.count(),
     prisma.ustadzProfile.count({ where: { status: "APPROVED" } }),
     prisma.ustadzProfile.findMany({ where: { status: "PENDING" }, include: { user: true }, orderBy: { createdAt: "asc" } }),
@@ -39,6 +39,7 @@ export default async function Admin() {
     prisma.course.findMany({ include: { ustadz: { include: { user: true } }, category: true, _count: { select: { enrollments: true } } }, orderBy: { createdAt: "desc" } }),
     prisma.order.aggregate({ _sum: { amountIdr: true }, where: { status: "PAID" } }),
     prisma.walletEntry.aggregate({ _sum: { amountIdr: true }, where: { type: "EARNING_CREDIT" } }),
+    prisma.order.findMany({ where: { gateway: "MANUAL", status: "WAITING_CONFIRMATION" }, include: { user: true }, orderBy: { createdAt: "desc" } }),
   ]);
 
   const revenue = revenueAgg._sum.amountIdr ?? 0;
@@ -75,6 +76,7 @@ export default async function Admin() {
           <button className="sb-link" data-view="marketing" data-title="Kontak Marketing"><svg className="ico ico-sm"><use href="#i-users" /></svg>Kontak Marketing</button>
           <div className="sb-group">Keuangan</div>
           <button className="sb-link" data-view="gateway" data-title="Gateway Pembayaran"><svg className="ico ico-sm"><use href="#i-card" /></svg>Gateway Pembayaran</button>
+          <button className="sb-link" data-view="manual" data-title="Verifikasi Transfer Manual"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Verifikasi Manual{manualOrders.length > 0 && <span className="badge">{manualOrders.length}</span>}</button>
           <button className="sb-link" data-view="payroll" data-title="Penggajian Ustadz"><svg className="ico ico-sm"><use href="#i-wallet" /></svg>Penggajian Ustadz</button>
           <button className="sb-link" data-view="tax" data-title="Pengaturan Pajak"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Pengaturan Pajak</button>
           <button className="sb-link" data-view="trx" data-title="Transaksi"><svg className="ico ico-sm"><use href="#i-chart" /></svg>Transaksi</button>
@@ -164,6 +166,30 @@ export default async function Admin() {
                   </div>
                   <div style={{ display: "flex", gap: ".4rem", margin: ".8rem 0" }}><span className={g.isActive ? "tag tag-success" : "tag tag-muted"}>{g.isActive ? "Aktif" : "Nonaktif"}</span><span className={g.mode === "PRODUCTION" ? "tag tag-muted" : "tag tag-warn"}>{g.mode === "PRODUCTION" ? "Production" : "Sandbox"}</span></div>
                   <input className="input" placeholder="Kredensial (tersimpan terenkripsi)" disabled={!g.isActive} />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section data-pane="manual" hidden>
+            <div className="card card-pad">
+              <h2 style={{ fontSize: "1.15rem", marginBottom: ".5rem" }}>Verifikasi Transfer Manual ({manualOrders.length})</h2>
+              <p className="help" style={{ marginBottom: ".9rem" }}>Periksa bukti transfer, lalu setujui (kelas terbuka + bagi hasil otomatis) atau tolak.</p>
+              {manualOrders.length === 0 && <p className="muted">Tidak ada transfer menunggu verifikasi.</p>}
+              {manualOrders.map((o) => (
+                <div key={o.id} style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "1rem", padding: ".8rem", border: "1px solid rgb(var(--border))", borderRadius: "var(--r-md)", marginBottom: ".5rem" }}>
+                  <div style={{ flex: 1, minWidth: 180 }}>
+                    <p style={{ fontWeight: 600 }}>{o.user.name}</p>
+                    <p className="muted" style={{ fontSize: ".8rem" }}>{courseTitle.get(o.itemId) ?? o.itemType} · {o.reference}</p>
+                  </div>
+                  <b>{idr(o.amountIdr)}</b>
+                  {o.manualProofKey
+                    ? <a className="btn btn-ghost btn-sm" href={`/media/${o.manualProofKey}`} target="_blank" rel="noopener"><svg className="ico ico-sm"><use href="#i-receipt" /></svg>Lihat Bukti</a>
+                    : <span className="tag tag-warn">Belum unggah</span>}
+                  <div style={{ display: "flex", gap: ".5rem" }}>
+                    <form action={approveManualOrder}><input type="hidden" name="id" value={o.id} /><button type="submit" className="btn btn-primary btn-sm" disabled={!o.manualProofKey}>Setujui</button></form>
+                    <form action={rejectManualOrder}><input type="hidden" name="id" value={o.id} /><button type="submit" className="btn btn-danger btn-sm">Tolak</button></form>
+                  </div>
                 </div>
               ))}
             </div>

@@ -135,14 +135,20 @@ export default async function KelasDetail({ params, searchParams }: { params: Pr
           <div className="modal-body">
             <div className="card card-pad" style={{ marginBottom: "1.2rem" }}>
               <div className="sumrow"><span className="muted">{c.title}</span><span>{idr(c.priceIdr)}</span></div>
-              <div className="sumrow"><span className="muted">Biaya layanan</span><span>Rp 2.500</span></div>
             </div>
-            <p className="label">Metode pembayaran</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
-              <label className="opt"><input type="radio" name="pay" defaultChecked /><span className="tag tag-info" style={{ width: 40, justifyContent: "center" }}>VA</span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Virtual Account / QRIS</p><p className="muted" style={{ fontSize: ".78rem" }}>via Midtrans</p></div></label>
-              <label className="opt"><input type="radio" name="pay" /><span className="tag tag-success" style={{ width: 40, justifyContent: "center" }}><svg className="ico ico-sm"><use href="#i-wallet" /></svg></span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Transfer Manual</p><p className="muted" style={{ fontSize: ".78rem" }}>Verifikasi admin</p></div></label>
-            </div>
-            <form action={enrollCourse}><input type="hidden" name="courseId" value={c.id} /><button type="submit" className="btn btn-primary btn-block btn-lg" style={{ marginTop: "1.2rem" }}>{c.isFree ? "Daftar Sekarang" : "Bayar Sekarang"}</button></form>
+            <form action={enrollCourse}>
+              <input type="hidden" name="courseId" value={c.id} />
+              {!c.isFree && (
+                <>
+                  <p className="label">Metode pembayaran</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+                    <label className="opt"><input type="radio" name="method" value="midtrans" defaultChecked /><span className="tag tag-info" style={{ width: 40, justifyContent: "center" }}>VA</span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Virtual Account / QRIS / E-wallet</p><p className="muted" style={{ fontSize: ".78rem" }}>via Midtrans (otomatis)</p></div></label>
+                    <label className="opt"><input type="radio" name="method" value="manual" /><span className="tag tag-success" style={{ width: 40, justifyContent: "center" }}><svg className="ico ico-sm"><use href="#i-wallet" /></svg></span><div><p style={{ fontWeight: 600, fontSize: ".9rem" }}>Transfer Manual</p><p className="muted" style={{ fontSize: ".78rem" }}>Unggah bukti, verifikasi admin</p></div></label>
+                  </div>
+                </>
+              )}
+              <button type="submit" className="btn btn-primary btn-block btn-lg" style={{ marginTop: "1.2rem" }}>{c.isFree ? "Daftar Sekarang" : "Lanjut Bayar"}</button>
+            </form>
           </div>
         </div>
       </div>
