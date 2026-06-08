@@ -1,3 +1,8 @@
+import { prisma } from "@/lib/db";
+import { idr, img } from "@/lib/format";
+
+export const dynamic = "force-dynamic";
+
 const HERO_BG =
   "url('https://images.unsplash.com/photo-1758696229365-997adf6e4a1c?auto=format&fit=crop&w=1400&q=55')";
 
@@ -10,7 +15,19 @@ function Mark() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const [featured, totalCourses, totalUstadz, totalSantri] = await Promise.all([
+    prisma.course.findMany({
+      where: { status: "PUBLISHED", deletedAt: null },
+      include: { category: true, ustadz: { include: { user: true } }, _count: { select: { enrollments: true } } },
+      orderBy: { enrollments: { _count: "desc" } },
+      take: 3,
+    }),
+    prisma.course.count({ where: { status: "PUBLISHED", deletedAt: null } }),
+    prisma.ustadzProfile.count({ where: { status: "APPROVED" } }),
+    prisma.enrollment.count(),
+  ]);
+
   return (
     <>
       <header className="nav">
@@ -45,7 +62,7 @@ export default function Home() {
             <a href="/katalog" className="btn btn-ghost btn-lg">Lihat Jadwal Live</a>
           </div>
           <div className="hero-stats">
-            <div><b>120+</b><span>Kelas</span></div><div><b>35</b><span>Ustadz</span></div><div><b>8.500+</b><span>Santri</span></div>
+            <div><b>{totalCourses}+</b><span>Kelas</span></div><div><b>{totalUstadz}</b><span>Ustadz</span></div><div><b>{totalSantri.toLocaleString("id-ID")}+</b><span>Santri</span></div>
           </div>
         </div>
       </section>
@@ -63,18 +80,24 @@ export default function Home() {
       <section className="sec container">
         <div className="sec-head"><h2>Kelas pilihan</h2><a href="/katalog">Lihat semua <svg className="ico ico-sm"><use href="#i-arrow" /></svg></a></div>
         <div className="grid-c">
-          <article className="ccard">
-            <div className="thumb"><img className="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=600&q=55" /><div className="pin"><span className="tag">Bahasa Arab</span><span className="tag tag-muted spacer">Rekaman</span></div></div>
-            <div className="ccard-b"><h3>Bahasa Arab untuk Pemula — Dasar Nahwu</h3><p className="by">Ust. Abdullah, Lc.</p><div className="cmeta"><span><svg className="ico ico-sm"><use href="#i-star" /></svg>4.9</span><span><svg className="ico ico-sm"><use href="#i-book" /></svg>32 materi</span><span>Pemula</span></div><div className="cfoot"><span className="price">Rp 149.000</span><a href="/kelas/bahasa-arab-pemula" className="btn btn-soft btn-sm">Lihat</a></div></div>
-          </article>
-          <article className="ccard">
-            <div className="thumb"><img className="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?auto=format&fit=crop&w=600&q=55" /><div className="pin"><span className="tag">Tahsin</span><span className="tag tag-live spacer"><span className="dot" />LIVE</span></div></div>
-            <div className="ccard-b"><h3>Tahsin Al-Qur&apos;an Metode Tilawati</h3><p className="by">Ustadzah Fatimah</p><div className="cmeta"><span><svg className="ico ico-sm"><use href="#i-star" /></svg>5.0</span><span><svg className="ico ico-sm"><use href="#i-clock" /></svg>Tiap Sabtu</span></div><div className="cfoot"><span className="price">Rp 250.000</span><a href="/kelas/tahsin-tilawati" className="btn btn-soft btn-sm">Lihat</a></div></div>
-          </article>
-          <article className="ccard">
-            <div className="thumb"><img className="thumb-img" loading="lazy" alt="" src="https://images.unsplash.com/photo-1639918065925-eb39272edda2?auto=format&fit=crop&w=600&q=55" /><div className="pin"><span className="tag">Fiqih</span><span className="tag tag-free spacer">GRATIS</span></div></div>
-            <div className="ccard-b"><h3>Fiqih Thaharah untuk Sehari-hari</h3><p className="by">Ust. Yusuf</p><div className="cmeta"><span><svg className="ico ico-sm"><use href="#i-star" /></svg>4.8</span><span><svg className="ico ico-sm"><use href="#i-book" /></svg>12 materi</span></div><div className="cfoot"><span className="price free">Gratis</span><a href="/kelas/fiqih-thaharah" className="btn btn-soft btn-sm">Lihat</a></div></div>
-          </article>
+          {featured.length === 0 && <p className="muted">Belum ada kelas dipublikasikan.</p>}
+          {featured.map((c) => (
+            <article className="ccard" key={c.id}>
+              <div className="thumb">
+                <img className="thumb-img" loading="lazy" alt="" src={img(c.thumbnailKey, 600)} />
+                <div className="pin">
+                  {c.category && <span className="tag">{c.category.name}</span>}
+                  {c.isFree ? <span className="tag tag-free spacer">GRATIS</span> : c.type === "LIVE" ? <span className="tag tag-live spacer"><span className="dot" />LIVE</span> : <span className="tag tag-muted spacer">Rekaman</span>}
+                </div>
+              </div>
+              <div className="ccard-b">
+                <h3>{c.title}</h3>
+                <p className="by">{c.ustadz?.user?.name}</p>
+                <div className="cmeta"><span><svg className="ico ico-sm"><use href="#i-users" /></svg>{c._count.enrollments} santri</span><span>{c.level === "PEMULA" ? "Pemula" : c.level === "MENENGAH" ? "Menengah" : "Lanjutan"}</span></div>
+                <div className="cfoot"><span className={c.isFree ? "price free" : "price"}>{idr(c.priceIdr)}</span><a href={`/kelas/${c.slug}`} className="btn btn-soft btn-sm">Lihat</a></div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 

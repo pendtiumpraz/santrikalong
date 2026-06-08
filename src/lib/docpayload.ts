@@ -1,7 +1,7 @@
 // Pembentuk payload kanonik untuk tanda tangan dokumen.
 // Dipakai BERSAMA oleh route penerbit PDF dan halaman /verifikasi agar
 // tanda tangan dihitung dari field yang persis sama (anti drift).
-import type { Order, PayoutRequest } from "@prisma/client";
+import type { Order, PayoutRequest, Enrollment, Course, User } from "@prisma/client";
 
 export function invoicePayload(order: Order): Record<string, string | number | null> {
   return {
@@ -12,6 +12,17 @@ export function invoicePayload(order: Order): Record<string, string | number | n
     item: order.itemId,
     status: order.status,
     paidAt: order.paidAt ? order.paidAt.toISOString() : null,
+  };
+}
+
+export function certPayload(enrollment: Enrollment, user: User, course: Course): Record<string, string | number | null> {
+  return {
+    doc: "sertifikat",
+    id: enrollment.id,
+    user: user.id,
+    name: user.name,
+    course: course.id,
+    title: course.title,
   };
 }
 

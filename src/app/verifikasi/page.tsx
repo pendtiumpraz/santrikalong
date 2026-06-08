@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
 import { idr } from "@/lib/format";
 import { verifyDoc, shortCode } from "@/lib/docsign";
-import { invoicePayload, payoutPayload } from "@/lib/docpayload";
+import { invoicePayload, payoutPayload, certPayload } from "@/lib/docpayload";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +17,21 @@ export default async function Verifikasi({ searchParams }: { searchParams: Promi
   let title = "";
   let code = "";
 
-  if ((d === "invoice" || d === "payout") && id && sig) {
+  if ((d === "invoice" || d === "payout" || d === "sertifikat") && id && sig) {
     code = shortCode(sig);
-    if (d === "invoice") {
+    if (d === "sertifikat") {
+      const en = await prisma.enrollment.findUnique({ where: { id }, include: { user: true, course: { include: { ustadz: { include: { user: true } } } } } });
+      if (en) {
+        valid = verifyDoc(certPayload(en, en.user, en.course), sig);
+        title = "Sertifikat " + en.course.title;
+        rows = [
+          { label: "Penerima", value: en.user.name },
+          { label: "Kelas", value: en.course.title },
+          { label: "Pengajar", value: en.course.ustadz?.user?.name ?? "-" },
+          { label: "Terdaftar", value: fmt(en.enrolledAt) },
+        ];
+      }
+    } else if (d === "invoice") {
       const order = await prisma.order.findUnique({ where: { id }, include: { user: true } });
       if (order) {
         valid = verifyDoc(invoicePayload(order), sig);

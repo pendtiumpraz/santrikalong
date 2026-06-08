@@ -111,6 +111,65 @@ async function qrImage(pdf: PDFDocument, url: string): Promise<PDFImage> {
   return pdf.embedPng(png);
 }
 
+export type CertSpec = {
+  recipient: string;
+  courseTitle: string;
+  ustadzName: string;
+  detail: string; // mis. "12 jam pembelajaran"
+  certNo: string;
+  code: string;
+  verifyUrl: string;
+};
+
+export async function buildCertificatePdf(d: CertSpec): Promise<Uint8Array> {
+  const pdf = await PDFDocument.create();
+  const page = pdf.addPage([841.89, 595.28]); // A4 landscape
+  const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const bold = await pdf.embedFont(StandardFonts.TimesRomanBold);
+  const serif = await pdf.embedFont(StandardFonts.TimesRoman);
+  const { width, height } = page.getSize();
+  const center = (s: string, f: PDFFont, size: number) => (width - f.widthOfTextAtSize(t(s), size)) / 2;
+
+  // border ganda
+  page.drawRectangle({ x: 24, y: 24, width: width - 48, height: height - 48, borderColor: GOLD, borderWidth: 2, color: rgb(1, 1, 1) });
+  page.drawRectangle({ x: 32, y: 32, width: width - 64, height: height - 64, borderColor: rgb(0.85, 0.78, 0.6), borderWidth: 0.8 });
+
+  let y = height - 96;
+  page.drawText(t("SantriKalong"), { x: center("SantriKalong", bold, 20), y, size: 20, font: bold, color: INK });
+  y -= 18;
+  page.drawText(t("Ilmu adalah cahaya"), { x: center("Ilmu adalah cahaya", serif, 10), y, size: 10, font: serif, color: SOFT });
+  y -= 46;
+  page.drawText(t("SERTIFIKAT PENYELESAIAN"), { x: center("SERTIFIKAT PENYELESAIAN", font, 13), y, size: 13, font, color: GOLD });
+  y -= 40;
+  page.drawText(t("Dengan bangga diberikan kepada"), { x: center("Dengan bangga diberikan kepada", serif, 12), y, size: 12, font: serif, color: SOFT });
+  y -= 46;
+  page.drawText(t(d.recipient), { x: center(d.recipient, bold, 34), y, size: 34, font: bold, color: INK });
+  y -= 22;
+  page.drawLine({ start: { x: width / 2 - 60, y }, end: { x: width / 2 + 60, y }, thickness: 1, color: GOLD });
+  y -= 30;
+  page.drawText(t("telah menyelesaikan kelas"), { x: center("telah menyelesaikan kelas", serif, 12), y, size: 12, font: serif, color: SOFT });
+  y -= 30;
+  page.drawText(t(d.courseTitle), { x: center(d.courseTitle, bold, 18), y, size: 18, font: bold, color: INK });
+  y -= 24;
+  page.drawText(t(d.detail), { x: center(d.detail, serif, 11), y, size: 11, font: serif, color: SOFT });
+
+  // tanda tangan kiri
+  const sy = 110;
+  page.drawLine({ start: { x: 110, y: sy }, end: { x: 290, y: sy }, thickness: 0.8, color: LINE });
+  page.drawText(t(d.ustadzName), { x: 110, y: sy - 16, size: 12, font: bold, color: INK });
+  page.drawText(t("Pengajar"), { x: 110, y: sy - 30, size: 9, font, color: SOFT });
+
+  // verifikasi kanan + QR
+  const qpng = await QRCode.toBuffer(d.verifyUrl, { type: "png", margin: 1, width: 256, errorCorrectionLevel: "M" });
+  const qr = await pdf.embedPng(qpng);
+  const qsz = 84;
+  page.drawImage(qr, { x: width - 110 - qsz, y: sy - 30, width: qsz, height: qsz });
+  page.drawText(t("No. " + d.certNo), { x: width - 110 - qsz, y: sy - 44, size: 8, font, color: SOFT });
+  page.drawText(t("Kode: " + d.code), { x: width - 110 - qsz, y: sy - 56, size: 8, font, color: SOFT });
+
+  return pdf.save();
+}
+
 export async function buildInvoicePdf(d: Omit<DocSpec, "kind" | "partyLabel">): Promise<Uint8Array> {
   const { pdf, page, font, bold } = await newDoc();
   const qr = await qrImage(pdf, d.verifyUrl);

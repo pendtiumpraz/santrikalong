@@ -1,13 +1,24 @@
 import { Countdown } from "@/components/Countdown";
+import { prisma } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 const FATHOM = "https://fathom.video/share/REPLACE_WITH_RECORDING_ID";
 
-export default function Live() {
+export default async function Live() {
+  const course = await prisma.course.findFirst({
+    where: { type: "LIVE", status: "PUBLISHED", deletedAt: null },
+    include: { ustadz: { include: { user: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+  const judul = course?.title ?? "Sesi Live SantriKalong";
+  const pengajar = course?.ustadz?.user?.name ?? "Ustadz SantriKalong";
+
   return (
     <div data-tabgroup>
       <div className="lvbar">
         <a href="/dashboard" className="icon-btn" aria-label="Kembali"><svg className="ico"><use href="#i-arrow-l" /></svg></a>
-        <span style={{ fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Tanya Jawab Bab 1–2 — Bahasa Arab</span>
+        <span style={{ fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{judul}</span>
         <div className="seg" style={{ marginLeft: "auto" }}>
           <button data-tab="pre">Pra-Live</button>
           <button data-tab="live" aria-pressed="true">Live</button>
@@ -22,8 +33,8 @@ export default function Live() {
           <div className="bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1758458045183-7e7c453a0580?auto=format&fit=crop&w=1100&q=55')" }} />
           <div className="inner">
             <span className="tag tag-warn" style={{ margin: "0 auto" }}><svg className="ico ico-sm"><use href="#i-clock" /></svg>AKAN DIMULAI</span>
-            <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", marginTop: "1rem" }}>Tanya Jawab Bab 1–2</h1>
-            <p className="muted" style={{ marginTop: ".4rem" }}>Sabtu, 7 Juni 2026 · 20:00 WIB · bersama Ust. Abdullah, Lc.</p>
+            <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", marginTop: "1rem" }}>{judul}</h1>
+            <p className="muted" style={{ marginTop: ".4rem" }}>Sabtu, 7 Juni 2026 · 20:00 WIB · bersama {pengajar}</p>
             <Countdown />
             <div style={{ display: "flex", gap: ".6rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button className="btn btn-primary btn-lg"><svg className="ico ico-sm"><use href="#i-bell" /></svg>Ingatkan Saya</button>
